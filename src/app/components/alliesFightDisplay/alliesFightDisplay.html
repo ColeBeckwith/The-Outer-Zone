@@ -1,28 +1,44 @@
 <div class="container">
   <div class="fight-bar allies-fight-bar">
     <div class="fight-card"
+         ng-repeat="ally in alliesFightDisplay.activeAllies"
          ng-style="{width: alliesFightDisplay.cardWidth}"
-         ng-repeat="ally in alliesFightDisplay.allies"
          ng-if="ally.active">
       <h5>{{ ally.name }}</h5>
-      <p>Lv. {{ ally.level }}</p>
+      <h6>Lv. {{ ally.level }} {{ ally.class }}</h6>
       <div class="progress">
         <div class="progress-bar progress-bar-success"
-             ng-class="{'progress-bar-warning' : ally.health/ally.maxHealth <= .5, 'progress-bar-danger' : ally.health/ally.maxHealth <= .25}"
+             ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
              role="progressbar"
              style="width: {{ ally.percentageHealth }}">
-            {{ ally.health }}/{{ ally.maxHealth }}
+            {{ ally.stats.health }}/{{ ally.stats.maxHealth }}
         </div>
       </div>
       <div class="progress">
         <div class="progress-bar progress-bar-info"
              role="progressbar"
              style="width: {{ ally.percentageEnergy }}">
-          {{ ally.energy }}/{{ ally.maxEnergy }}
+          {{ ally.stats.energy }}/{{ ally.stats.maxEnergy }}
         </div>
       </div>
-      <button ng-click="alliesFightDisplay.hurtMe(ally)">Hurt Me!</button>
-      <button ng-click="alliesFightDisplay.drainMe(ally)">Drain Me!</button>
+
+      <div class="text-center">
+        <div class="center-me dropup" uib-dropdown>
+          <button role="button"
+                  class="btn btn-default"
+                  uib-dropdown-toggle
+                  aria-haspopup="true"
+                  aria-expanded="false">
+            Moves <b class="caret"></b>
+          </button>
+          <ul uib-dropdown-menu>
+            <li class="text-center" ng-repeat="move in ally.moves">
+              <a>{{ move }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

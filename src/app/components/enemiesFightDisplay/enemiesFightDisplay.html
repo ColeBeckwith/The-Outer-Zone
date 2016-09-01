@@ -3,7 +3,7 @@
     <div class="fight-card"
          ng-style="{width: enemiesFightDisplay.cardWidth}"
          ng-repeat="enemy in enemiesFightDisplay.enemies"
-         ng-if="enemy.active" >
+         ng-if="enemy.active">
       <h5>{{ enemy.name }}</h5>
       <div class="progress">
         <div class="progress-bar progress-bar-success"
@@ -13,8 +13,6 @@
           {{ enemy.health }}/{{ enemy.maxHealth }}
         </div>
       </div>
-      <!--<button ng-click="alliesFightDisplay.hurtMe(enemy)">Hurt Me!</button>
-      <button ng-click="alliesFightDisplay.drainMe(enemy)">Drain Me!</button>-->
     </div>
   </div>
 </div>

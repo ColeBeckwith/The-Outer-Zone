@@ -35,10 +35,20 @@
   margin: 10px;
   max-width: 30%;
   text-align: left;
+  outline: none;
 
   &:hover {
     border: 3px solid gold;
   }
+}
+
+.active-card {
+  border: 3px solid gold;
+  outline: none;
+}
+
+.disabled-link {
+  pointer-events: none;
 }
 
 /**

@@ -1,0 +1,27 @@
+<h1 class="text-center">Select a class for {{ characterSelect.newAlly.name }}</h1>
+<div class="text-center">
+  <div ng-repeat="build in characterSelect.newAlly.builds"
+       class="fight-card"
+       ng-click="characterSelect.makeActiveSelection(build)"
+       ng-class="{'active-card' : characterSelect.activeSelection === build}">
+    <h3 class="text-center">{{ build.name }}</h3>
+    <ul>
+      <li>Health : {{ build.baseStats.maxHealth }}</li>
+      <li>Energy : {{ build.baseStats.maxEnergy }}</li>
+      <li>Strength : {{ build.baseStats.strength }}</li>
+      <li>Speed : {{ build.baseStats.speed }}</li>
+      <li>Defense : {{ build.baseStats.defense }}</li>
+    </ul>
+    <p>{{ build.description }}</p>
+  </div>
+</div>
+
+<div class="text-center">
+  <a href="#fight" ng-class="{'disabled-link' : characterSelect.activeSelection === undefined}">
+    <button class="btn btn-primary"
+            ng-click="characterSelect.confirmClass()"
+            ng-class="{'disabled' : characterSelect.activeSelection === undefined}">
+    Confirm Class</button></a>
+</div>
+
+
