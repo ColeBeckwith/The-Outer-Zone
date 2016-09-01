@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="fight-bar allies-fight-bar">
+    <div class="fight-card"
+         ng-style="{width: alliesFightDisplay.cardWidth}"
+         ng-repeat="ally in alliesFightDisplay.allies"
+         ng-if="ally.active">
+      <h5>{{ ally.name }}</h5>
+      <p>Lv. {{ ally.level }}</p>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success"
+             ng-class="{'progress-bar-warning' : ally.health/ally.maxHealth <= .5, 'progress-bar-danger' : ally.health/ally.maxHealth <= .25}"
+             role="progressbar"
+             style="width: {{ ally.percentageHealth }}">
+            {{ ally.health }}/{{ ally.maxHealth }}
+        </div>
+      </div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-info"
+             role="progressbar"
+             style="width: {{ ally.percentageEnergy }}">
+          {{ ally.energy }}/{{ ally.maxEnergy }}
+        </div>
+      </div>
+      <button ng-click="alliesFightDisplay.hurtMe(ally)">Hurt Me!</button>
+      <button ng-click="alliesFightDisplay.drainMe(ally)">Drain Me!</button>
+    </div>
+  </div>
+</div>
+
