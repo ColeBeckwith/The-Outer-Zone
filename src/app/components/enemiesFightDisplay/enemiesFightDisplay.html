@@ -3,14 +3,15 @@
     <div class="fight-card"
          ng-style="{width: enemiesFightDisplay.cardWidth}"
          ng-repeat="enemy in enemiesFightDisplay.enemies"
-         ng-if="enemy.active">
+         ng-if="enemy.active"
+         ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id}">
       <h5>{{ enemy.name }}</h5>
       <div class="progress">
         <div class="progress-bar progress-bar-success"
-             ng-class="{'progress-bar-warning' : enemy.health/enemy.maxHealth <= .5, 'progress-bar-danger' : enemy.health/enemy.maxHealth <= .25}"
+             ng-class="{'progress-bar-warning' : enemy.stats.health/enemy.stats.maxHealth <= .5, 'progress-bar-danger' : enemy.stats.health/enemy.stats.maxHealth <= .25}"
              role="progressbar"
              style="width: {{ enemy.percentageHealth }}">
-          {{ enemy.health }}/{{ enemy.maxHealth }}
+          {{ enemy.stats.health }}/{{ enemy.stats.maxHealth }}
         </div>
       </div>
     </div>

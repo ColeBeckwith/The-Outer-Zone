@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('alliesFightDisplay', alliesFightDisplay);
 
-  alliesFightDisplay.$inject = ["alliesService", "allyMovesService"];
+  alliesFightDisplay.$inject = ["alliesService"];
 
-  function alliesFightDisplay(alliesService, allyMovesService) {
+  function alliesFightDisplay(alliesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/alliesFightDisplay/alliesFightDisplay.html',
@@ -21,23 +21,15 @@
     function alliesFightDisplayController() {
       var vm = this;
 
-      vm.allies = alliesService.allies;
       vm.allyCount = 0;
-      vm.activeAllies = [];
-
-      angular.forEach(vm.allies, function(ally) {
-        if (ally.active) {
-          vm.allyCount++;
-          vm.activeAllies.push(ally);
-        }
-      });
+      vm.activeAllies = alliesService.activeAllies;
 
       angular.forEach(vm.activeAllies, function(ally) {
         ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
         ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
       });
 
-      vm.cardWidth = (90/vm.allyCount).toString() + '%';
+      vm.cardWidth = (90/vm.activeAllies.length).toString() + '%';
 
       vm.hurtMe = function(ally) {
         ally.stats.health -= 10;

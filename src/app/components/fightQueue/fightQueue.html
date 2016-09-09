@@ -1,0 +1,12 @@
+<div class="fight-queue">
+  <h3>Up Next</h3>
+  <ol>
+    <li class="text-pulse">{{ fight.queuePool[0].name }}</li>
+    <li ng-class="fight.queuePool[1].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[1].name }}</li>
+    <li ng-class="fight.queuePool[2].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[2].name }}</li>
+    <li ng-class="fight.queuePool[3].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[3].name }}</li>
+    <li ng-class="fight.queuePool[4].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[4].name }}</li>
+    <li ng-class="fight.queuePool[5].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[5].name }}</li>
+    <li ng-class="fight.queuePool[6].id >= 200 ? 'text-danger' : 'text-success'">{{ fight.queuePool[6].name }}</li>
+  </ol>
+</div>

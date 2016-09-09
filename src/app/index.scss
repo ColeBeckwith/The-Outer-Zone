@@ -51,6 +51,57 @@
   pointer-events: none;
 }
 
+.center-me {
+  display: inline-block;
+}
+
+.fight-queue {
+  border: 3px solid gray;
+  border-radius: 10px;
+  position: fixed;
+  top: 22%;
+  padding: 0 15px;
+  overflow: scroll;
+  left: 10px;
+  width: 300px;
+}
+
+.text-pulse {
+  animation: text-pulse 2.5s infinite;
+}
+
+@keyframes text-pulse {
+  0% {
+    color: white;
+  }
+
+  50% {
+    color: gold;
+  }
+
+  100% {
+    color: white;
+  }
+}
+
+.border-pulse {
+  animation: border-pulse 2.5s infinite;
+}
+
+@keyframes border-pulse {
+  0% {
+    border-color: white;
+  }
+
+  50% {
+    border-color: gold;
+  }
+
+  100% {
+    border-color: white;
+  }
+}
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

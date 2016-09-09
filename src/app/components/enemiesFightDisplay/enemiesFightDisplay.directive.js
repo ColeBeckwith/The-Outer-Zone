@@ -28,7 +28,7 @@
         if (enemy.active) {
           vm.enemyCount++
         }
-        enemy.percentageHealth = (enemy.health/enemy.maxHealth)*100 + '%';
+        enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';
       });
 
       vm.cardWidth = (90/vm.enemyCount).toString() + '%';

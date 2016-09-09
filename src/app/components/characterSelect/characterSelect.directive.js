@@ -29,12 +29,11 @@
       };
 
       vm.confirmClass = function() {
-        console.log(vm.activeSelection);
-        alliesService.activateAlly(vm.newAlly);
         vm.newAlly.stats = vm.activeSelection.baseStats;
         vm.newAlly.stats.health = vm.activeSelection.baseStats.maxHealth;
         vm.newAlly.stats.energy = vm.activeSelection.baseStats.maxEnergy;
         vm.newAlly.class = vm.activeSelection.name;
+        alliesService.activateAlly(vm.newAlly);
       };
 
     }

@@ -14,11 +14,11 @@
         controller: 'MainController',
         controllerAs: 'main'
       })
-    
+
       .state('fight', {
         url: '/fight',
         templateUrl: 'app/fight/fight.html',
-        controller: 'FightController',
+        controller: 'fightController',
         controllerAs: 'fight'
       });
 

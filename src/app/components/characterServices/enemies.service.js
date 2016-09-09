@@ -1,6 +1,3 @@
-/**
- * Created by CBeckwith411 on 8/31/16.
- */
 (function () {
   'use strict';
 
@@ -14,21 +11,33 @@
     vm.enemies = [
       {
         'name' : 'Flying Monkey',
+        'id' : 201,
         'active' : true,
-        'maxHealth' : 75,
-        'health' : 75
+        'stats' : {
+          'maxHealth': 75,
+          'health': 75,
+          'speed': 4
+        }
       },
       {
         'name' : 'Witch',
+        'id' : 202,
         'active' : true,
-        'maxHealth' : 1000,
-        'health' : 1000
+        'stats' : {
+          'maxHealth': 1000,
+          'health': 1000,
+          'speed': 3
+        }
       },
       {
         'name' : 'Flying Monkey',
+        'id' : 203,
         'active' : true,
-        'maxHealth' : 75,
-        'health' : 75
+        'stats' : {
+          'maxHealth': 75,
+          'health': 75,
+          'speed': 4
+        }
       }
     ]
   }

@@ -5,15 +5,16 @@
     .module('outerZone')
     .service('alliesService', alliesService);
 
-  function alliesService(allyMovesService) {
+  function alliesService() {
     var vm = this;
 
     vm.allies = [
       {
         'name' : 'The Scarecrow',
+        'id' : 101,
         'level' : 1,
         'exp' : 0,
-        'active' : true,
+        'active' : false,
         'stats' : {
           'maxHealth' : 1,
           'maxEnergy' : 1,
@@ -21,7 +22,6 @@
           'speed' : 1,
           'defense' : 1
         },
-        'moves' : allyMovesService.scarecrowMoves,
         'builds' : [
           {
             'name' : 'Berserker',
@@ -63,6 +63,7 @@
       },
       {
         'name' : 'Dorothy',
+        'id' : 102,
         'level' : 1,
         'active' : false,
         'stats' : {
@@ -113,6 +114,7 @@
       },
       {
         'name' : 'The Lion',
+        'id' : 103,
         'level' : 1,
         'active' : false,
         'stats' : {
@@ -163,6 +165,7 @@
       },
       {
         'name' : 'Tin Man',
+        'id' : 104,
         'level' : 1,
         'active' : false,
         'stats' : {
@@ -213,6 +216,7 @@
       },
       {
         'name' : 'The Wizard',
+        'id' : 105,
         'level' : 1,
         'active' : false,
         'stats' : {
@@ -263,12 +267,82 @@
       }
     ];
 
+    vm.getMoves = function(ally) {
+      var moves = [];
+
+      if (ally.name === "The Scarecrow") {
+        moves.push('Punch');
+
+        if (ally.class === "Berserker") {
+          moves.push('Fury');
+          if (ally.level >= 5) {
+            moves.push('Reckless Abandon')
+          }
+        }
+
+        if (ally.class === "Brawler") {
+          moves.push('Parry');
+          if (ally.level >= 5) {
+            moves.push('Knockout')
+          }
+        }
+
+        if (ally.class === "Tank") {
+          moves.push('Fortify');
+          if (ally.level >= 5) {
+            moves.push('Taunt')
+          }
+        }
+
+      }
+
+      if (ally.name === "Tin Man") {
+        moves.push('Punch');
+
+      }
+
+      if (ally.name == "The Lion") {
+        moves.push('Shoot');
+      }
+
+      if (ally.name === "Dorothy") {
+
+      }
+
+      if (ally.name === "The Wizard") {
+
+      }
+
+      ally.moves = moves;
+
+      //TODO consider move to nested Switch functions
+    };
+
     vm.activateAlly = function(ally) {
       ally.active = true;
+      vm.getMoves(ally);
+      vm.updateActives();
+    };
+
+    vm.levelUp = function(ally) {
+      ally.level++;
+      vm.getMoves(ally);
     };
 
     vm.deactivateAlly = function(ally) {
       ally.active = false;
+      vm.updateActives();
     };
+
+    vm.updateActives = function() {
+      vm.activeAllies = [];
+      angular.forEach(vm.allies, function(ally) {
+        if (ally.active) {
+          vm.activeAllies.push(ally);
+        }
+      });
+    };
+
+    vm.updateActives();
   }
 })();
