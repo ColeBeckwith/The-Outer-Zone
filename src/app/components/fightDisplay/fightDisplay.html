@@ -1,0 +1,10 @@
+<enemies-fight-display></enemies-fight-display>
+
+<div ng-include="'app/components/fightQueue/fightQueue.html'"></div>
+
+<div class="fight-log">
+  <p ng-repeat="message in fight.fightLog">{{ message }}</p>
+</div>
+
+
+<allies-fight-display></allies-fight-display>
