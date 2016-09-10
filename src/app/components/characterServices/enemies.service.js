@@ -16,7 +16,8 @@
         'stats' : {
           'maxHealth': 75,
           'health': 75,
-          'speed': 4
+          'speed': 4,
+          'strength' : 7
         }
       },
       {
@@ -26,7 +27,8 @@
         'stats' : {
           'maxHealth': 1000,
           'health': 1000,
-          'speed': 3
+          'speed': 3,
+          'strength' : 7
         }
       },
       {
@@ -36,7 +38,8 @@
         'stats' : {
           'maxHealth': 75,
           'health': 75,
-          'speed': 4
+          'speed': 4,
+          'strength' : 7
         }
       }
     ]

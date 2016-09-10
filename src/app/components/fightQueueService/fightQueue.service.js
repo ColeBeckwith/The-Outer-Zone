@@ -39,12 +39,7 @@
       }
 
       return vm.queuePool;
-
-     //TODO Scrap this bullshit. Throw each character into an array * their speed. RNG to select the index of who
-     // goes. Remove name from array after that. If array is empty repopulate.
      };
-
-     //vm.buildQueuePool();
   }
 
 })();

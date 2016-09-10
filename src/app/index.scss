@@ -55,15 +55,30 @@
   display: inline-block;
 }
 
+.center-fight-display {
+  height: 200px;
+}
+
 .fight-queue {
   border: 3px solid gray;
   border-radius: 10px;
   position: fixed;
-  top: 22%;
+  top: 28%;
+  padding: 0 15px;
+  left: 10px;
+  width: 30%;
+}
+
+.fight-log {
+  border: 3px solid gray;
+  border-radius: 10px;
+  position: fixed;
+  top: 28%;
   padding: 0 15px;
   overflow: scroll;
-  left: 10px;
-  width: 300px;
+  right: 20px;
+  width: 65%;
+  height: 212px;
 }
 
 .text-pulse {
