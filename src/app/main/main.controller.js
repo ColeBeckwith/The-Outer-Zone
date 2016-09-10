@@ -10,7 +10,5 @@
   function MainController(stateChangeService) {
     var vm = this;
 
-    //vm.playerState = stateChangeService.playerState;
-
   }
 })();

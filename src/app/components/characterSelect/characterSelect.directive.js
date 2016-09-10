@@ -23,7 +23,6 @@
 
       vm.allies = alliesService.allies;
       vm.newAlly = vm.allies[0];
-      //vm.playerState = stateChangeService.playerState;
 
       vm.makeActiveSelection = function(build) {
         vm.activeSelection = build;
@@ -35,8 +34,7 @@
         vm.newAlly.stats.energy = vm.activeSelection.baseStats.maxEnergy;
         vm.newAlly.class = vm.activeSelection.name;
         alliesService.activateAlly(vm.newAlly);
-        //characterSelect.playerState = 'fight';
-        //console.log(stateChangeService.playerState);
+        stateChangeService.playerState = 'fight';
       };
 
     }
