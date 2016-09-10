@@ -9,6 +9,8 @@
   /** @ngInject */
   function MainController(stateChangeService) {
     var vm = this;
+    
+    vm.stateChangeService = stateChangeService;
 
   }
 })();
