@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('fightDisplay', fightDisplay);
 
-  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "stateChangeService", "$timeout"];
+  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout"];
 
-  function fightDisplay(alliesService, enemiesService, fightQueueService, stateChangeService, $timeout) {
+  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightDisplay/fightDisplay.html',
@@ -26,6 +26,7 @@
       vm.queuePool = fightQueueService.buildQueue();
       vm.fightLog = [];
       vm.fightLogId = 0;
+      //vm.updatePercentages = alliesService.updatePercentages;
 
       vm.nextTurn = function() {
         if (vm.queuePool[0].id >= 200) {
@@ -36,14 +37,14 @@
           });
           vm.endTurn();
         } else {
-          vm.pushToFightLog(vm.queuePool[0].name + "'s move.")
+          vm.pushToFightLog(vm.queuePool[0].name + "'s turn.")
         }
       };
 
       vm.enemyAttack = function(enemy) {
-        var target = 0;
-        //TODO needs to be randomized to the length of active allies.
+        var target = Math.floor(Math.random() * vm.activeAllies.length);
         vm.activeAllies[target].stats.health -= enemy.stats.strength;
+        //alliesService.updatePercentages(vm.activeAllies[target]);
         //TODO also needs to refresh health percentage
         vm.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + enemy.stats.strength + " damage.");
       };

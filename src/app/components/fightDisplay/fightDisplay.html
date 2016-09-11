@@ -4,7 +4,8 @@
 
 <div class="fight-log">
   <p ng-repeat="entry in fight.fightLog | orderBy : '-'"
-     ng-class="{'text-muted' : entry.id < fight.fightLog.length - 3}">{{ entry.message }}</p>
+     ng-class="{'text-muted' : entry.id < fight.fightLog.length - 3}"
+     class="flash-in">{{ entry.message }}</p>
 </div>
 
 

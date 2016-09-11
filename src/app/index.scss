@@ -117,6 +117,16 @@
   }
 }
 
+.flash-in {
+  animation: flash-in 2s 1;
+}
+
+@keyframes flash-in {
+  0% {color: gold;}
+
+  100% {color: white;}
+}
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

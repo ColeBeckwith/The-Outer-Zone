@@ -24,11 +24,11 @@
       vm.allyCount = 0;
       vm.activeAllies = alliesService.activeAllies;
 
-      angular.forEach(vm.activeAllies, function(ally) {
+      vm.updatePercentages = function(ally) {
         ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
         ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
-      });
-      
+      };
+
       vm.cardWidth = (90/vm.activeAllies.length).toString() + '%';
 
       vm.hurtMe = function(ally) {
@@ -40,6 +40,10 @@
         ally.stats.energy -= 1;
         ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
       };
+
+      angular.forEach(vm.activeAllies, function(ally) {
+        vm.updatePercentages(ally);
+      });
     }
   }
 })();
