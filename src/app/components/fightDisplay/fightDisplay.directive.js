@@ -36,16 +36,13 @@
             }
           });
           vm.endTurn();
-        } else {
-          vm.pushToFightLog(vm.queuePool[0].name + "'s turn.")
         }
       };
 
       vm.enemyAttack = function(enemy) {
         var target = Math.floor(Math.random() * vm.activeAllies.length);
         vm.activeAllies[target].stats.health -= enemy.stats.strength;
-        //alliesService.updatePercentages(vm.activeAllies[target]);
-        //TODO also needs to refresh health percentage
+        alliesService.updatePercentages(vm.activeAllies[target]);
         vm.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + enemy.stats.strength + " damage.");
       };
 
@@ -57,11 +54,12 @@
       vm.endTurn = function() {
         $timeout(function() {vm.nextTurn()}, 2000);
         vm.queuePool.push(vm.queuePool.shift());
+        if (vm.queuePool[0].id < 200) {
+          vm.pushToFightLog(vm.queuePool[0].name + "'s turn.")
+        }
       };
 
       $timeout(function() {vm.nextTurn()}, 2000);
-
-      //TODO when it's the players turn, the log doesn't update at the same time.
     }
   }
 })();

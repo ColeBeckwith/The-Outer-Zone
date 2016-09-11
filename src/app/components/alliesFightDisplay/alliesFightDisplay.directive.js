@@ -21,29 +21,15 @@
     function alliesFightDisplayController() {
       var vm = this;
 
-      vm.allyCount = 0;
       vm.activeAllies = alliesService.activeAllies;
-
-      vm.updatePercentages = function(ally) {
-        ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
-        ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
-      };
+      vm.updatePercentages = alliesService.updatePercentages;
 
       vm.cardWidth = (90/vm.activeAllies.length).toString() + '%';
 
       vm.hurtMe = function(ally) {
         ally.stats.health -= 10;
-        ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%'
+        alliesService.updatePercentages(ally);
       };
-
-      vm.drainMe = function(ally) {
-        ally.stats.energy -= 1;
-        ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
-      };
-
-      angular.forEach(vm.activeAllies, function(ally) {
-        vm.updatePercentages(ally);
-      });
     }
   }
 })();

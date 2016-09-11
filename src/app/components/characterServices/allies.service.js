@@ -341,6 +341,14 @@
           vm.activeAllies.push(ally);
         }
       });
+      angular.forEach(vm.activeAllies, function(ally) {
+        vm.updatePercentages(ally);
+      });
+    };
+
+    vm.updatePercentages = function(ally) {
+      ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
+      ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
     };
 
     vm.updateActives();
