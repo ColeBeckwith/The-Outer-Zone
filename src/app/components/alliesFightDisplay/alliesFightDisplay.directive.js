@@ -28,7 +28,7 @@
         ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
         ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
       });
-
+      
       vm.cardWidth = (90/vm.activeAllies.length).toString() + '%';
 
       vm.hurtMe = function(ally) {

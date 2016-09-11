@@ -17,7 +17,7 @@
           'maxHealth': 75,
           'health': 75,
           'speed': 4,
-          'strength' : 7
+          'strength' : 3
         }
       },
       {
@@ -28,7 +28,7 @@
           'maxHealth': 1000,
           'health': 1000,
           'speed': 3,
-          'strength' : 7
+          'strength' : 12
         }
       },
       {
@@ -39,7 +39,7 @@
           'maxHealth': 75,
           'health': 75,
           'speed': 4,
-          'strength' : 7
+          'strength' : 3
         }
       }
     ]
