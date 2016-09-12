@@ -59,6 +59,12 @@
         }
       };
 
+      $rootScope.$watch('movesService.selectedMove', function() {
+        if (movesService.selectedMove === "Punch") {
+          vm.pushToFightLog('Select Target');
+        }
+      }, true);
+
       $timeout(function() {vm.nextTurn()}, 500);
     }
   }
