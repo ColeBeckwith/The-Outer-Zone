@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('fightDisplay', fightDisplay);
 
-  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout", "movesService", "$rootScope"];
+  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout", "movesService"];
 
-  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout, movesService, $rootScope) {
+  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout, movesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightDisplay/fightDisplay.html',
