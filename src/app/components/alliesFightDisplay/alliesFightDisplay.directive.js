@@ -28,6 +28,7 @@
 
       vm.selectMove = function(move) {
         movesService.selectedMove = move;
+        console.log(movesService.selectedMove);
       }
     }
   }

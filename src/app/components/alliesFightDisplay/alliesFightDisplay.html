@@ -1,48 +1,47 @@
 <div class="container">
-  <div class="fight-bar allies-fight-bar">
-    <div class="fight-card"
-         ng-repeat="ally in alliesFightDisplay.activeAllies"
-         ng-style="{width: alliesFightDisplay.cardWidth}"
-         ng-if="ally.active"
-         ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id}">
-      <h5>{{ ally.name }}</h5>
-      <h6>Lv. {{ ally.level }} {{ ally.class }}</h6>
-      <div class="progress">
-        <div class="progress-bar progress-bar-success"
-             ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
-             role="progressbar"
-             style="width: {{ ally.percentageHealth }}">
-            {{ ally.stats.health }}/{{ ally.stats.maxHealth }}
-        </div>
-      </div>
-      <div class="progress">
-        <div class="progress-bar progress-bar-info"
-             role="progressbar"
-             style="width: {{ ally.percentageEnergy }}">
-          {{ ally.stats.energy }}/{{ ally.stats.maxEnergy }}
-        </div>
-      </div>
+    <div class="fight-bar allies-fight-bar">
+        <div class="fight-card"
+             ng-repeat="ally in alliesFightDisplay.activeAllies"
+             ng-style="{width: alliesFightDisplay.cardWidth}"
+             ng-if="ally.active"
+             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id}">
+            <h5>{{ ally.name }}</h5>
+            <h6>Lv. {{ ally.level }} {{ ally.class }}</h6>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success"
+                     ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
+                     role="progressbar"
+                     style="width: {{ ally.percentageHealth }}">
+                    {{ ally.stats.health }}/{{ ally.stats.maxHealth }}
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-info"
+                     role="progressbar"
+                     style="width: {{ ally.percentageEnergy }}">
+                    {{ ally.stats.energy }}/{{ ally.stats.maxEnergy }}
+                </div>
+            </div>
 
-      <div class="text-center">
-        <div class="center-me dropup"
-             uib-dropdown>
-          <button role="button"
-                  class="btn btn-default"
-                  ng-class="{'disabled' : ally.id !== fight.queuePool[0].id}"
-                  uib-dropdown-toggle
-                  aria-haspopup="true"
-                  aria-expanded="false">
-            Moves <b class="caret"></b>
-          </button>
-          <ul uib-dropdown-menu>
-            <li class="text-center" ng-repeat="move in ally.moves">
-              <a ng-click="alliesFightDisplay.selectMove(move)">{{ move }}</a>
-            </li>
-          </ul>
+            <div class="text-center">
+                <div class="center-me dropup"
+                     uib-dropdown>
+                    <button role="button"
+                            class="btn btn-default"
+                            ng-class="{'disabled' : ally.id !== fight.queuePool[0].id}"
+                            uib-dropdown-toggle
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Moves <b class="caret"></b>
+                    </button>
+                    <ul uib-dropdown-menu>
+                        <li class="text-center" ng-repeat="move in ally.moves">
+                            <a ng-click="alliesFightDisplay.selectMove(move)">{{ move }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-
     </div>
-  </div>
 </div>
 

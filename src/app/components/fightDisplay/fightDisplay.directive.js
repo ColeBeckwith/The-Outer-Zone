@@ -59,11 +59,6 @@
         }
       };
 
-      $rootScope.$watch('movesService.selectedMove', function () {
-        console.log(movesService.selectedMove);
-      }, true);
-      //TODO Most of this logic probably needs to be in a fight flow service.
-
       $timeout(function() {vm.nextTurn()}, 500);
     }
   }
