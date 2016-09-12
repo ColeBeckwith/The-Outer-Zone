@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('fightDisplay', fightDisplay);
 
-  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout"];
+  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout", "movesService", "$rootScope"];
 
-  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout) {
+  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout, movesService, $rootScope) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightDisplay/fightDisplay.html',
@@ -26,7 +26,7 @@
       vm.queuePool = fightQueueService.buildQueue();
       vm.fightLog = [];
       vm.fightLogId = 0;
-      //vm.updatePercentages = alliesService.updatePercentages;
+      vm.selectedMove = movesService.selectedMove;
 
       vm.nextTurn = function() {
         if (vm.queuePool[0].id >= 200) {
@@ -40,8 +40,8 @@
       };
 
       vm.enemyAttack = function(enemy) {
-        var target = Math.floor(Math.random() * vm.activeAllies.length);
-        vm.activeAllies[target].stats.health -= enemy.stats.strength;
+        var target = Math.floor(Math.random() * alliesService.activeAllies.length);
+        alliesService.activeAllies[target].stats.health -= enemy.stats.strength;
         alliesService.updatePercentages(vm.activeAllies[target]);
         vm.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + enemy.stats.strength + " damage.");
       };
@@ -52,14 +52,19 @@
       };
 
       vm.endTurn = function() {
-        $timeout(function() {vm.nextTurn()}, 2000);
+        $timeout(function() {vm.nextTurn()}, 500);
         vm.queuePool.push(vm.queuePool.shift());
         if (vm.queuePool[0].id < 200) {
           vm.pushToFightLog(vm.queuePool[0].name + "'s turn.")
         }
       };
 
-      $timeout(function() {vm.nextTurn()}, 2000);
+      $rootScope.$watch('movesService.selectedMove', function () {
+        console.log(movesService.selectedMove);
+      }, true);
+      //TODO Most of this logic probably needs to be in a fight flow service.
+
+      $timeout(function() {vm.nextTurn()}, 500);
     }
   }
 })();

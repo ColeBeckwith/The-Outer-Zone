@@ -23,8 +23,6 @@
         </div>
       </div>
 
-      <button class="btn" ng-click="alliesFightDisplay.hurtMe(ally)">Hurt Me</button>
-
       <div class="text-center">
         <div class="center-me dropup"
              uib-dropdown>
@@ -38,7 +36,7 @@
           </button>
           <ul uib-dropdown-menu>
             <li class="text-center" ng-repeat="move in ally.moves">
-              <a>{{ move }}</a>
+              <a ng-click="alliesFightDisplay.selectMove(move)">{{ move }}</a>
             </li>
           </ul>
         </div>

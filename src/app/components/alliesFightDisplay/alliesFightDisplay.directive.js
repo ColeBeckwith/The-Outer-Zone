@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('alliesFightDisplay', alliesFightDisplay);
 
-  alliesFightDisplay.$inject = ["alliesService"];
+  alliesFightDisplay.$inject = ["alliesService", "movesService"];
 
-  function alliesFightDisplay(alliesService) {
+  function alliesFightDisplay(alliesService, movesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/alliesFightDisplay/alliesFightDisplay.html',
@@ -26,10 +26,9 @@
 
       vm.cardWidth = (90/vm.activeAllies.length).toString() + '%';
 
-      vm.hurtMe = function(ally) {
-        ally.stats.health -= 10;
-        alliesService.updatePercentages(ally);
-      };
+      vm.selectMove = function(move) {
+        movesService.selectedMove = move;
+      }
     }
   }
 })();
