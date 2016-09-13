@@ -45,15 +45,14 @@
       }
     ];
 
+    //TODO update percentages function here. SHould also run on initialization. 
+
     vm.allyAttackEnemy = function(enemy) {
       if (vm.targetSelectMode === true) {
         enemy.stats.health -= 100;
         //TODO should be attack value of currently queued Ally;
         fightLogService.pushToFightLog("Attacked " + enemy.name);
-        console.log(enemy);
-      } else {
-        alert("TargetSelectMode is off");
-      }
+      };
       vm.targetSelectMode = false;
     };
   }

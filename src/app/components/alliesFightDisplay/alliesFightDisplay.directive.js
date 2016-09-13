@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('alliesFightDisplay', alliesFightDisplay);
 
-  alliesFightDisplay.$inject = ["alliesService", "movesService", "fightLogService", "enemiesService"];
+  alliesFightDisplay.$inject = ["alliesService", "movesService", "fightLogService", "enemiesService", "fightQueueService"];
 
-  function alliesFightDisplay(alliesService, movesService, fightLogService, enemiesService) {
+  function alliesFightDisplay(alliesService, movesService, fightLogService, enemiesService, fightQueueService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/alliesFightDisplay/alliesFightDisplay.html',
@@ -34,15 +34,15 @@
         }
         if (movesService.selectedMove === "Fury") {
           fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
-          //vm.endTurn();
+          fightQueueService.endTurn();
         }
         if (movesService.selectedMove === "Fortify") {
           fightLogService.pushToFightLog("The Scarecrow has been fortified.");
-          //vm.endTurn();
+          fightQueueService.endTurn();
         }
         if (movesService.selectedMove === "Parry") {
           fightLogService.pushToFightLog("The Scarecrow will deflect the next incoming attack.");
-          //vm.endTurn();
+          fightQueueService.endTurn();
         }
       };
 
