@@ -23,6 +23,7 @@
 
       vm.enemies = enemiesService.enemies;
       vm.enemyCount = 0;
+      vm.allyAttackEnemy = enemiesService.allyAttackEnemy;
 
       angular.forEach(vm.enemies, function(enemy) {
         if (enemy.active) {

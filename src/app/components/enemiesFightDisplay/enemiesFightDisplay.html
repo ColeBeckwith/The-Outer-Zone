@@ -4,7 +4,8 @@
          ng-style="{width: enemiesFightDisplay.cardWidth}"
          ng-repeat="enemy in enemiesFightDisplay.enemies"
          ng-if="enemy.active"
-         ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id}">
+         ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id}"
+         ng-click="enemiesFightDisplay.allyAttackEnemy(enemy)">
       <h5>{{ enemy.name }}</h5>
       <div class="progress">
         <div class="progress-bar progress-bar-success"

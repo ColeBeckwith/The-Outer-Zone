@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('alliesFightDisplay', alliesFightDisplay);
 
-  alliesFightDisplay.$inject = ["alliesService", "movesService", "$rootScope"];
+  alliesFightDisplay.$inject = ["alliesService", "movesService", "fightLogService", "enemiesService"];
 
-  function alliesFightDisplay(alliesService, movesService, $rootScope) {
+  function alliesFightDisplay(alliesService, movesService, fightLogService, enemiesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/alliesFightDisplay/alliesFightDisplay.html',
@@ -21,22 +21,32 @@
     function alliesFightDisplayController() {
       var vm = this;
 
-      var scope = $rootScope;
-
-      vm.selectedMove = false;
       vm.activeAllies = alliesService.activeAllies;
       vm.updatePercentages = alliesService.updatePercentages;
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
 
       vm.selectMove = function (move) {
-        vm.selectedMove = true;
         movesService.selectedMove = move;
+        if (movesService.selectedMove === "Punch") {
+          fightLogService.pushToFightLog('Select target to Punch.');
+          enemiesService.targetSelectMode = true;
+        }
+        if (movesService.selectedMove === "Fury") {
+          fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
+          //vm.endTurn();
+        }
+        if (movesService.selectedMove === "Fortify") {
+          fightLogService.pushToFightLog("The Scarecrow has been fortified.");
+          //vm.endTurn();
+        }
+        if (movesService.selectedMove === "Parry") {
+          fightLogService.pushToFightLog("The Scarecrow will deflect the next incoming attack.");
+          //vm.endTurn();
+        }
       };
 
-      scope.$watch('movesService.selectedMove', function () {
-        console.log(movesService.selectedMove + " From the fight display");
-      });
+
 
     }
   }
