@@ -8,8 +8,8 @@
   function stateChangeService() {
     var vm = this;
 
-    vm.playerState = 'characterSelect';
-    
+    vm.playerState = 'story';
+
     vm.setPlayerState = function(state) {
       vm.playerState = state;
     }

@@ -30,9 +30,9 @@
             'baseStats' : {
                 'maxHealth' : 250,
                 'maxEnergy' : 40,
-                'strength' : 3,
-                'speed' : 6,
-                'defense' : 1
+                'strength' : 103,
+                'speed' : 106,
+                'defense' : 101
               }
           },
           {

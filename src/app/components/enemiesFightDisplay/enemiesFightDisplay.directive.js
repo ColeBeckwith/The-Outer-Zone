@@ -23,18 +23,6 @@
 
       vm.enemies = enemiesService.enemies;
 
-      /*vm.allyAttackEnemy = function(enemy) {
-        if (enemiesService.targetSelectMode > 0){
-          var damage = fightQueueService.queuePool[0].stats.strength * Math.floor((Math.random() * 6) + 1);
-          enemiesService.allyAttackEnemy(enemy, damage);
-          enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';
-          if (enemiesService.targetSelectMode === 0) {
-            fightQueueService.endTurn();
-          }
-        }
-        console.log(vm.enemyCount);
-      };*/
-
       vm.allyAttackEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {
           var damage = fightQueueService.queuePool[0].stats.strength * Math.floor((Math.random() * 6) + 1);
@@ -44,7 +32,7 @@
           }
           enemy.stats.health -= trueDamage;
           enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';
-          fightLogService.pushToFightLog("Attacked " + enemy.name + " for " + trueDamage + " damage.");
+          fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + trueDamage + " damage.");
           enemiesService.targetSelectMode--;
           if (enemiesService.targetSelectMode === 0) {
             fightQueueService.endTurn();
@@ -60,7 +48,6 @@
           fightLogService.pushToFightLog(enemy.name + " has been killed.");
           vm.updateActiveEnemies();
           vm.checkForVictory();
-
         }
       };
 

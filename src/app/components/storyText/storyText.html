@@ -1,0 +1,8 @@
+<div class="text-center">
+  <p ng-repeat="text in storyText.storyTexts[storyText.storyProgress]">{{ text }}</p>
+</div>
+
+<div class="text-center">
+  <button class="btn btn-success"
+          ng-click="storyText.continue()">Continue</button>
+</div>

@@ -43,8 +43,6 @@
       return vm.queuePool;
     };
 
-    //TODO After Queue is built, it cannot reflect changes in character status.
-
     vm.cycleQueue = function() {
       vm.queuePool.push(vm.queuePool.shift());
     };
@@ -72,6 +70,7 @@
       alliesService.activeAllies[target].stats.health -= damage;
       alliesService.updatePercentages(vm.activeAllies[target]);
       fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
+      
     };
 
     vm.endTurn = function() {

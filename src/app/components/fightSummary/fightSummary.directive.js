@@ -21,8 +21,8 @@
     function fightSummaryController() {
       var vm = this;
       
-      vm.resetFight = function() {
-        stateChangeService.setPlayerState('fight');
+      vm.continue = function() {
+        stateChangeService.setPlayerState('story');
       }
     }
   }
