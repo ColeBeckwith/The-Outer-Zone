@@ -31,7 +31,7 @@
                 'maxHealth' : 250,
                 'maxEnergy' : 40,
                 'strength' : 3,
-                'speed' : 7,
+                'speed' : 6,
                 'defense' : 1
               }
           },

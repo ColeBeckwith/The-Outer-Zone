@@ -5,7 +5,7 @@
     .module('outerZone')
     .service('enemiesService', enemiesService);
 
-  function enemiesService(fightLogService) {
+  function enemiesService() {
     var vm = this;
     vm.targetSelectMode = 0;
 
@@ -15,8 +15,8 @@
         'id' : 201,
         'active' : true,
         'stats' : {
-          'maxHealth': 75,
-          'health': 75,
+          'maxHealth': 30,
+          'health': 30,
           'speed': 4,
           'strength' : 3,
           'defense' : 1
@@ -27,10 +27,10 @@
         'id' : 202,
         'active' : true,
         'stats' : {
-          'maxHealth': 1000,
-          'health': 1000,
+          'maxHealth': 200,
+          'health': 200,
           'speed': 3,
-          'strength' : 12,
+          'strength' : 8,
           'defense' : 4
         }
       },
@@ -39,26 +39,13 @@
         'id' : 203,
         'active' : true,
         'stats' : {
-          'maxHealth': 75,
-          'health': 75,
+          'maxHealth': 30,
+          'health': 30,
           'speed': 4,
           'strength' : 3,
           'defense' : 1
         }
       }
     ];
-
-
-    vm.allyAttackEnemy = function(enemy, damage) {
-      if (vm.targetSelectMode > 0) {
-        var trueDamage = damage - (enemy.stats.defense * (Math.floor(Math.random() * 4) + 1));
-        if (trueDamage <= 0) {
-          trueDamage = 1;
-        }
-        enemy.stats.health -= trueDamage;
-        fightLogService.pushToFightLog("Attacked " + enemy.name + " for " + trueDamage + " damage.");
-      }
-      vm.targetSelectMode--;
-    };
   }
 })();

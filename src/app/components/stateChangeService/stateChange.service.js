@@ -9,6 +9,10 @@
     var vm = this;
 
     vm.playerState = 'characterSelect';
+    
+    vm.setPlayerState = function(state) {
+      vm.playerState = state;
+    }
 
   }
 

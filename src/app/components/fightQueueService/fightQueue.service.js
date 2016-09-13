@@ -43,12 +43,17 @@
       return vm.queuePool;
     };
 
+    //TODO After Queue is built, it cannot reflect changes in character status.
+
     vm.cycleQueue = function() {
       vm.queuePool.push(vm.queuePool.shift());
     };
 
     vm.nextTurn = function() {
-      if (vm.queuePool[0].id >= 200) {
+      if (vm.queuePool[0].active === false) {
+        fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
+        vm.endTurn();
+      } else if (vm.queuePool[0].id >= 200) {
         angular.forEach(vm.enemies, function(enemy) {
           if (vm.queuePool[0].id === enemy.id) {
             vm.enemyAttackAlly(enemy);
