@@ -20,7 +20,7 @@
       angular.forEach(vm.activeAllies, function(ally) {
         var x = 0;
         while (x < ally.stats.speed) {
-          vm.queuePool.push({'name' : ally.name, 'id' : ally.id});
+          vm.queuePool.push(ally);
           x++;
         }
       });
@@ -28,7 +28,7 @@
       angular.forEach(vm.enemies, function(enemy) {
         var x = 0;
         while (x < enemy.stats.speed) {
-          vm.queuePool.push({'name' : enemy.name, 'id' : enemy.id});
+          vm.queuePool.push(enemy);
           x++;
         }
       });
@@ -60,14 +60,14 @@
 
     vm.enemyAttackAlly = function(enemy) {
       var target = Math.floor(Math.random() * alliesService.activeAllies.length);
-      alliesService.activeAllies[target].stats.health -= enemy.stats.strength;
+      var damage = ((Math.floor((Math.random() * 6) + 1) * enemy.stats.strength) - Math.floor((Math.random() * 4) + 1) * alliesService.activeAllies[target].stats.defense);
+      if (damage <= 0) {
+        damage = 1;
+      }
+      alliesService.activeAllies[target].stats.health -= damage;
       alliesService.updatePercentages(vm.activeAllies[target]);
-      fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + enemy.stats.strength + " damage.");
+      fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
     };
-
-    //TODO Problem is that enemyService cannot call the next function. Best to just send the damage to the enemy
-    // service and keep control of the fight delegated to this service. Only send data out and is not waiting for
-    // any itself.
 
     vm.endTurn = function() {
       $timeout(function() {vm.nextTurn()}, 1000);
@@ -75,7 +75,6 @@
       if (vm.queuePool[0].id < 200) {
         fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
       }
-      enemiesService.targetSelectMode = false;
     };
 
   }

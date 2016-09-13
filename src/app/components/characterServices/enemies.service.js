@@ -7,7 +7,7 @@
 
   function enemiesService(fightLogService) {
     var vm = this;
-    vm.targetSelectMode = false;
+    vm.targetSelectMode = 0;
 
     vm.enemies = [
       {
@@ -18,7 +18,8 @@
           'maxHealth': 75,
           'health': 75,
           'speed': 4,
-          'strength' : 3
+          'strength' : 3,
+          'defense' : 1
         }
       },
       {
@@ -29,7 +30,8 @@
           'maxHealth': 1000,
           'health': 1000,
           'speed': 3,
-          'strength' : 12
+          'strength' : 12,
+          'defense' : 4
         }
       },
       {
@@ -40,20 +42,23 @@
           'maxHealth': 75,
           'health': 75,
           'speed': 4,
-          'strength' : 3
+          'strength' : 3,
+          'defense' : 1
         }
       }
     ];
 
-    //TODO update percentages function here. SHould also run on initialization. 
 
-    vm.allyAttackEnemy = function(enemy) {
-      if (vm.targetSelectMode === true) {
-        enemy.stats.health -= 100;
-        //TODO should be attack value of currently queued Ally;
-        fightLogService.pushToFightLog("Attacked " + enemy.name);
-      };
-      vm.targetSelectMode = false;
+    vm.allyAttackEnemy = function(enemy, damage) {
+      if (vm.targetSelectMode > 0) {
+        var trueDamage = damage - (enemy.stats.defense * (Math.floor(Math.random() * 4) + 1));
+        if (trueDamage <= 0) {
+          trueDamage = 1;
+        }
+        enemy.stats.health -= trueDamage;
+        fightLogService.pushToFightLog("Attacked " + enemy.name + " for " + trueDamage + " damage.");
+      }
+      vm.targetSelectMode--;
     };
   }
 })();

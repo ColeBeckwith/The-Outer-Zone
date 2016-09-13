@@ -30,7 +30,7 @@
         movesService.selectedMove = move;
         if (movesService.selectedMove === "Punch") {
           fightLogService.pushToFightLog('Select target to Punch.');
-          enemiesService.targetSelectMode = true;
+          enemiesService.targetSelectMode++;
         }
         if (movesService.selectedMove === "Fury") {
           fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
