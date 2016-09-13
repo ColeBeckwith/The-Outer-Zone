@@ -4,7 +4,5 @@
 
   angular
     .module('outerZone')
-    .constant('malarkey', malarkey)
-    .constant('moment', moment);
 
 })();

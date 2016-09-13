@@ -8,7 +8,7 @@
   function movesService() {
     var vm = this;
 
-    vm.selectedMove = true;
+    vm.selectedMove = "";
 
   }
 })();

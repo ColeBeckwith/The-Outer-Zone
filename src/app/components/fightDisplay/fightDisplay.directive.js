@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('fightDisplay', fightDisplay);
 
-  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout", "movesService"];
+  fightDisplay.$inject = ["alliesService", "enemiesService", "fightQueueService", "$timeout", "movesService", "$rootScope"];
 
-  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout, movesService) {
+  function fightDisplay(alliesService, enemiesService, fightQueueService, $timeout, movesService, $rootScope) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightDisplay/fightDisplay.html',
@@ -52,20 +52,31 @@
       };
 
       vm.endTurn = function() {
-        $timeout(function() {vm.nextTurn()}, 500);
+        $timeout(function() {vm.nextTurn()}, 1000);
         vm.queuePool.push(vm.queuePool.shift());
         if (vm.queuePool[0].id < 200) {
           vm.pushToFightLog(vm.queuePool[0].name + "'s turn.")
         }
       };
 
-      $rootScope.$watch('movesService.selectedMove', function() {
+      $rootScope.$watch( function() { return movesService.selectedMove }, function() {
         if (movesService.selectedMove === "Punch") {
-          vm.pushToFightLog('Select Target');
+          vm.pushToFightLog('Select target to Punch.');
         }
+        if (movesService.selectedMove === "Fury") {
+          //Action
+        }
+        if (movesService.selectedMove === "Fortify") {
+          vm.pushToFightLog("The Scarecrow has been fortified.");
+          vm.endTurn();
+        }
+        if (movesService.selectedMove === "Parry") {
+          //Action
+        }
+        movesService.selectedMove = "";
       }, true);
 
-      $timeout(function() {vm.nextTurn()}, 500);
+      $timeout(function() {vm.nextTurn()}, 1000);
     }
   }
 })();
