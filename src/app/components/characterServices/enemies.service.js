@@ -16,7 +16,7 @@
         {
           'name' : 'Flying Monkey',
           'id' : 201,
-          'active' : true,
+          'status' : 'alive',
           'stats' : {
             'maxHealth': 30,
             'health': 30,
@@ -28,19 +28,19 @@
         {
           'name' : 'Witch',
           'id' : 202,
-          'active' : true,
+          'status' : 'alive',
           'stats' : {
             'maxHealth': 200,
             'health': 200,
-            'speed': 3,
-            'strength' : 8,
+            'speed': 403,
+            'strength' : 48,
             'defense' : 4
           }
         },
         {
           'name' : 'Flying Monkey',
           'id' : 203,
-          'active' : true,
+          'status' : 'alive',
           'stats' : {
             'maxHealth': 30,
             'health': 30,
@@ -54,11 +54,11 @@
         {
           'name' : 'Brick',
           'id' : 201,
-          'active' : true,
+          'status' : 'alive',
           'stats' : {
             'maxHealth' : 500,
             'health' : 500,
-            'speed' : 4,
+            'speed' : 400,
             'strength' : 3,
             'defense' : 1
           }

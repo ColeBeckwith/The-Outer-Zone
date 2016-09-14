@@ -43,9 +43,10 @@
 
       vm.checkForDead = function(enemy) {
         if (enemy.stats.health <= 0) {
+          enemy.status = 'dead';
           enemy.stats.health = 0;
           enemy.active = false;
-          fightLogService.pushToFightLog(enemy.name + " has been killed.");
+          fightLogService.pushToFightLog(enemy.name + " has been defeated.");
           vm.updateActiveEnemies();
           vm.checkForVictory();
         }
@@ -53,24 +54,17 @@
 
       vm.checkForVictory = function() {
         if (vm.enemyCount === 0) {
-          fightLogService.pushToFightLog("Victory!");
+          progressTracker.stopFight();
           stateChangeService.setPlayerState("fightSummary");
           progressTracker.advanceStory();
-          vm.cleanUpFight();
+          progressTracker.setBattleWon(true);
         }
-
-        //TODO still the problem of rebuilding the queue after the fight. Ideally, this wouldn't be done until right
-        // before the fight to allow for last minute speed stat changes.
-      };
-
-      vm.cleanUpFight = function() {
-        fightLogService.clearLog();
       };
 
       vm.updateActiveEnemies = function() {
         vm.enemyCount = 0;
         angular.forEach(vm.enemies, function(enemy) {
-          if (enemy.active) {
+          if (enemy.status === 'alive') {
             vm.enemyCount++
           }
           enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';

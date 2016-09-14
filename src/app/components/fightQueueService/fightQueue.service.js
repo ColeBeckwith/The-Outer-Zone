@@ -5,16 +5,14 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout) {
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker) {
     var vm = this;
-
-    vm.activeAllies = alliesService.activeAllies;
-    vm.enemies = enemiesService.getEnemies();
 
     vm.buildQueue = function() {
       vm.activeAllies = alliesService.activeAllies;
+      vm.enemies = enemiesService.getEnemies();
       vm.queuePool = [];
 
       angular.forEach(vm.activeAllies, function(ally) {
@@ -48,7 +46,7 @@
     };
 
     vm.nextTurn = function() {
-      if (vm.queuePool[0].active === false) {
+      if (vm.queuePool[0].status !== 'alive') {
         fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
         vm.endTurn();
       } else if (vm.queuePool[0].id >= 200) {
@@ -68,16 +66,21 @@
         damage = 1;
       }
       alliesService.activeAllies[target].stats.health -= damage;
+      alliesService.checkForDeath(vm.activeAllies[target]);
       alliesService.updatePercentages(vm.activeAllies[target]);
       fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
 
     };
 
     vm.endTurn = function() {
-      $timeout(function() {vm.nextTurn()}, 1000);
-      vm.cycleQueue();
-      if (vm.queuePool[0].id < 200) {
-        fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
+      if (progressTracker.fightOngoing) {
+        $timeout(function () {
+          vm.nextTurn()
+        }, 1500);
+        vm.cycleQueue();
+        if (vm.queuePool[0].id < 200) {
+          fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
+        }
       }
     };
 

@@ -45,9 +45,6 @@
           fightQueueService.endTurn();
         }
       };
-
-
-
     }
   }
 })();

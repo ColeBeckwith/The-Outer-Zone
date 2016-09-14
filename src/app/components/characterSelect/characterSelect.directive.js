@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('characterSelect', characterSelect);
 
-  characterSelect.$inject = ["alliesService", "stateChangeService"];
+  characterSelect.$inject = ["alliesService", "stateChangeService", "progressTracker"];
 
-  function characterSelect(alliesService, stateChangeService) {
+  function characterSelect(alliesService, stateChangeService, progressTracker) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/characterSelect/characterSelect.html',
@@ -22,7 +22,7 @@
       var vm = this;
 
       vm.allies = alliesService.allies;
-      vm.newAlly = vm.allies[0];
+      vm.newAlly = vm.allies[progressTracker.getNewAlly()];
 
       vm.makeActiveSelection = function(build) {
         vm.activeSelection = build;
@@ -34,7 +34,7 @@
         vm.newAlly.stats.energy = vm.activeSelection.baseStats.maxEnergy;
         vm.newAlly.class = vm.activeSelection.name;
         alliesService.activateAlly(vm.newAlly);
-        stateChangeService.playerState = 'fight';
+        stateChangeService.playerState = 'prefight';
       };
 
     }

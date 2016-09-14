@@ -32,6 +32,9 @@
         [
           "This is the second part of the story",
           "right here"
+        ],
+        [
+          'This is the third and so on...'
         ]
       ];
 
@@ -40,7 +43,11 @@
           stateChangeService.setPlayerState('characterSelect');
         }
         if (vm.storyProgress === 1) {
-          stateChangeService.setPlayerState('fight');
+          stateChangeService.setPlayerState('prefight');
+        }
+        if (vm.storyProgress === 2) {
+          progressTracker.addNewAlly();
+          stateChangeService.setPlayerState('characterSelect');
         }
       }
     }

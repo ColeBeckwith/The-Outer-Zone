@@ -42,6 +42,10 @@
   }
 }
 
+.dead-card {
+  opacity: .5;
+}
+
 .active-card {
   border: 3px solid gold;
   outline: none;

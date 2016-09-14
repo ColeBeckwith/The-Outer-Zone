@@ -3,8 +3,8 @@
         <div class="fight-card"
              ng-repeat="ally in alliesFightDisplay.activeAllies"
              ng-style="{width: alliesFightDisplay.cardWidth}"
-             ng-if="ally.active"
-             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id}">
+             ng-if="ally.status !== 'inactive'"
+             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}">
             <h5>{{ ally.name }}</h5>
             <h6>Lv. {{ ally.level }} {{ ally.class }}</h6>
             <div class="progress">
@@ -28,7 +28,7 @@
                      uib-dropdown>
                     <button role="button"
                             class="btn btn-default"
-                            ng-class="{'disabled' : ally.id !== fight.queuePool[0].id}"
+                            ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive')}"
                             uib-dropdown-toggle
                             aria-haspopup="true"
                             aria-expanded="false">
