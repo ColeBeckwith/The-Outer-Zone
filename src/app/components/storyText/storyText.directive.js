@@ -42,7 +42,6 @@
         if (vm.storyProgress === 1) {
           stateChangeService.setPlayerState('fight');
         }
-        progressTracker.advanceStory();
       }
     }
   }

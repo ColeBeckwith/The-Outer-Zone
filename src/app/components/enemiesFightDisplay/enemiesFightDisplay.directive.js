@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('enemiesFightDisplay', enemiesFightDisplay);
 
-  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService"];
+  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService", "progressTracker"];
 
-  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService) {
+  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService, progressTracker) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/enemiesFightDisplay/enemiesFightDisplay.html',
@@ -21,7 +21,7 @@
     function enemiesFightDisplayController() {
       var vm = this;
 
-      vm.enemies = enemiesService.enemies;
+      vm.enemies = enemiesService.getEnemies();
 
       vm.allyAttackEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {
@@ -55,7 +55,16 @@
         if (vm.enemyCount === 0) {
           fightLogService.pushToFightLog("Victory!");
           stateChangeService.setPlayerState("fightSummary");
+          progressTracker.advanceStory();
+          vm.cleanUpFight();
         }
+
+        //TODO still the problem of rebuilding the queue after the fight. Ideally, this wouldn't be done until right
+        // before the fight to allow for last minute speed stat changes.
+      };
+
+      vm.cleanUpFight = function() {
+        fightLogService.clearLog();
       };
 
       vm.updateActiveEnemies = function() {

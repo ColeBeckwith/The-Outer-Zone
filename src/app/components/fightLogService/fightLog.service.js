@@ -18,6 +18,11 @@
 
     vm.getFightLog = function() {
       return vm.fightLog
+    };
+    
+    vm.clearLog = function() {
+      vm.fightLog = [];
+      vm.fightLogId = 0;
     }
   }
 })();

@@ -11,7 +11,7 @@
     var vm = this;
 
     vm.activeAllies = alliesService.activeAllies;
-    vm.enemies = enemiesService.enemies;
+    vm.enemies = enemiesService.getEnemies();
 
     vm.buildQueue = function() {
       vm.activeAllies = alliesService.activeAllies;
@@ -70,7 +70,7 @@
       alliesService.activeAllies[target].stats.health -= damage;
       alliesService.updatePercentages(vm.activeAllies[target]);
       fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
-      
+
     };
 
     vm.endTurn = function() {
