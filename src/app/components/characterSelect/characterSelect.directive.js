@@ -33,6 +33,7 @@
         vm.newAlly.stats.health = vm.activeSelection.baseStats.maxHealth;
         vm.newAlly.stats.energy = vm.activeSelection.baseStats.maxEnergy;
         vm.newAlly.class = vm.activeSelection.name;
+        vm.newAlly.moves = [['Attack', 1],['Rest', 1]].concat(vm.activeSelection.moves);
         alliesService.activateAlly(vm.newAlly);
         stateChangeService.playerState = 'prefight';
       };

@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker) {
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService) {
     var vm = this;
 
     vm.buildQueue = function() {
@@ -46,41 +46,43 @@
     };
 
     vm.nextTurn = function() {
-      if (vm.queuePool[0].status !== 'alive') {
-        fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
-        vm.endTurn();
-      } else if (vm.queuePool[0].id >= 200) {
-        angular.forEach(vm.enemies, function(enemy) {
-          if (vm.queuePool[0].id === enemy.id) {
-            vm.enemyAttackAlly(enemy);
-          }
-        });
-        vm.endTurn();
+      if (progressTracker.fightOngoing) {
+        if (vm.queuePool[0].status !== 'alive') {
+          fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
+          vm.endTurn();
+        } else if (vm.queuePool[0].id >= 200) {
+          vm.enemyAttackAlly(vm.queuePool[0]);
+          vm.endTurn();
+        }
       }
     };
 
     vm.enemyAttackAlly = function(enemy) {
       var target = Math.floor(Math.random() * alliesService.activeAllies.length);
+      while (alliesService.activeAllies[target].status !== 'alive') {
+        target = Math.floor(Math.random() * alliesService.activeAllies.length);
+      }
       var damage = ((Math.floor((Math.random() * 6) + 1) * enemy.stats.strength) - Math.floor((Math.random() * 4) + 1) * alliesService.activeAllies[target].stats.defense);
       if (damage <= 0) {
         damage = 1;
       }
       alliesService.activeAllies[target].stats.health -= damage;
+      fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
       alliesService.checkForDeath(vm.activeAllies[target]);
       alliesService.updatePercentages(vm.activeAllies[target]);
-      fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
-
     };
 
     vm.endTurn = function() {
-      if (progressTracker.fightOngoing) {
-        $timeout(function () {
-          vm.nextTurn()
-        }, 1500);
-        vm.cycleQueue();
-        if (vm.queuePool[0].id < 200) {
-          fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
-        }
+      movesService.setSelectedMove('');
+      
+      $timeout(function () {
+        vm.nextTurn()
+      }, 1500);
+      
+      vm.cycleQueue();
+      
+      if (vm.queuePool[0].id < 200) {
+        fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
       }
     };
 

@@ -23,18 +23,39 @@
 
       vm.activeAllies = alliesService.activeAllies;
       vm.updatePercentages = alliesService.updatePercentages;
+      vm.movesService = movesService;
+      //TODO Ideally not having to import this entire service. Just to expose it to the view. Only the Selected Move
+      // variable is needed.
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
 
       vm.selectMove = function (move) {
-        movesService.selectedMove = move;
-        if (movesService.selectedMove === "Punch") {
-          fightLogService.pushToFightLog('Select target to Punch.');
-          enemiesService.targetSelectMode++;
+        movesService.setSelectedMove(move);
+
+        if (movesService.selectedMove === "Attack") {
+          fightLogService.pushToFightLog('Select target to Attack.');
+          enemiesService.selectNumberOfTargets(1);
         }
-        if (movesService.selectedMove === "Fury") {
-          fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
+
+        if (movesService.selectedMove === "Rest") {
+          fightQueueService.queuePool[0].stats.energy += 20;
+          fightQueueService.queuePool[0].stats.health += 20;
           fightQueueService.endTurn();
+        }
+
+        if (movesService.selectedMove === "Fury") {
+          if (fightQueueService.queuePool[0].stats.energy < 40 || fightQueueService.queuePool[0].stats.health < 40) {
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " doesn't have the resources to" +
+              " perform Fury.");
+            movesService.setSelectedMove('');
+          } else {
+            fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
+            fightQueueService.queuePool[0].stats.energy -= 20;
+            fightQueueService.queuePool[0].stats.health -= 40;
+            alliesService.updatePercentages(fightQueueService.queuePool[0]);
+            fightLogService.pushToFightLog('Select Three Targets');
+            enemiesService.selectNumberOfTargets(3);
+          }
         }
         if (movesService.selectedMove === "Fortify") {
           fightLogService.pushToFightLog("The Scarecrow has been fortified.");

@@ -9,9 +9,22 @@
 
   function enemiesService(progressTracker) {
     var vm = this;
-    vm.targetSelectMode = 0;
 
     vm.enemies = [
+      [
+        {
+          'name' : 'Brick',
+          'id' : 201,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 500,
+            'health' : 500,
+            'speed' : 15,
+            'strength' : 30,
+            'defense' : 20
+          }
+        }
+      ],
       [
         {
           'name' : 'Flying Monkey',
@@ -32,8 +45,8 @@
           'stats' : {
             'maxHealth': 200,
             'health': 200,
-            'speed': 403,
-            'strength' : 48,
+            'speed': 12,
+            'strength' : 35,
             'defense' : 4
           }
         },
@@ -49,25 +62,23 @@
             'defense' : 1
           }
         }
-      ],
-      [
-        {
-          'name' : 'Brick',
-          'id' : 201,
-          'status' : 'alive',
-          'stats' : {
-            'maxHealth' : 500,
-            'health' : 500,
-            'speed' : 400,
-            'strength' : 3,
-            'defense' : 1
-          }
-        }
       ]
     ];
 
     vm.getEnemies = function() {
       return vm.enemies[progressTracker.storyProgress]
-    }
+    };
+
+    vm.restoreAll = function() {
+      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+        enemy.stats.health = enemy.stats.maxHealth;
+      })
+    };
+
+    vm.targetSelectMode = 0;
+
+    vm.selectNumberOfTargets = function(number) {
+      vm.targetSelectMode = number;
+    };
   }
 })();

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="fight-bar allies-fight-bar">
-        <div class="fight-card"
+        <div class="card fight-card"
              ng-repeat="ally in alliesFightDisplay.activeAllies"
              ng-style="{width: alliesFightDisplay.cardWidth}"
              ng-if="ally.status !== 'inactive'"
@@ -28,7 +28,7 @@
                      uib-dropdown>
                     <button role="button"
                             class="btn btn-default"
-                            ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive')}"
+                            ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive' || alliesFightDisplay.movesService.selectedMove !== '')}"
                             uib-dropdown-toggle
                             aria-haspopup="true"
                             aria-expanded="false">
@@ -36,8 +36,9 @@
                     </button>
                     <ul uib-dropdown-menu>
                         <li class="text-center" ng-repeat="move in ally.moves">
-                            <a ng-click="alliesFightDisplay.selectMove(move)">
-                              {{ move }}</a>
+                            <a ng-click="alliesFightDisplay.selectMove(move[0])"
+                               ng-if="ally.level >= move[1]">
+                              {{ move[0] }}</a>
                         </li>
                     </ul>
                 </div>

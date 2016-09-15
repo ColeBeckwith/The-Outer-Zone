@@ -10,5 +10,13 @@
 
     vm.selectedMove = "";
 
+    vm.setSelectedMove = function(move) {
+      console.log('Move set to ' + move);
+      vm.selectedMove = move;
+    };
+
+    vm.getSelectedMove = function() {
+      return vm.selectedMove;
+    };
   }
 })();

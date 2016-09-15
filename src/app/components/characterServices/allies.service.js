@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('alliesService', alliesService);
 
-  alliesService.$inject = ["stateChangeService", "progressTracker"];
+  alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout'];
 
-  function alliesService(stateChangeService, progressTracker) {
+  function alliesService(stateChangeService, progressTracker, fightLogService, $timeout) {
     var vm = this;
 
     vm.allies = [
@@ -32,10 +32,13 @@
             'baseStats' : {
                 'maxHealth' : 250,
                 'maxEnergy' : 40,
-                'strength' : 103,
-                'speed' : 106,
-                'defense' : 101
-              }
+                'strength' : 550,
+                'speed' : 110,
+                'defense' : 500
+            },
+            'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
+            //TODO would be cool to eventually add a passive ability to each class.
+
           },
           {
             'name' : 'Brawler',
@@ -47,7 +50,8 @@
                 'strength' : 3,
                 'speed' : 3,
                 'defense' : 3
-              }
+            },
+            'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
           },
           {
             'name' : 'Tank',
@@ -59,7 +63,8 @@
                 'strength' : 3,
                 'speed' : 1,
                 'defense' : 6
-              }
+            },
+            'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]]
           }
         ]
       },
@@ -77,40 +82,43 @@
         },
         'builds' : [
           {
-            'name' : 'Berserker',
-            'description' : 'The Berserker fights with reckless abandon. He favors speed and brute force over accuracy.' +
-            ' He isn\'t concerned with preservation, only destruction.',
+            'name' : 'Medic',
+            'description' : 'The Medic sticks to the back. She prefers to keep her allies healthy while they deal' +
+            ' with the enemy.',
             'baseStats' : {
               'maxHealth' : 250,
               'maxEnergy' : 40,
               'strength' : 3,
               'speed' : 7,
               'defense' : 1
-            }
+            },
+            'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]]
           },
           {
-            'name' : 'Brawler',
-            'description' : 'The Brawler engages in a careful chess match with his opponent. The Brawler is not' +
-            ' concerned with who appears to be winning the fight. He always deals the final blow.',
+            'name' : 'Commander',
+            'description' : 'The Commander leads the group. She isn\'t always the most powerful opponent on the' +
+            ' field, but her presence inspires those around her.',
             'baseStats' : {
               'maxHealth' : 350,
               'maxEnergy' : 20,
               'strength' : 3,
               'speed' : 3,
               'defense' : 3
-            }
+            },
+            'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]]
           },
           {
-            'name' : 'Tank',
-            'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
-            ' opponents and finishes them off in their weakened state.',
+            'name' : 'Engineer',
+            'description' : 'The Engineer lives and dies by her own preparation. When she\'s aware of the enemy,' +
+            ' there\'s no stopping her. Catching her off guard is another story.',
             'baseStats' : {
               'maxHealth' : 500,
               'maxEnergy' : 10,
               'strength' : 3,
               'speed' : 1,
               'defense' : 6
-            }
+            },
+            'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]]
         }
       ]
       },
@@ -269,7 +277,7 @@
       }
     ];
 
-    vm.getMoves = function(ally) {
+    /*vm.getMoves = function(ally) {
       var moves = [];
 
       if (ally.id === 101) {
@@ -320,17 +328,17 @@
       }
 
       ally.moves = moves;
-    };
+    };*/
 
     vm.activateAlly = function(ally) {
       ally.status = 'alive';
-      vm.getMoves(ally);
+      //vm.getMoves(ally);
       vm.updateActives();
     };
 
     vm.levelUp = function(ally) {
       ally.level++;
-      vm.getMoves(ally);
+      //vm.getMoves(ally);
     };
 
     vm.deactivateAlly = function(ally) {
@@ -356,7 +364,6 @@
     };
 
     vm.checkForDeath = function(ally) {
-      vm.checkForDefeat();
       if (ally.stats.health <= 0) {
         ally.stats.health = 0;
         ally.status = 'dead';
@@ -373,7 +380,10 @@
       });
       if (livingAllies === 0) {
         progressTracker.stopFight();
-        stateChangeService.setPlayerState('fightSummary');
+        fightLogService.pushToFightLog('Defeated');
+        $timeout(function() {
+          stateChangeService.setPlayerState('fightSummary');
+        }, 3000)
       }
     };
 

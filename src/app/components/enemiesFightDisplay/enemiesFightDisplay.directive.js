@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('enemiesFightDisplay', enemiesFightDisplay);
 
-  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService", "progressTracker"];
+  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService", "progressTracker", "$timeout"];
 
-  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService, progressTracker) {
+  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService, progressTracker, $timeout) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/enemiesFightDisplay/enemiesFightDisplay.html',
@@ -35,6 +35,7 @@
           fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + trueDamage + " damage.");
           enemiesService.targetSelectMode--;
           if (enemiesService.targetSelectMode === 0) {
+            console.log(enemiesService.targetSelectMode);
             fightQueueService.endTurn();
           }
           vm.checkForDead(enemy);
@@ -55,9 +56,13 @@
       vm.checkForVictory = function() {
         if (vm.enemyCount === 0) {
           progressTracker.stopFight();
-          stateChangeService.setPlayerState("fightSummary");
           progressTracker.advanceStory();
           progressTracker.setBattleWon(true);
+          fightLogService.pushToFightLog("Victorious");
+          $timeout(function() {
+          stateChangeService.setPlayerState("fightSummary");
+          }, 2000)
+
         }
       };
 

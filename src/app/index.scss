@@ -10,6 +10,10 @@
 // bower:scss
 // endbower
 
+.description-container {
+  min-height: 80px;
+}
+
 .fight-bar {
   text-align: center;
   width: 100%;
@@ -26,20 +30,28 @@
   top: 0;
 }
 
-
-.fight-card {
+.card {
   display: inline-block;
   border-radius: 10px;
   border: 3px solid gray;
-  padding: 5px;
-  margin: 10px;
-  max-width: 30%;
   text-align: left;
   outline: none;
+  max-width: 30%;
+  margin: 10px;
 
   &:hover {
     border: 3px solid gold;
   }
+}
+
+.class-card {
+  padding: 0 15px;
+  height: 400px;
+  overflow: scroll;
+}
+
+.fight-card {
+  padding: 5px;
 }
 
 .dead-card {
