@@ -277,68 +277,13 @@
       }
     ];
 
-    /*vm.getMoves = function(ally) {
-      var moves = [];
-
-      if (ally.id === 101) {
-        //Scarecrow
-        moves.push('Punch');
-
-        if (ally.class === "Berserker") {
-          moves.push('Fury');
-          if (ally.level >= 5) {
-            moves.push('Reckless Abandon')
-          }
-        }
-
-        if (ally.class === "Brawler") {
-          moves.push('Parry');
-          if (ally.level >= 5) {
-            moves.push('Knockout')
-          }
-        }
-
-        if (ally.class === "Tank") {
-          moves.push('Fortify');
-          if (ally.level >= 5) {
-            moves.push('Taunt')
-          }
-        }
-
-      }
-
-      if (ally.id === 104) {
-        //Tin Man
-        moves.push('Punch');
-
-      }
-
-      if (ally.id === 103) {
-        //Lion
-        moves.push('Shoot');
-      }
-
-      if (ally.id === 102) {
-        //Dorothy
-
-      }
-
-      if (ally.id === 105) {
-        //Wizard
-      }
-
-      ally.moves = moves;
-    };*/
-
     vm.activateAlly = function(ally) {
       ally.status = 'alive';
-      //vm.getMoves(ally);
       vm.updateActives();
     };
 
     vm.levelUp = function(ally) {
       ally.level++;
-      //vm.getMoves(ally);
     };
 
     vm.deactivateAlly = function(ally) {
@@ -383,17 +328,21 @@
         fightLogService.pushToFightLog('Defeated');
         $timeout(function() {
           stateChangeService.setPlayerState('fightSummary');
-        }, 3000)
+        }, 2500)
       }
     };
 
     vm.restoreAll = function() {
       angular.forEach(vm.activeAllies, function(ally) {
+        ally.stats = ally.baseStats;
+        //TODO stats should be a 'ghost' of baseStats. 'clone' etc.
+      });
+      angular.forEach(vm.activeAllies, function(ally) {
         ally.status = 'alive';
         ally.stats.health = ally.stats.maxHealth;
         ally.stats.energy = ally.stats.maxEnergy;
         vm.updatePercentages(ally);
-      })
+      });
     };
 
     vm.updateActives();

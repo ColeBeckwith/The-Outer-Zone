@@ -19,7 +19,7 @@
           'stats' : {
             'maxHealth' : 500,
             'health' : 500,
-            'speed' : 15,
+            'speed' : 1,
             'strength' : 30,
             'defense' : 20
           }

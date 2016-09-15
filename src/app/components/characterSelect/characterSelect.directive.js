@@ -29,9 +29,9 @@
       };
 
       vm.confirmClass = function() {
-        vm.newAlly.stats = vm.activeSelection.baseStats;
-        vm.newAlly.stats.health = vm.activeSelection.baseStats.maxHealth;
-        vm.newAlly.stats.energy = vm.activeSelection.baseStats.maxEnergy;
+        vm.newAlly.baseStats = vm.activeSelection.baseStats;
+        vm.newAlly.baseStats.health = vm.activeSelection.baseStats.maxHealth;
+        vm.newAlly.baseStats.energy = vm.activeSelection.baseStats.maxEnergy;
         vm.newAlly.class = vm.activeSelection.name;
         vm.newAlly.moves = [['Attack', 1],['Rest', 1]].concat(vm.activeSelection.moves);
         alliesService.activateAlly(vm.newAlly);

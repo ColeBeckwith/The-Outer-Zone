@@ -39,7 +39,15 @@
 
         if (movesService.selectedMove === "Rest") {
           fightQueueService.queuePool[0].stats.energy += 20;
+          if (fightQueueService.queuePool[0].stats.energy > fightQueueService.queuePool[0].stats.maxEnergy) {
+            fightQueueService.queuePool[0].stats.energy = fightQueueService.queuePool[0].stats.maxEnergy;
+          }
           fightQueueService.queuePool[0].stats.health += 20;
+          if (fightQueueService.queuePool[0].stats.health > fightQueueService.queuePool[0].stats.maxHealth) {
+            fightQueueService.queuePool[0].stats.health = fightQueueService.queuePool[0].stats.maxHealth;
+          }
+          alliesService.updatePercentages(fightQueueService.queuePool[0]);
+          fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " is resting.");
           fightQueueService.endTurn();
         }
 
@@ -57,10 +65,21 @@
             enemiesService.selectNumberOfTargets(3);
           }
         }
+
         if (movesService.selectedMove === "Fortify") {
+          console.log(fightQueueService.queuePool[0].stats);
+          console.log(fightQueueService.queuePool[0].baseStats);
+          console.log(alliesService.allies[0].stats);
+          console.log(alliesService.allies[0].baseStats);
+          fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
+          console.log(fightQueueService.queuePool[0].stats);
+          console.log(fightQueueService.queuePool[0].baseStats);
+          console.log(alliesService.allies[0].stats);
+          console.log(alliesService.allies[0].baseStats);
           fightLogService.pushToFightLog("The Scarecrow has been fortified.");
           fightQueueService.endTurn();
         }
+
         if (movesService.selectedMove === "Parry") {
           fightLogService.pushToFightLog("The Scarecrow will deflect the next incoming attack.");
           fightQueueService.endTurn();

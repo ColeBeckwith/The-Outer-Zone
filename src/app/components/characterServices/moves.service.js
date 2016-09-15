@@ -11,7 +11,6 @@
     vm.selectedMove = "";
 
     vm.setSelectedMove = function(move) {
-      console.log('Move set to ' + move);
       vm.selectedMove = move;
     };
 
