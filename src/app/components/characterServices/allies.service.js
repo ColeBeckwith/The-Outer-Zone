@@ -332,12 +332,26 @@
       }
     };
 
+    vm.getBaseStats = function(id) {
+      var baseStats = [];
+      for (var i = 0; i < vm.allies.length; i++) {
+        if (vm.allies[i].id === id) {
+          baseStats = vm.allies[i].baseStats;
+        }
+      }
+      return baseStats
+    };
+
     vm.restoreAll = function() {
       angular.forEach(vm.activeAllies, function(ally) {
-        ally.stats = ally.baseStats;
-        //TODO stats should be a 'ghost' of baseStats. 'clone' etc.
-      });
-      angular.forEach(vm.activeAllies, function(ally) {
+        ally.stats.defense = ally.baseStats.defense;
+        ally.stats.maxHealth = ally.baseStats.maxHealth;
+        ally.stats.strength = ally.baseStats.strength;
+        ally.stats.strength = ally.baseStats.speed;
+        ally.stats.maxEnergy = ally.baseStats.maxEnergy;
+        //TODO if this is simplified to ally.stats = ally.baseStats. The two become bound together and the changes
+        // to one affect the other. Thus, moves like 'fortify' would permanently raise a characters attributes
+        // rather than for just the duration of the fight which was the reason behind creating stats and baseStats.
         ally.status = 'alive';
         ally.stats.health = ally.stats.maxHealth;
         ally.stats.energy = ally.stats.maxEnergy;

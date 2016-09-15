@@ -67,16 +67,8 @@
         }
 
         if (movesService.selectedMove === "Fortify") {
-          console.log(fightQueueService.queuePool[0].stats);
-          console.log(fightQueueService.queuePool[0].baseStats);
-          console.log(alliesService.allies[0].stats);
-          console.log(alliesService.allies[0].baseStats);
           fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
-          console.log(fightQueueService.queuePool[0].stats);
-          console.log(fightQueueService.queuePool[0].baseStats);
-          console.log(alliesService.allies[0].stats);
-          console.log(alliesService.allies[0].baseStats);
-          fightLogService.pushToFightLog("The Scarecrow has been fortified.");
+          fightLogService.pushToFightLog("The Scarecrow's defense has been raised by 5 for the duration of the fight.");
           fightQueueService.endTurn();
         }
 
