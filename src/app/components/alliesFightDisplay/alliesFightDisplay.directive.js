@@ -25,7 +25,7 @@
       vm.updatePercentages = alliesService.updatePercentages;
       vm.movesService = movesService;
       //TODO Ideally not having to import this entire service. Just to expose it to the view. Only the Selected Move
-      // variable is needed.
+      // variable is needed. possible that the select move function goes to movesService.
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
 
@@ -38,7 +38,7 @@
         }
 
         if (movesService.selectedMove === "Rest") {
-          fightQueueService.queuePool[0].stats.energy += 20;
+          fightQueueService.queuePool[0].stats.energy += 10;
           if (fightQueueService.queuePool[0].stats.energy > fightQueueService.queuePool[0].stats.maxEnergy) {
             fightQueueService.queuePool[0].stats.energy = fightQueueService.queuePool[0].stats.maxEnergy;
           }
@@ -67,13 +67,25 @@
         }
 
         if (movesService.selectedMove === "Fortify") {
-          fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
-          fightLogService.pushToFightLog("The Scarecrow's defense has been raised by 5 for the duration of the fight.");
-          fightQueueService.endTurn();
+          if (fightQueueService.queuePool[0].stats.energy < 10) {
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " doesn't have the resources to" +
+              " perform Fortify.");
+            //TODO This should eventually be a function in fightLogService: fightLogService.lacksEnergy(name, move)
+            movesService.setSelectedMove('');
+          } else {
+            fightQueueService.queuePool[0].stats.energy -= 10;
+            alliesService.updatePercentages(fightQueueService.queuePool[0]);
+            fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
+            fightLogService.pushToFightLog("The Scarecrow's defense has been raised by 5 for the duration of the" +
+              " fight. This effect does NOT stack.");
+            fightQueueService.endTurn();
+          }
         }
 
         if (movesService.selectedMove === "Parry") {
-          fightLogService.pushToFightLog("The Scarecrow will deflect the next incoming attack.");
+          fightQueueService.queuePool[0].stance = 'Parrying';
+          fightQueueService.queuePool[0].stanceCount = 2;
+          fightLogService.pushToFightLog("The Scarecrow will deflect the next 2 incoming attacks.");
           fightQueueService.endTurn();
         }
       };

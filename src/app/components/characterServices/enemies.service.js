@@ -17,11 +17,11 @@
           'id' : 201,
           'status' : 'alive',
           'stats' : {
-            'maxHealth' : 500,
-            'health' : 500,
-            'speed' : 1,
-            'strength' : 30,
-            'defense' : 20
+            'maxHealth' : 50,
+            'health' : 50,
+            'speed' : 12,
+            'strength' : 12,
+            'defense' : 12
           }
         }
       ],
@@ -72,6 +72,7 @@
     vm.restoreAll = function() {
       angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
         enemy.stats.health = enemy.stats.maxHealth;
+        enemy.status = 'alive';
       })
     };
 

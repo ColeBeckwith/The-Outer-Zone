@@ -15,6 +15,10 @@
       vm.fightLog.push({'message' : string, 'id' : vm.fightLogId});
       vm.fightLogId++;
     };
+    
+    // vm.insufficientResources = function(name, move) {
+    //   vm.pushToFightLog(name + ' lacks the resources to perform ' + move + '.');
+    // };
 
     vm.getFightLog = function() {
       return vm.fightLog

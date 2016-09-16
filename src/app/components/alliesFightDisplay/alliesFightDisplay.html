@@ -6,7 +6,7 @@
              ng-if="ally.status !== 'inactive'"
              ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}">
             <h5>{{ ally.name }}</h5>
-            <h6>Lv. {{ ally.level }} {{ ally.class }}</h6>
+            <h6 class="text-center">Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance }}</h6>
             <div class="progress">
                 <div class="progress-bar progress-bar-success"
                      ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
@@ -22,6 +22,11 @@
                     {{ ally.stats.energy }}/{{ ally.stats.maxEnergy }}
                 </div>
             </div>
+
+            <h6 class="text-center">STR : {{ ally.stats.strength }} &nbsp; | &nbsp; SPD : {{ ally.stats.speed }}
+              &nbsp; | &nbsp;
+              DEF : {{ ally.stats.defense
+              }}</h6>
 
             <div class="text-center">
                 <div class="center-me dropup"

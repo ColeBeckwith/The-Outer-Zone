@@ -30,10 +30,10 @@
             'description' : 'The Berserker fights with reckless abandon. He favors speed and brute force over accuracy.' +
             ' He isn\'t concerned with preservation, only destruction.',
             'baseStats' : {
-                'maxHealth' : 250,
+                'maxHealth' : 750,
                 'maxEnergy' : 40,
                 'strength' : 550,
-                'speed' : 110,
+                'speed' : 115,
                 'defense' : 500
             },
             'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
@@ -45,11 +45,11 @@
             'description' : 'The Brawler engages in a careful chess match with his opponent. The Brawler is not' +
             ' concerned with who appears to be winning the fight. He always deals the final blow.',
             'baseStats' : {
-                'maxHealth' : 350,
+                'maxHealth' : 75,
                 'maxEnergy' : 20,
-                'strength' : 3,
-                'speed' : 3,
-                'defense' : 3
+                'strength' : 12,
+                'speed' : 12,
+                'defense' : 12
             },
             'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
           },
@@ -58,7 +58,7 @@
             'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
             ' opponents and finishes them off in their weakened state.',
             'baseStats' : {
-                'maxHealth' : 500,
+                'maxHealth' : 50,
                 'maxEnergy' : 10,
                 'strength' : 3,
                 'speed' : 1,
@@ -344,15 +344,10 @@
 
     vm.restoreAll = function() {
       angular.forEach(vm.activeAllies, function(ally) {
-        ally.stats.defense = ally.baseStats.defense;
-        ally.stats.maxHealth = ally.baseStats.maxHealth;
-        ally.stats.strength = ally.baseStats.strength;
-        ally.stats.strength = ally.baseStats.speed;
-        ally.stats.maxEnergy = ally.baseStats.maxEnergy;
-        //TODO if this is simplified to ally.stats = ally.baseStats. The two become bound together and the changes
-        // to one affect the other. Thus, moves like 'fortify' would permanently raise a characters attributes
-        // rather than for just the duration of the fight which was the reason behind creating stats and baseStats.
+        ally.stats = angular.copy(ally.baseStats);
         ally.status = 'alive';
+        ally.stance = 'Normal';
+        ally.stanceCount = 0;
         ally.stats.health = ally.stats.maxHealth;
         ally.stats.energy = ally.stats.maxEnergy;
         vm.updatePercentages(ally);

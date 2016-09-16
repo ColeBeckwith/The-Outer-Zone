@@ -25,20 +25,31 @@
 
       vm.allyAttackEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {
-          var damage = fightQueueService.queuePool[0].stats.strength * Math.floor((Math.random() * 6) + 1);
-          var trueDamage = damage - (enemy.stats.defense * (Math.floor(Math.random() * 4) + 1));
-          if (trueDamage <= 0) {
-            trueDamage = 1;
+          if ((Math.random() * 6 * fightQueueService.queuePool[0].stats.speed) > (Math.random() * 3 * enemy.stats.speed)) {
+            var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * fightQueueService.queuePool[0].stats.strength)) - enemy.stats.defense;
+
+            if (damage <= 0) {
+              damage = 0;
+            }
+
+            enemy.stats.health -= damage;
+            enemy.percentageHealth = (enemy.stats.health / enemy.stats.maxHealth) * 100 + '%';
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + damage + " damage.");
+            
+            enemiesService.targetSelectMode--;
+            if (enemiesService.targetSelectMode === 0) {
+              fightQueueService.endTurn();
+            }
+            
+            vm.checkForDead(enemy);
+            
+          } else {
+            fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
+            enemiesService.targetSelectMode--;
+            if (enemiesService.targetSelectMode === 0) {
+              fightQueueService.endTurn();
+            }
           }
-          enemy.stats.health -= trueDamage;
-          enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';
-          fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + trueDamage + " damage.");
-          enemiesService.targetSelectMode--;
-          if (enemiesService.targetSelectMode === 0) {
-            console.log(enemiesService.targetSelectMode);
-            fightQueueService.endTurn();
-          }
-          vm.checkForDead(enemy);
         }
       };
 
