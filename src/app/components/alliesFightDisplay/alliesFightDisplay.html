@@ -4,7 +4,8 @@
              ng-repeat="ally in alliesFightDisplay.activeAllies"
              ng-style="{width: alliesFightDisplay.cardWidth}"
              ng-if="ally.status !== 'inactive'"
-             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}">
+             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}"
+             ng-click="alliesFightDisplay.clickAlly(ally)">
             <h5>{{ ally.name }}</h5>
             <h6 class="text-center">Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance }}</h6>
             <div class="progress">
@@ -24,9 +25,7 @@
             </div>
 
             <h6 class="text-center">STR : {{ ally.stats.strength }} &nbsp; | &nbsp; SPD : {{ ally.stats.speed }}
-              &nbsp; | &nbsp;
-              DEF : {{ ally.stats.defense
-              }}</h6>
+              &nbsp; | &nbsp; DEF : {{ ally.stats.defense }} &nbsp; | &nbsp; INT: {{ ally.stats.intellect }}</h6>
 
             <div class="text-center">
                 <div class="center-me dropup"

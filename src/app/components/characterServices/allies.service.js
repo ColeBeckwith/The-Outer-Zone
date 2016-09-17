@@ -22,7 +22,8 @@
           'maxEnergy' : 1,
           'strength' : 1,
           'speed' : 1,
-          'defense' : 1
+          'defense' : 1,
+          'intellect' : 1
         },
         'builds' : [
           {
@@ -34,7 +35,8 @@
                 'maxEnergy' : 40,
                 'strength' : 550,
                 'speed' : 115,
-                'defense' : 500
+                'defense' : 500,
+                'intellect' : 1
             },
             'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
             //TODO would be cool to eventually add a passive ability to each class.
@@ -49,7 +51,8 @@
                 'maxEnergy' : 20,
                 'strength' : 12,
                 'speed' : 12,
-                'defense' : 12
+                'defense' : 12,
+                'intellect' : 1
             },
             'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
           },
@@ -62,7 +65,8 @@
                 'maxEnergy' : 10,
                 'strength' : 3,
                 'speed' : 1,
-                'defense' : 6
+                'defense' : 6,
+                'intellect' : 1
             },
             'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]]
           }
@@ -78,7 +82,8 @@
           'maxEnergy' : 1,
           'strength' : 1,
           'speed' : 1,
-          'defense' : 1
+          'defense' : 1,
+          'intellect' : 1
         },
         'builds' : [
           {
@@ -87,10 +92,11 @@
             ' with the enemy.',
             'baseStats' : {
               'maxHealth' : 250,
-              'maxEnergy' : 40,
+              'maxEnergy' : 30,
               'strength' : 3,
               'speed' : 7,
-              'defense' : 1
+              'defense' : 1,
+              'intellect' : 1
             },
             'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]]
           },
@@ -100,10 +106,11 @@
             ' field, but her presence inspires those around her.',
             'baseStats' : {
               'maxHealth' : 350,
-              'maxEnergy' : 20,
-              'strength' : 3,
-              'speed' : 3,
-              'defense' : 3
+              'maxEnergy' : 40,
+              'strength' : 15,
+              'speed' : 10,
+              'defense' : 15,
+              'intellect' : 1
             },
             'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]]
           },
@@ -115,8 +122,9 @@
               'maxHealth' : 500,
               'maxEnergy' : 10,
               'strength' : 3,
-              'speed' : 1,
-              'defense' : 6
+              'speed' : 100,
+              'defense' : 6,
+              'intellect' : 16
             },
             'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]]
         }
@@ -132,7 +140,8 @@
           'maxEnergy' : 1,
           'strength' : 1,
           'speed' : 1,
-          'defense' : 1
+          'defense' : 1,
+          'intellect' : 1
         },
         'builds' : [
           {
@@ -144,7 +153,8 @@
               'maxEnergy' : 40,
               'strength' : 3,
               'speed' : 7,
-              'defense' : 1
+              'defense' : 1,
+              'intellect' : 1
             }
           },
           {
@@ -156,7 +166,8 @@
               'maxEnergy' : 20,
               'strength' : 3,
               'speed' : 3,
-              'defense' : 3
+              'defense' : 3,
+              'intellect' : 1
             }
           },
           {
@@ -168,7 +179,8 @@
               'maxEnergy' : 10,
               'strength' : 3,
               'speed' : 1,
-              'defense' : 6
+              'defense' : 6,
+              'intellect' : 1
             }
           }
         ]
@@ -183,7 +195,8 @@
           'maxEnergy' : 1,
           'strength' : 1,
           'speed' : 1,
-          'defense' : 1
+          'defense' : 1,
+          'intellect' : 1
         },
         'builds' : [
           {
@@ -195,7 +208,8 @@
               'maxEnergy' : 40,
               'strength' : 3,
               'speed' : 7,
-              'defense' : 1
+              'defense' : 1,
+              'intellect' : 1
             }
           },
           {
@@ -207,7 +221,8 @@
               'maxEnergy' : 20,
               'strength' : 3,
               'speed' : 3,
-              'defense' : 3
+              'defense' : 3,
+              'intellect' : 1
             }
           },
           {
@@ -219,7 +234,8 @@
               'maxEnergy' : 10,
               'strength' : 3,
               'speed' : 1,
-              'defense' : 6
+              'defense' : 6,
+              'intellect' : 1
             }
           }
           ]
@@ -234,7 +250,8 @@
           'maxEnergy' : 1,
           'strength' : 1,
           'speed' : 1,
-          'defense' : 1
+          'defense' : 1,
+          'intellect' : 1
         },
         'builds' : [
           {
@@ -246,7 +263,8 @@
               'maxEnergy' : 40,
               'strength' : 3,
               'speed' : 7,
-              'defense' : 1
+              'defense' : 1,
+              'intellect' : 1
             }
           },
           {
@@ -258,7 +276,8 @@
               'maxEnergy' : 20,
               'strength' : 3,
               'speed' : 3,
-              'defense' : 3
+              'defense' : 3,
+              'intellect' : 1
             }
           },
           {
@@ -270,7 +289,8 @@
               'maxEnergy' : 10,
               'strength' : 3,
               'speed' : 1,
-              'defense' : 6
+              'defense' : 6,
+              'intellect' : 1
             }
           }
           ]
@@ -347,6 +367,7 @@
         ally.stats = angular.copy(ally.baseStats);
         ally.status = 'alive';
         ally.stance = 'Normal';
+        ally.statusEffects = [];
         ally.stanceCount = 0;
         ally.stats.health = ally.stats.maxHealth;
         ally.stats.energy = ally.stats.maxEnergy;

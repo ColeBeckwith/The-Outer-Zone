@@ -35,14 +35,14 @@
             enemy.stats.health -= damage;
             enemy.percentageHealth = (enemy.stats.health / enemy.stats.maxHealth) * 100 + '%';
             fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + damage + " damage.");
-            
+
             enemiesService.targetSelectMode--;
             if (enemiesService.targetSelectMode === 0) {
               fightQueueService.endTurn();
             }
-            
+
             vm.checkForDead(enemy);
-            
+
           } else {
             fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
             enemiesService.targetSelectMode--;

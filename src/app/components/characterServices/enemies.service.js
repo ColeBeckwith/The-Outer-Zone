@@ -73,6 +73,7 @@
       angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
         enemy.stats.health = enemy.stats.maxHealth;
         enemy.status = 'alive';
+        enemy.statusEffects = [];
       })
     };
 

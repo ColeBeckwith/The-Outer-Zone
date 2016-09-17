@@ -105,6 +105,20 @@
       }
     };
 
+    vm.allyCharge = function() {
+      var temp = [];
+      angular.forEach(vm.activeAllies, function(ally) {
+        temp.push(ally);
+      });
+      angular.forEach(vm.activeAllies, function(ally) {
+        temp.push(ally);
+      });
+      angular.forEach(temp, function(ally) {
+        vm.queuePool.splice(1, 0, ally)
+      });
+      fightLogService.pushToFightLog("CHARGE!")
+    }
+
   }
 
 })();

@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('alliesFightDisplay', alliesFightDisplay);
 
-  alliesFightDisplay.$inject = ["alliesService", "movesService", "fightLogService", "enemiesService", "fightQueueService"];
+  alliesFightDisplay.$inject = ["alliesService", "movesService", "fightLogService", "enemiesService", "fightQueueService", "$timeout"];
 
-  function alliesFightDisplay(alliesService, movesService, fightLogService, enemiesService, fightQueueService) {
+  function alliesFightDisplay(alliesService, movesService, fightLogService, enemiesService, fightQueueService, $timeout) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/alliesFightDisplay/alliesFightDisplay.html',
@@ -21,11 +21,15 @@
     function alliesFightDisplayController() {
       var vm = this;
 
+      vm.targetSelectMode = 0;
       vm.activeAllies = alliesService.activeAllies;
       vm.updatePercentages = alliesService.updatePercentages;
       vm.movesService = movesService;
       //TODO Ideally not having to import this entire service. Just to expose it to the view. Only the Selected Move
       // variable is needed. possible that the select move function goes to movesService.
+      vm.atBat = fightQueueService.queuePool[0];
+      //TODO would like to implement this to make the code much more readable, but having trouble figuring out when
+      // and why it works and when it doesn't.
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
 
@@ -52,43 +56,123 @@
         }
 
         if (movesService.selectedMove === "Fury") {
-          if (fightQueueService.queuePool[0].stats.energy < 40 || fightQueueService.queuePool[0].stats.health < 40) {
-            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " doesn't have the resources to" +
-              " perform Fury.");
-            movesService.setSelectedMove('');
-          } else {
+          if (vm.checkResources(20, 40)) {
             fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
-            fightQueueService.queuePool[0].stats.energy -= 20;
-            fightQueueService.queuePool[0].stats.health -= 40;
-            alliesService.updatePercentages(fightQueueService.queuePool[0]);
             fightLogService.pushToFightLog('Select Three Targets');
             enemiesService.selectNumberOfTargets(3);
           }
         }
 
         if (movesService.selectedMove === "Fortify") {
-          if (fightQueueService.queuePool[0].stats.energy < 10) {
-            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " doesn't have the resources to" +
-              " perform Fortify.");
-            //TODO This should eventually be a function in fightLogService: fightLogService.lacksEnergy(name, move)
-            movesService.setSelectedMove('');
-          } else {
-            fightQueueService.queuePool[0].stats.energy -= 10;
-            alliesService.updatePercentages(fightQueueService.queuePool[0]);
+          if (vm.checkResources(10, 0)) {
             fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
-            fightLogService.pushToFightLog("The Scarecrow's defense has been raised by 5 for the duration of the" +
-              " fight. This effect does NOT stack.");
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by 5 for" +
+            " the duration of the fight. This effect does NOT stack.");
             fightQueueService.endTurn();
           }
         }
 
         if (movesService.selectedMove === "Parry") {
-          fightQueueService.queuePool[0].stance = 'Parrying';
-          fightQueueService.queuePool[0].stanceCount = 2;
-          fightLogService.pushToFightLog("The Scarecrow will deflect the next 2 incoming attacks.");
-          fightQueueService.endTurn();
+          if (vm.checkResources(10, 0)) {
+            fightQueueService.queuePool[0].stance = 'Parrying';
+            fightQueueService.queuePool[0].stanceCount = 2;
+            fightLogService.pushToFightLog("The Scarecrow will deflect the next 2 incoming attacks.");
+            fightQueueService.endTurn();
+          }
+        }
+
+        if (movesService.selectedMove === "Heal") {
+          if (vm.checkResources(20, 0)) {
+            $timeout(function () {
+              vm.targetSelectMode++;
+            }, 100);
+            fightLogService.pushToFightLog("Select ally to Heal.")
+          }
+        }
+
+        if (movesService.selectedMove === "Charge") {
+          if (vm.checkResources(40, 0)) {
+            fightQueueService.allyCharge();
+            fightQueueService.endTurn();
+          }
+        }
+
+        if (movesService.selectedMove === "Upgrade") {
+          if (vm.checkResources(2, 0)) {
+
+            angular.forEach(vm.activeAllies, function(ally) {
+
+              var hasUpgraded = 0;
+              angular.forEach(ally.statusEffects, function(status) {
+                if (status.indexOf('Upgraded') !== -1) {
+                  hasUpgraded++;
+                }
+              });
+
+              if (!hasUpgraded) {
+                
+                var upgrade = Math.round(fightQueueService.queuePool[0].stats.intellect / 6);
+
+                var max = ally.stats.strength;
+                if (ally.stats.speed > max) {
+                  max = ally.stats.speed
+                }
+                if (ally.stats.intellect > max) {
+                  max = ally.stats.intellect
+                }
+                if (ally.stats.defense > max) {
+                  max = ally.stats.defense
+                }
+
+                if (ally.stats.speed === max) {
+                  ally.stats.speed += upgrade;
+                } else if (ally.stats.defense === max) {
+                  ally.stats.defense += upgrade;
+                } else if (ally.stats.intellect === max) {
+                  ally.stats.intellect += upgrade;
+                } else if (ally.stats.strength === max) {
+                  ally.stats.strength += upgrade;
+                }
+
+                ally.statusEffects.push(['Upgraded', 9999]);
+
+                //TODO Number is so that later on, after each turn they can be decremented and destroyed once the
+                // counter reaches 0.
+              }
+            });
+            fightQueueService.endTurn();
+          }
         }
       };
+
+      vm.checkResources = function(energyReq, healthReq) {
+        if (fightQueueService.queuePool[0].stats.energy >= energyReq && fightQueueService.queuePool[0].stats.health >= healthReq) {
+          fightQueueService.queuePool[0].stats.energy -= energyReq;
+          fightQueueService.queuePool[0].stats.health -= healthReq;
+          alliesService.updatePercentages(fightQueueService.queuePool[0]);
+          return true;
+        } else {
+          fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " doesn't have the resources to" +
+            " perform " + movesService.selectedMove + ".");
+          movesService.setSelectedMove('');
+          return false;
+        }
+      };
+
+      vm.clickAlly = function(ally) {
+        if (vm.targetSelectMode > 0) {
+          ally.stats.health += 60;
+          if (ally.stats.health > ally.stats.maxHealth) {
+            ally.stats.health = ally.stats.maxHealth;
+          }
+          alliesService.updatePercentages(ally);
+          fightLogService.pushToFightLog("Healed");
+          vm.targetSelectMode--;
+          if (vm.targetSelectMode === 0) {
+            fightQueueService.endTurn();
+          }
+        }
+      }
     }
   }
 })();
