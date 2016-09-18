@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('fightSummary', fightSummary);
 
-  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService"];
+  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout"];
 
-  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService) {
+  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -21,6 +21,12 @@
     function fightSummaryController() {
       var vm = this;
 
+      vm.activeAllies = alliesService.activeAllies;
+
+      angular.forEach(vm.activeAllies, function(ally) {
+        ally.leveledUp = false;
+      });
+
       vm.battleWon = progressTracker.getBattleWon();
 
       if (vm.battleWon) {
@@ -32,7 +38,9 @@
 
         vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
 
-        alliesService.distributeExperience(vm.experienceAwarded);
+        $timeout(function() {
+          alliesService.distributeExperience(vm.experienceAwarded);
+        }, 1000);
       }
 
       vm.continue = function() {
@@ -42,7 +50,7 @@
 
       vm.tryAgain = function() {
         stateChangeService.setPlayerState('prefight');
-      }
+      };
     }
   }
 })();

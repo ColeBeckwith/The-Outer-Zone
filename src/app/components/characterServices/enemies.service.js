@@ -24,7 +24,7 @@
             'defense' : 12,
             'intellect' : 12
           },
-          'experience' : 100
+          'experience' : 600
         }
       ],
 

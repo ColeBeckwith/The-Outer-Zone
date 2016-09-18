@@ -32,12 +32,20 @@
             'description' : 'The Berserker fights with reckless abandon. He favors speed and brute force over accuracy.' +
             ' He isn\'t concerned with preservation, only destruction.',
             'baseStats' : {
-                'maxHealth' : 750,
-                'maxEnergy' : 40,
-                'strength' : 550,
-                'speed' : 115,
-                'defense' : 500,
-                'intellect' : 105
+              'maxHealth' : 750,
+              'maxEnergy' : 40,
+              'strength' : 550,
+              'speed' : 115,
+              'defense' : 500,
+              'intellect' : 10
+            },
+            'levelingSchedule' : {
+              'health' : [1, 10],
+              'energy' : [2, 10],
+              'strength' : [1, 1],
+              'speed' : [1, 2],
+              'defense' : [3, 1],
+              'intellect' : [2, 1]
             },
             'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
             //TODO would be cool to eventually add a passive ability to each class.
@@ -48,12 +56,20 @@
             'description' : 'The Brawler engages in a careful chess match with his opponent. The Brawler is not' +
             ' concerned with who appears to be winning the fight. He always deals the final blow.',
             'baseStats' : {
-                'maxHealth' : 75,
-                'maxEnergy' : 20,
-                'strength' : 12,
-                'speed' : 12,
-                'defense' : 12,
-                'intellect' : 14
+              'maxHealth' : 75,
+              'maxEnergy' : 20,
+              'strength' : 12,
+              'speed' : 12,
+              'defense' : 12,
+              'intellect' : 14
+            },
+            'levelingSchedule' : {
+              'health' : [1, 10],
+              'energy' : [1, 5],
+              'strength' : [2, 1],
+              'speed' : [2, 1],
+              'defense' : [1, 1],
+              'intellect' : [1, 2]
             },
             'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
           },
@@ -62,12 +78,20 @@
             'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
             ' opponents and finishes them off in their weakened state.',
             'baseStats' : {
-                'maxHealth' : 50,
-                'maxEnergy' : 10,
-                'strength' : 3,
-                'speed' : 1,
-                'defense' : 6,
-                'intellect' : 1
+              'maxHealth' : 50,
+              'maxEnergy' : 10,
+              'strength' : 3,
+              'speed' : 1,
+              'defense' : 6,
+              'intellect' : 1
+            },
+            'levelingSchedule' : {
+              'health' : [1, 30],
+              'energy' : [1, 10],
+              'strength' : [1, 1],
+              'speed' : [3, 1],
+              'defense' : [1, 3],
+              'intellect' : [2, 1]
             },
             'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]]
           }
@@ -101,6 +125,14 @@
               'defense' : 1,
               'intellect' : 1
             },
+            'levelingSchedule' : {
+              'health' : [1, 10],
+              'energy' : [2, 10],
+              'strength' : [2, 1],
+              'speed' : [1, 2],
+              'defense' : [3, 1],
+              'intellect' : [1, 2]
+            },
             'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]]
           },
           {
@@ -115,6 +147,14 @@
               'defense' : 15,
               'intellect' : 1
             },
+            'levelingSchedule' : {
+              'health' : [1, 10],
+              'energy' : [1, 20],
+              'strength' : [1, 1],
+              'speed' : [1, 1],
+              'defense' : [1, 1],
+              'intellect' : [1, 1]
+            },
             'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]]
           },
           {
@@ -128,6 +168,14 @@
               'speed' : 100,
               'defense' : 6,
               'intellect' : 16
+            },
+            'levelingSchedule' : {
+              'health' : [1, 10],
+              'energy' : [1, 10],
+              'strength' : [2, 1],
+              'speed' : [2, 1],
+              'defense' : [2, 1],
+              'intellect' : [1, 4]
             },
             'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]]
         }
@@ -315,16 +363,37 @@
       angular.forEach(vm.activeAllies, function(ally) {
         ally.exp += Math.round((exp/vm.activeAllies.length)*((100 + ally.stats.intellect)/100));
         if (ally.exp >= ally.expNeeded) {
-          vm.levelUp(ally);
+          $timeout(function() {
+            vm.levelUp(ally);
+          }, 1200);
         }
       })
     };
 
     vm.levelUp = function(ally) {
+      ally.leveledUp = true;
+      ally.exp -= ally.expNeeded;
       ally.expNeeded *= 2.6;
       ally.level++;
-      //TODO Should modify base stats in a way that reflect the strengths of the class/character. Possibly launches
-      // into another window and allows the user to allocate the stats however they see fit.
+      if (ally.level % ally.levelingSchedule.strength[0] === 0) {
+        ally.baseStats.strength += ally.levelingSchedule.strength[1];
+      }
+      if (ally.level % ally.levelingSchedule.health[0] === 0) {
+        ally.baseStats.maxHealth += ally.levelingSchedule.health[1];
+      }
+      if (ally.level % ally.levelingSchedule.speed[0] === 0) {
+        ally.baseStats.speed += ally.levelingSchedule.speed[1];
+      }
+      if (ally.level % ally.levelingSchedule.defense[0] === 0) {
+        ally.baseStats.defense += ally.levelingSchedule.defense[1]
+      }
+      if (ally.level % ally.levelingSchedule.energy[0] === 0) {
+        ally.baseStats.maxEnergy += ally.levelingSchedule.energy[1];
+      }
+      if (ally.level % ally.levelingSchedule.intellect[0] === 0) {
+        ally.baseStats.intellect += ally.levelingSchedule.intellect[1];
+      }
+      // TODO could also allot a certain amount of points for the user to spend as they see fit.
     };
 
     vm.deactivateAlly = function(ally) {
@@ -346,7 +415,6 @@
 
     vm.updatePercentages = function(ally) {
       ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
-      ally.percentageEnergy = (ally.stats.energy/ally.stats.maxEnergy)*100 + '%';
     };
 
     vm.checkForDeath = function(ally) {

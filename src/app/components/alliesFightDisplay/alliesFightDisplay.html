@@ -6,8 +6,11 @@
              ng-if="ally.status !== 'inactive'"
              ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}"
              ng-click="alliesFightDisplay.clickAlly(ally)">
+
             <h5>{{ ally.name }}</h5>
+
             <h6 class="text-center">Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance }}</h6>
+
             <div class="progress">
                 <div class="progress-bar progress-bar-success"
                      ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
@@ -16,13 +19,10 @@
                     {{ ally.stats.health }}/{{ ally.stats.maxHealth }}
                 </div>
             </div>
-            <div class="progress">
-                <div class="progress-bar progress-bar-info"
-                     role="progressbar"
-                     style="width: {{ ally.percentageEnergy }}">
-                    {{ ally.stats.energy }}/{{ ally.stats.maxEnergy }}
-                </div>
-            </div>
+
+            <uib-progressbar max="ally.stats.maxEnergy"
+                             value="ally.stats.energy"
+                             type="info">{{ally.stats.energy}} / {{ ally.stats.maxEnergy }}</uib-progressbar>
 
             <h6 class="text-center">STR : {{ ally.stats.strength }} &nbsp; | &nbsp; SPD : {{ ally.stats.speed }}
               &nbsp; | &nbsp; DEF : {{ ally.stats.defense }} &nbsp; | &nbsp; INT: {{ ally.stats.intellect }}</h6>

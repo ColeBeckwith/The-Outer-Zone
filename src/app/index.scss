@@ -61,6 +61,15 @@
 .active-card {
   border: 3px solid gold;
   outline: none;
+
+}
+
+.text-block {
+  width: 70%;
+  border: 3px solid gray;
+  padding: 1em;
+  border-radius: 10px;
+  margin: 5px auto;
 }
 
 .disabled-link {
