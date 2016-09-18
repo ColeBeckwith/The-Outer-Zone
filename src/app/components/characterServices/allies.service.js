@@ -16,6 +16,7 @@
         'id' : 101,
         'level' : 1,
         'exp' : 0,
+        'expNeeded' : 500,
         'status' : 'inactive',
         'stats' : {
           'maxHealth' : 1,
@@ -36,7 +37,7 @@
                 'strength' : 550,
                 'speed' : 115,
                 'defense' : 500,
-                'intellect' : 1
+                'intellect' : 105
             },
             'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
             //TODO would be cool to eventually add a passive ability to each class.
@@ -52,7 +53,7 @@
                 'strength' : 12,
                 'speed' : 12,
                 'defense' : 12,
-                'intellect' : 1
+                'intellect' : 14
             },
             'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
           },
@@ -76,6 +77,8 @@
         'name' : 'Dorothy',
         'id' : 102,
         'level' : 1,
+        'exp' : 0,
+        'expNeeded' : 500,
         'status' : 'inactive',
         'stats' : {
           'maxHealth' : 1,
@@ -134,6 +137,8 @@
         'name' : 'The Lion',
         'id' : 103,
         'level' : 1,
+        'exp' : 0,
+        'expNeeded' : 500,
         'status' : 'inactive',
         'stats' : {
           'maxHealth' : 1,
@@ -189,6 +194,8 @@
         'name' : 'Tin Man',
         'id' : 104,
         'level' : 1,
+        'exp' : 0,
+        'expNeeded' : 500,
         'status' : 'inactive',
         'stats' : {
           'maxHealth' : 1,
@@ -244,6 +251,8 @@
         'name' : 'The Wizard',
         'id' : 105,
         'level' : 1,
+        'exp' : 0,
+        'expNeeded' : 500,
         'status' : 'inactive',
         'stats' : {
           'maxHealth' : 1,
@@ -302,8 +311,20 @@
       vm.updateActives();
     };
 
+    vm.distributeExperience = function(exp) {
+      angular.forEach(vm.activeAllies, function(ally) {
+        ally.exp += Math.round((exp/vm.activeAllies.length)*((100 + ally.stats.intellect)/100));
+        if (ally.exp >= ally.expNeeded) {
+          vm.levelUp(ally);
+        }
+      })
+    };
+
     vm.levelUp = function(ally) {
+      ally.expNeeded *= 2.6;
       ally.level++;
+      //TODO Should modify base stats in a way that reflect the strengths of the class/character. Possibly launches
+      // into another window and allows the user to allocate the stats however they see fit.
     };
 
     vm.deactivateAlly = function(ally) {

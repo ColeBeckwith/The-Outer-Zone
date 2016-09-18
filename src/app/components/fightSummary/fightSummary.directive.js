@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('fightSummary', fightSummary);
 
-  fightSummary.$inject = ["stateChangeService", "progressTracker"];
+  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService"];
 
-  function fightSummary(stateChangeService, progressTracker) {
+  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -23,7 +23,20 @@
 
       vm.battleWon = progressTracker.getBattleWon();
 
+      if (vm.battleWon) {
+        vm.experienceAwarded = 0;
+
+        angular.forEach(enemiesService.enemies[progressTracker.storyProgress], function (enemy) {
+          vm.experienceAwarded += enemy.experience;
+        });
+
+        vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
+
+        alliesService.distributeExperience(vm.experienceAwarded);
+      }
+
       vm.continue = function() {
+        progressTracker.advanceStory();
         stateChangeService.setPlayerState('story');
       };
 

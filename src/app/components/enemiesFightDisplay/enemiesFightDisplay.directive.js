@@ -59,6 +59,7 @@
           enemy.stats.health = 0;
           enemy.active = false;
           fightLogService.pushToFightLog(enemy.name + " has been defeated.");
+          fightQueueService.removeFromPool(enemy.id);
           vm.updateActiveEnemies();
           vm.checkForVictory();
         }
@@ -67,12 +68,11 @@
       vm.checkForVictory = function() {
         if (vm.enemyCount === 0) {
           progressTracker.stopFight();
-          progressTracker.advanceStory();
           progressTracker.setBattleWon(true);
           fightLogService.pushToFightLog("Victorious");
           $timeout(function() {
-          stateChangeService.setPlayerState("fightSummary");
-          }, 2000)
+            stateChangeService.setPlayerState("fightSummary");
+          }, 1500)
 
         }
       };

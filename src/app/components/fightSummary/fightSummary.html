@@ -1,6 +1,10 @@
 <div ng-if="fightSummary.battleWon">
   <h1 class="text-center">Victory!</h1>
 
+  <p class="text-center">Total Experience: {{ fightSummary.experienceAwarded }}</p>
+
+  <p class="text-center">Experience to Each: {{ fightSummary.experienceToEach }}</p>
+
   <div class="text-center">
     <button class="btn btn-success text-center" ng-click="fightSummary.continue()">Continue</button>
   </div>

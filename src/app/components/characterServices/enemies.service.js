@@ -13,7 +13,7 @@
     vm.enemies = [
       [
         {
-          'name' : 'Brick',
+          'name' : 'Clive',
           'id' : 201,
           'status' : 'alive',
           'stats' : {
@@ -21,10 +21,74 @@
             'health' : 50,
             'speed' : 12,
             'strength' : 12,
-            'defense' : 12
-          }
+            'defense' : 12,
+            'intellect' : 12
+          },
+          'experience' : 100
         }
       ],
+
+
+      [
+        {
+          'name' : 'Wolf',
+          'id' : 201,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 40,
+            'health' : 40,
+            'speed' : 11,
+            'strength' : 8,
+            'defense' : 5,
+            'intellect' : 3
+          },
+          'experience' : 100
+        },
+        {
+          'name' : 'Wolf',
+          'id' : 202,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 40,
+            'health' : 40,
+            'speed' : 11,
+            'strength' : 8,
+            'defense' : 5,
+            'intellect' : 3
+          },
+          'experience' : 100
+        },
+        {
+          'name' : 'Wolf',
+          'id' : 203,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 40,
+            'health' : 40,
+            'speed' : 11,
+            'strength' : 8,
+            'defense' : 5,
+            'intellect' : 3
+          },
+          'experience' : 100
+        },
+        {
+          'name' : 'Wolf',
+          'id' : 204,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 40,
+            'health' : 40,
+            'speed' : 11,
+            'strength' : 8,
+            'defense' : 5,
+            'intellect' : 3
+          },
+          'experience' : 100
+        }
+      ],
+
+
       [
         {
           'name' : 'Flying Monkey',
@@ -36,7 +100,8 @@
             'speed': 4,
             'strength' : 3,
             'defense' : 1
-          }
+          },
+          'experience' : 100
         },
         {
           'name' : 'Witch',
@@ -48,7 +113,8 @@
             'speed': 12,
             'strength' : 35,
             'defense' : 4
-          }
+          },
+          'experience' : 100
         },
         {
           'name' : 'Flying Monkey',
@@ -60,7 +126,8 @@
             'speed': 4,
             'strength' : 3,
             'defense' : 1
-          }
+          },
+          'experience' : 100
         }
       ]
     ];

@@ -87,7 +87,15 @@
         alliesService.checkForDeath(vm.activeAllies[target]);
         alliesService.updatePercentages(vm.activeAllies[target]);
       } else {
-        fightLogService.pushToFightLog(alliesService.activeAllies[target].name + ' dodged the attack from ' + enemy.name + '.')
+        fightLogService.pushToFightLog(alliesService.activeAllies[target].name + ' dodged ' + enemy.name + '\'s attack.')
+      }
+    };
+
+    vm.removeFromPool = function(id) {
+      for (var i = vm.queuePool.length - 1; i >= 0; i--) {
+        if (vm.queuePool[i].id === id) {
+          vm.queuePool.splice(i, 1);
+        }
       }
     };
 
@@ -96,7 +104,7 @@
 
       $timeout(function () {
         vm.nextTurn()
-      }, 1500);
+      }, 1000);
 
       vm.cycleQueue();
 
