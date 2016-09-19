@@ -7,7 +7,12 @@
              ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}"
              ng-click="alliesFightDisplay.clickAlly(ally)">
 
-            <h5>{{ ally.name }}</h5>
+            <div class="row">
+              <h5 class="col-sm-10">{{ ally.name }}</h5>
+              <div class="col-sm-2 text-center">
+                <span class="fight-icon" ng-class="ally.icon"></span>
+              </div>
+            </div>
 
             <h6 class="text-center">Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance }}</h6>
 

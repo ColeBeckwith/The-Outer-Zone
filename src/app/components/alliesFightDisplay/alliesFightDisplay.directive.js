@@ -65,9 +65,21 @@
 
         if (movesService.selectedMove === "Fortify") {
           if (vm.checkResources(10, 0)) {
-            var boost = Math.round(fightQueueService.queuePool[0].baseStats.defense * .15);
-            fightQueueService.queuePool[0].stats.defense += boost;
-            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by " + boost + " for the duration of the fight. This effect does NOT stack.");
+            var hasFortified = 0;
+            angular.forEach(fightQueueService.queuePool[0].statusEffects, function(status) {
+              if (status.indexOf('Fortified') !== -1) {
+                hasFortified++;
+              }
+            });
+
+            if (!hasFortified) {
+              var boost = Math.round(fightQueueService.queuePool[0].baseStats.defense * .15);
+              fightQueueService.queuePool[0].stats.defense += boost;
+              fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by " + boost + " for the duration of the fight. This effect does NOT stack.");
+              fightQueueService.queuePool[0].statusEffects.push(['Fortified', 9999]);
+            } else {
+              fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " has already been fortified.")
+            }
             fightQueueService.endTurn();
           }
         }
@@ -135,9 +147,6 @@
                 }
 
                 ally.statusEffects.push(['Upgraded', 9999]);
-
-                //TODO Number is so that later on, after each turn they can be decremented and destroyed once the
-                // counter reaches 0.
               }
             });
             fightQueueService.endTurn();

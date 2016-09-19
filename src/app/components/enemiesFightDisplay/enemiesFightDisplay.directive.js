@@ -72,8 +72,7 @@
           fightLogService.pushToFightLog("Victorious");
           $timeout(function() {
             stateChangeService.setPlayerState("fightSummary");
-          }, 1500)
-
+          }, 1500);
         }
       };
 

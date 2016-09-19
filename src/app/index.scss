@@ -16,7 +16,6 @@
 
 
 .vertical-center {
-  min-height: 100%;
   min-height: 100vh;
 
   display: flex;
@@ -60,12 +59,20 @@
 
 .class-card {
   padding: 0 15px;
-  height: 450px;
+  height: 550px;
   overflow: scroll;
+}
+
+.select-class-icon {
+  font-size: 5em;
 }
 
 .fight-card {
   padding: 5px;
+}
+
+.fight-icon {
+  font-size: 2em !important;
 }
 
 .dead-card {
@@ -106,7 +113,7 @@
   border: 3px solid gray;
   border-radius: 10px;
   position: fixed;
-  top: 25%;
+  top: 22%;
   padding: 0 15px;
   left: 10px;
   width: 30%;
@@ -116,7 +123,7 @@
   border: 3px solid gray;
   border-radius: 10px;
   position: fixed;
-  top: 25%;
+  top: 22%;
   padding: 15px;
   overflow: scroll;
   right: 20px;

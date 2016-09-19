@@ -47,7 +47,8 @@
               'defense' : [3, 1],
               'intellect' : [2, 1]
             },
-            'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]]
+            'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]],
+            'icon' : 'fa fa-bolt'
             //TODO would be cool to eventually add a passive ability to each class.
 
           },
@@ -71,7 +72,8 @@
               'defense' : [1, 1],
               'intellect' : [1, 2]
             },
-            'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]]
+            'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]],
+            'icon' : 'fa fa-hand-rock-o'
           },
           {
             'name' : 'Tank',
@@ -93,12 +95,13 @@
               'defense' : [1, 3],
               'intellect' : [2, 1]
             },
-            'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]]
+            'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]],
+            'icon' : 'fa fa-shield'
           }
         ]
       },
       {
-        'name' : 'Dorothy',
+        'name' : 'D. Taylor',
         'id' : 102,
         'level' : 1,
         'exp' : 0,
@@ -133,7 +136,8 @@
               'defense' : [3, 1],
               'intellect' : [1, 2]
             },
-            'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]]
+            'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]],
+            'icon' : 'fa fa-medkit'
           },
           {
             'name' : 'Commander',
@@ -155,7 +159,8 @@
               'defense' : [1, 1],
               'intellect' : [1, 1]
             },
-            'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]]
+            'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]],
+            'icon' : 'fa fa-users'
           },
           {
             'name' : 'Engineer',
@@ -177,7 +182,8 @@
               'defense' : [2, 1],
               'intellect' : [1, 4]
             },
-            'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]]
+            'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]],
+            'icon' : 'fa fa-wrench'
         }
       ]
       },
