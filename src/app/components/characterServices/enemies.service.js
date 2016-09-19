@@ -88,6 +88,17 @@
         }
       ],
 
+      [
+        {
+          'name' : 'Thug',
+          'id' : 201,
+          'status' : 'alive',
+          'stats' : {
+            'maxHealth' : 100,
+            'health' : 100
+          }
+        }
+      ],
 
       [
         {

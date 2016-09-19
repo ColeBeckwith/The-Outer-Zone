@@ -8,8 +8,7 @@
   function stateChangeService() {
     var vm = this;
 
-    vm.playerState = 'story';
-    //TODO SHould be initialized as 'story' while not debugging.
+    vm.playerState = 'startScreen';
 
     vm.setPlayerState = function(state) {
       vm.playerState = state;

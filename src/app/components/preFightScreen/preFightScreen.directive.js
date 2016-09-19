@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('preFightScreen', preFightScreen);
 
-  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService", "alliesService", "enemiesService", "movesService"];
+  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService", "alliesService", "enemiesService", "movesService", "storyService"];
 
-  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService, enemiesService, movesService) {
+  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService, enemiesService, movesService, storyService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/preFightScreen/preFightScreen.html',
@@ -20,6 +20,11 @@
 
     function preFightController() {
       var vm = this;
+
+      vm.allies = alliesService.activeAllies;
+      vm.enemies = enemiesService.getEnemies();
+      
+      vm.fightTitle = storyService.getTitle();
 
       vm.readyUp = function() {
         fightQueueService.buildQueue();

@@ -1,13 +1,28 @@
-<h1 class="text-center">Pre-Fight Screen</h1>
+<h1 class="text-center">{{ preFight.fightTitle }}</h1>
 
-<div class="text-block">
+<div class="text-block text-center">
+  <h3 class="text-success">Allies</h3>
+  <div ng-repeat="ally in preFight.allies">
+    <h4>{{ ally.name }}</h4>
+    <p>Lvl. {{ ally.level }} {{ ally.class }}</p>
+    <p>STR : {{ ally.baseStats.strength }} &nbsp; | &nbsp; SPD : {{ ally.baseStats.speed }}
+      &nbsp; | &nbsp; DEF : {{ ally.baseStats.defense }} &nbsp; | &nbsp; INT: {{ ally.baseStats.intellect }}</p>
+  </div>
 
-  <h3>Here would be information about your characters. You can make last minute changes here.</h3>
+  <h1 class="text-warning">VS</h1>
 
-  <h3>Here would be information about your opponents.</h3>
+  <h3 class="text-danger">Enemies</h3>
+
+  <div ng-repeat="enemy in preFight.enemies">
+    <h4>{{ enemy.name }}</h4>
+    <p>STR : {{ enemy.stats.strength }} &nbsp; | &nbsp; SPD : {{ enemy.stats.speed }}
+      &nbsp; | &nbsp; DEF : {{ enemy.stats.defense }} &nbsp; | &nbsp; INT: {{ enemy.stats.intellect }}</p>
+  </div>
+
+
+  <div>
+    <button class="btn btn-success" ng-click="preFight.readyUp()">Ready</button>
+  </div>
 
 </div>
 
-<div class="text-center">
-  <button class="btn btn-primary" ng-click="preFight.readyUp()">Ready</button>
-</div>

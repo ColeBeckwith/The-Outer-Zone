@@ -1,5 +1,5 @@
 <div ng-if="fightSummary.battleWon">
-  <h1 class="text-center">Victory!</h1>
+  <h1 class="text-center text-success">Victory!</h1>
 
   <div class="text-block">
     <h4 class="text-center">Experience Awarded: {{ fightSummary.experienceAwarded }}</h4>
@@ -19,14 +19,11 @@
 </div>
 
 <div ng-if="!fightSummary.battleWon">
-  <h1 class="text-center">Defeated</h1>
+  <h1 class="text-center text-danger">Defeated</h1>
 
   <div class="text-block">
-    <h3>You lost and you suck.</h3>
-  </div>
-
-
-  <div class="text-center">
-    <button class="btn btn-success text-center" ng-click="fightSummary.tryAgain()">Try Again</button>
+    <div class="text-center">
+      <button class="btn btn-success text-center" ng-click="fightSummary.tryAgain()">Try Again</button>
+    </div>
   </div>
 </div>

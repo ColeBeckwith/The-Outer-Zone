@@ -56,7 +56,7 @@
             'description' : 'The Brawler engages in a careful chess match with his opponent. The Brawler is not' +
             ' concerned with who appears to be winning the fight. He always deals the final blow.',
             'baseStats' : {
-              'maxHealth' : 75,
+              'maxHealth' : 70,
               'maxEnergy' : 20,
               'strength' : 12,
               'speed' : 12,
@@ -78,7 +78,7 @@
             'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
             ' opponents and finishes them off in their weakened state.',
             'baseStats' : {
-              'maxHealth' : 100,
+              'maxHealth' : 80,
               'maxEnergy' : 10,
               'strength' : 12,
               'speed' : 10,
