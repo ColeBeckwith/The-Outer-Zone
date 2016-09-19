@@ -8,8 +8,8 @@
   function stateChangeService() {
     var vm = this;
 
-    vm.playerState = 'characterSelect';
-    //TODO SHould be initialized as 'story' while not debugging. 
+    vm.playerState = 'story';
+    //TODO SHould be initialized as 'story' while not debugging.
 
     vm.setPlayerState = function(state) {
       vm.playerState = state;

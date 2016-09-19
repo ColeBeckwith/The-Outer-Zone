@@ -46,7 +46,7 @@
           if (fightQueueService.queuePool[0].stats.energy > fightQueueService.queuePool[0].stats.maxEnergy) {
             fightQueueService.queuePool[0].stats.energy = fightQueueService.queuePool[0].stats.maxEnergy;
           }
-          fightQueueService.queuePool[0].stats.health += 20;
+          fightQueueService.queuePool[0].stats.health += 10;
           if (fightQueueService.queuePool[0].stats.health > fightQueueService.queuePool[0].stats.maxHealth) {
             fightQueueService.queuePool[0].stats.health = fightQueueService.queuePool[0].stats.maxHealth;
           }
@@ -65,9 +65,9 @@
 
         if (movesService.selectedMove === "Fortify") {
           if (vm.checkResources(10, 0)) {
-            fightQueueService.queuePool[0].stats.defense = fightQueueService.queuePool[0].baseStats.defense + 5;
-            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by 5 for" +
-            " the duration of the fight. This effect does NOT stack.");
+            var boost = Math.round(fightQueueService.queuePool[0].baseStats.defense * .15);
+            fightQueueService.queuePool[0].stats.defense += boost;
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by " + boost + " for the duration of the fight. This effect does NOT stack.");
             fightQueueService.endTurn();
           }
         }
@@ -110,7 +110,7 @@
               });
 
               if (!hasUpgraded) {
-                
+
                 var upgrade = Math.round(fightQueueService.queuePool[0].stats.intellect / 6);
 
                 var max = ally.stats.strength;
@@ -146,7 +146,7 @@
       };
 
       vm.checkResources = function(energyReq, healthReq) {
-        if (fightQueueService.queuePool[0].stats.energy >= energyReq && fightQueueService.queuePool[0].stats.health >= healthReq) {
+        if (fightQueueService.queuePool[0].stats.energy >= energyReq && fightQueueService.queuePool[0].stats.health > healthReq) {
           fightQueueService.queuePool[0].stats.energy -= energyReq;
           fightQueueService.queuePool[0].stats.health -= healthReq;
           alliesService.updatePercentages(fightQueueService.queuePool[0]);

@@ -32,12 +32,12 @@
             'description' : 'The Berserker fights with reckless abandon. He favors speed and brute force over accuracy.' +
             ' He isn\'t concerned with preservation, only destruction.',
             'baseStats' : {
-              'maxHealth' : 750,
+              'maxHealth' : 60,
               'maxEnergy' : 40,
-              'strength' : 550,
-              'speed' : 115,
-              'defense' : 500,
-              'intellect' : 10
+              'strength' : 16,
+              'speed' : 18,
+              'defense' : 8,
+              'intellect' : 8
             },
             'levelingSchedule' : {
               'health' : [1, 10],
@@ -78,12 +78,12 @@
             'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
             ' opponents and finishes them off in their weakened state.',
             'baseStats' : {
-              'maxHealth' : 50,
+              'maxHealth' : 100,
               'maxEnergy' : 10,
-              'strength' : 3,
-              'speed' : 1,
-              'defense' : 6,
-              'intellect' : 1
+              'strength' : 12,
+              'speed' : 10,
+              'defense' : 20,
+              'intellect' : 8
             },
             'levelingSchedule' : {
               'health' : [1, 30],
@@ -118,12 +118,12 @@
             'description' : 'The Medic sticks to the back. She prefers to keep her allies healthy while they deal' +
             ' with the enemy.',
             'baseStats' : {
-              'maxHealth' : 250,
+              'maxHealth' : 70,
               'maxEnergy' : 30,
               'strength' : 3,
               'speed' : 7,
               'defense' : 1,
-              'intellect' : 1
+              'intellect' : 16
             },
             'levelingSchedule' : {
               'health' : [1, 10],
@@ -145,7 +145,7 @@
               'strength' : 15,
               'speed' : 10,
               'defense' : 15,
-              'intellect' : 1
+              'intellect' : 12
             },
             'levelingSchedule' : {
               'health' : [1, 10],
@@ -167,7 +167,7 @@
               'strength' : 3,
               'speed' : 100,
               'defense' : 6,
-              'intellect' : 16
+              'intellect' : 18
             },
             'levelingSchedule' : {
               'health' : [1, 10],

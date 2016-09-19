@@ -10,6 +10,10 @@
 // bower:scss
 // endbower
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .description-container {
   min-height: 80px;
 }

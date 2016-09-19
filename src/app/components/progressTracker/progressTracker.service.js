@@ -9,7 +9,7 @@
     var vm = this;
 
     vm.storyProgress = 0;
-    vm.newAlly = 0;
+    vm.newAlly = -1;
     vm.fightOngoing = false;
     vm.battleWon = false;
 
