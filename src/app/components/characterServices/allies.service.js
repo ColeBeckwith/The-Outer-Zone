@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('alliesService', alliesService);
 
-  alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout'];
+  alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout', 'inventoryService'];
 
-  function alliesService(stateChangeService, progressTracker, fightLogService, $timeout) {
+  function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService) {
     var vm = this;
 
     vm.allies = [
@@ -26,6 +26,7 @@
           'defense' : 1,
           'intellect' : 1
         },
+        'equipment' : [],
         'builds' : [
           {
             'name' : 'Berserker',
@@ -468,6 +469,32 @@
         ally.stats.energy = ally.stats.maxEnergy;
         vm.updatePercentages(ally);
       });
+    };
+
+    vm.equipToAlly = function(ally, item) {
+      var location = -1;
+      angular.forEach(ally.equipment, function(piece) {
+        location++;
+        if (piece.type === item.type) {
+          vm.removeEquipment(ally, piece, location);
+        }
+      });
+      ally.baseStats.maxHealth += item.stats.health;
+      ally.baseStats.maxEnergy += item.stats.energy;
+      ally.baseStats.strength += item.stats.strength;
+      ally.baseStats.defense += item.stats.defense;
+      ally.baseStats.speed += item.stats.speed;
+      ally.equipment.push(item);
+    };
+
+    vm.removeEquipment = function(ally, piece, index) {
+      ally.baseStats.maxHealth -= piece.stats.health;
+      ally.baseStats.maxEnergy -= piece.stats.energy;
+      ally.baseStats.strength -= piece.stats.strength;
+      ally.baseStats.defense -= piece.stats.defense;
+      ally.baseStats.speed -= piece.stats.speed;
+      ally.equipment.splice(index, 1);
+      inventoryService.addToInventory([piece]);
     };
 
     vm.updateActives();

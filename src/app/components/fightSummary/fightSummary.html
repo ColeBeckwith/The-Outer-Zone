@@ -18,7 +18,8 @@
       <div class="row">
 
         <div class="col-sm-4">
-          <h4>{{ loot.name }}</h4>
+          <h4 ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
+            {{ loot.name }}</h4>
         </div>
 
         <div class="col-sm-8 text-right">
@@ -33,7 +34,7 @@
             </button>
             <ul uib-dropdown-menu>
               <li class="text-center" ng-repeat="ally in fightSummary.activeAllies">
-                <a>{{ ally.name }}</a>
+                <a ng-click="fightSummary.equipToAlly(ally, $parent.$index, loot)">{{ ally.name }}</a>
               </li>
             </ul>
           </div>
@@ -48,16 +49,16 @@
       </div>
       <i>{{ loot.description }}</i>
       <p>
-        <span ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
-          {{ loot.rarity }}</span>
+        Type: {{ loot.type }}
         <span ng-if="loot.stats.health !== 0">&nbsp;| Health: {{ loot.stats.health }}</span>
         <span ng-if="loot.stats.energy !== 0">&nbsp;| Energy: {{ loot.stats.energy }}</span>
         <span ng-if="loot.stats.strength !== 0">&nbsp;| STR: {{ loot.stats.strength }}</span>
         <span ng-if="loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
         <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
         <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
+        |
       </p>
-      <hr>
+      <hr ng-if="fightSummary.loot.length > 1">
     </div>
 
   </div>

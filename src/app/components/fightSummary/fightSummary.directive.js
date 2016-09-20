@@ -54,11 +54,14 @@
         vm.moneyAwarded += item.worth;
       };
 
+      vm.equipToAlly = function(ally, indexOfItem, item) {
+        vm.loot.splice(indexOfItem, 1);
+        alliesService.equipToAlly(ally, item);
+      };
+
       vm.continue = function() {
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
-        console.log(inventoryService.money);
-        console.log(inventoryService.equipment);
         progressTracker.advanceStory();
         stateChangeService.setPlayerState('story');
       };
