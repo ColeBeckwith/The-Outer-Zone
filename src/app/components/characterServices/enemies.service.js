@@ -25,7 +25,27 @@
             'intellect' : 12
           },
           'experience' : 60,
-          'loot' : ["Boots"]
+          'loot' : [
+            {
+              'name' : 'Boots',
+              'description' : '',
+              'characterReq' : 101,
+              'classReq' : 'Tank',
+              'lvlReq' : 1,
+              'rarity' : 'Common',
+              'worth' : 5,
+              'type' : 'Legs',
+              'stats' : {
+                'health': 10,
+                'energy' : 0,
+                'strength': 1,
+                'defense': 1,
+                'speed': -1,
+                'intellect': 0
+              }
+            }
+          ],
+          'money' : 15
         }
       ],
 
@@ -147,13 +167,21 @@
     vm.getEnemies = function() {
       return vm.enemies[progressTracker.storyProgress]
     };
-    
+
     vm.getExperience = function() {
       var exp = 0;
       angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
         exp += enemy.experience
       });
       return exp;
+    };
+
+    vm.getMoney = function() {
+      var money = 0;
+      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+        money += enemy.money
+      });
+      return money;
     };
 
     vm.restoreAll = function() {

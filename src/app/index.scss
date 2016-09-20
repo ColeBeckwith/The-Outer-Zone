@@ -14,6 +14,9 @@
   display: none;
 }
 
+.inline-block {
+  display: inline-block;
+}
 
 .vertical-center {
   min-height: 100vh;
@@ -59,7 +62,7 @@
 
 .class-card {
   padding: 0 15px;
-  height: 550px;
+  max-height: 75vh;
   overflow: scroll;
 }
 
@@ -91,6 +94,8 @@
   padding: 1em;
   border-radius: 10px;
   margin: 5px auto;
+  max-height: 75vh;
+  overflow: scroll;
 }
 
 .disabled-link {
@@ -129,6 +134,10 @@
   right: 20px;
   width: 65%;
   height: 212px;
+}
+
+.text-epic {
+  color: purple;
 }
 
 .text-pulse {

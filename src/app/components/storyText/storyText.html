@@ -1,9 +1,9 @@
 <h1 class="text-center">{{ storyText.storyTexts[storyText.storyProgress][0][0] }}</h1>
 <div class="text-block">
   <p ng-repeat="text in storyText.storyTexts[storyText.storyProgress][1]">{{ text }}</p>
-  <div class="text-center">
-    <button class="btn btn-success"
-            ng-click="storyText.continue()">Continue</button>
-  </div>
+</div>
+<div class="text-center">
+  <button class="btn btn-success"
+          ng-click="storyText.continue()">Continue</button>
 </div>
 

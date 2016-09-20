@@ -4,11 +4,60 @@
   <div class="text-block">
     <h4 class="text-center">Experience Awarded: {{ fightSummary.experienceAwarded }}</h4>
 
-    <h4 class="text-center">Experience to Each: {{ fightSummary.experienceToEach }}</h4>
+    <h4 class="text-center">Money Awarded: {{ fightSummary.moneyAwarded }}</h4>
 
     <div ng-repeat="ally in fightSummary.activeAllies">
       <p>{{ ally.name }} Lvl. {{ ally.level }} <span ng-if="ally.leveledUp" class="text-success">Level Up!</span></p>
       <uib-progressbar max="ally.expNeeded" value="ally.exp" type="info">{{ally.exp}} / {{ ally.expNeeded }}</uib-progressbar>
+    </div>
+
+    <h3 class="text-center"
+        ng-if="fightSummary.loot.length > 0">Loot</h3>
+
+    <div ng-repeat="loot in fightSummary.loot track by $index">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <h4>{{ loot.name }}</h4>
+        </div>
+
+        <div class="col-sm-8 text-right">
+
+          <div uib-dropdown class="inline-block">
+            <button role="button"
+                    class="btn btn-info"
+                    uib-dropdown-toggle
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              Equip <b class="caret"></b>
+            </button>
+            <ul uib-dropdown-menu>
+              <li class="text-center" ng-repeat="ally in fightSummary.activeAllies">
+                <a>{{ ally.name }}</a>
+              </li>
+            </ul>
+          </div>
+
+          <button class="btn btn-danger"
+                  ng-click="fightSummary.sellItem(loot, $index)">
+            Sell: {{ loot.worth }}
+          </button>
+          <!--TODO eventually have a BuyBack button if sold on accident-->
+        </div>
+
+      </div>
+      <i>{{ loot.description }}</i>
+      <p>
+        <span ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
+          {{ loot.rarity }}</span>
+        <span ng-if="loot.stats.health !== 0">&nbsp;| Health: {{ loot.stats.health }}</span>
+        <span ng-if="loot.stats.energy !== 0">&nbsp;| Energy: {{ loot.stats.energy }}</span>
+        <span ng-if="loot.stats.strength !== 0">&nbsp;| STR: {{ loot.stats.strength }}</span>
+        <span ng-if="loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
+        <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
+        <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
+      </p>
+      <hr>
     </div>
 
   </div>
