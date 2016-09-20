@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('characterSelect', characterSelect);
 
-  characterSelect.$inject = ["alliesService", "stateChangeService", "progressTracker"];
+  characterSelect.$inject = ["alliesService", "stateChangeService", "progressTracker", "lootService"];
 
-  function characterSelect(alliesService, stateChangeService, progressTracker) {
+  function characterSelect(alliesService, stateChangeService, progressTracker, lootService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/characterSelect/characterSelect.html',
@@ -36,6 +36,7 @@
         vm.newAlly.icon = vm.activeSelection.icon;
         vm.newAlly.levelingSchedule = vm.activeSelection.levelingSchedule;
         vm.newAlly.moves = [['Attack', 1],['Rest', 1]].concat(vm.activeSelection.moves);
+        lootService.pullFromVault(vm.newAlly);
         alliesService.activateAlly(vm.newAlly);
         stateChangeService.playerState = 'prefight';
       };

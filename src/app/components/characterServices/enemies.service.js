@@ -24,7 +24,8 @@
             'defense' : 12,
             'intellect' : 12
           },
-          'experience' : 600
+          'experience' : 60,
+          'loot' : ["Boots"]
         }
       ],
 
@@ -145,6 +146,14 @@
 
     vm.getEnemies = function() {
       return vm.enemies[progressTracker.storyProgress]
+    };
+    
+    vm.getExperience = function() {
+      var exp = 0;
+      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+        exp += enemy.experience
+      });
+      return exp;
     };
 
     vm.restoreAll = function() {

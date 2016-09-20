@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('fightSummary', fightSummary);
 
-  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout"];
+  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout", "lootService"];
 
-  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout) {
+  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -32,9 +32,9 @@
       if (vm.battleWon) {
         vm.experienceAwarded = 0;
 
-        angular.forEach(enemiesService.enemies[progressTracker.storyProgress], function (enemy) {
-          vm.experienceAwarded += enemy.experience;
-        });
+        lootService.gimmeTheLoot();
+
+        vm.experienceAwarded += enemiesService.getExperience();
 
         vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
 
