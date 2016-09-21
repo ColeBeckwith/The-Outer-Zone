@@ -12,21 +12,13 @@
 
     vm.allies = [
       {
-        'name' : 'The Scarecrow',
+        'name' : 'Scarecrow',
         'id' : 101,
         'level' : 1,
         'exp' : 0,
         'expNeeded' : 500,
         'status' : 'alive',
         'stats' : {
-          'maxHealth' : 1,
-          'maxEnergy' : 1,
-          'strength' : 1,
-          'speed' : 1,
-          'defense' : 1,
-          'intellect' : 1
-        },
-        'baseStats' : {
           'maxHealth' : 1,
           'maxEnergy' : 1,
           'strength' : 1,
@@ -41,7 +33,7 @@
             'description' : 'The Berserker fights with reckless abandon. He favors speed and brute force over accuracy.' +
             ' He isn\'t concerned with preservation, only destruction.',
             'baseStats' : {
-              'maxHealth' : 60,
+              'maxHealth' : 150,
               'maxEnergy' : 40,
               'strength' : 16,
               'speed' : 18,
@@ -66,7 +58,7 @@
             'description' : 'The Brawler engages in a careful chess match with his opponent. The Brawler is not' +
             ' concerned with who appears to be winning the fight. He always deals the final blow.',
             'baseStats' : {
-              'maxHealth' : 70,
+              'maxHealth' : 200,
               'maxEnergy' : 20,
               'strength' : 12,
               'speed' : 12,
@@ -89,7 +81,7 @@
             'description' : 'The Tank is built on pure endurance. By minimizing the damage taken he wears down his' +
             ' opponents and finishes them off in their weakened state.',
             'baseStats' : {
-              'maxHealth' : 80,
+              'maxHealth' : 240,
               'maxEnergy' : 10,
               'strength' : 12,
               'speed' : 10,
@@ -98,7 +90,7 @@
             },
             'levelingSchedule' : {
               'health' : [1, 30],
-              'energy' : [1, 10],
+              'energy' : [2, 10],
               'strength' : [1, 1],
               'speed' : [3, 1],
               'defense' : [1, 3],
@@ -124,25 +116,26 @@
           'defense' : 1,
           'intellect' : 1
         },
+        'equipment' : [],
         'builds' : [
           {
             'name' : 'Medic',
             'description' : 'The Medic sticks to the back. She prefers to keep her allies healthy while they deal' +
             ' with the enemy.',
             'baseStats' : {
-              'maxHealth' : 70,
-              'maxEnergy' : 30,
-              'strength' : 3,
-              'speed' : 7,
-              'defense' : 1,
-              'intellect' : 16
+              'maxHealth' : 160,
+              'maxEnergy' : 40,
+              'strength' : 8,
+              'speed' : 15,
+              'defense' : 9,
+              'intellect' : 18
             },
             'levelingSchedule' : {
               'health' : [1, 10],
               'energy' : [2, 10],
               'strength' : [2, 1],
-              'speed' : [1, 2],
-              'defense' : [3, 1],
+              'speed' : [1, 1],
+              'defense' : [2, 1],
               'intellect' : [1, 2]
             },
             'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]],
@@ -153,19 +146,19 @@
             'description' : 'The Commander leads the group. She isn\'t always the most powerful opponent on the' +
             ' field, but her presence inspires those around her.',
             'baseStats' : {
-              'maxHealth' : 350,
-              'maxEnergy' : 40,
-              'strength' : 15,
+              'maxHealth' : 220,
+              'maxEnergy' : 60,
+              'strength' : 10,
               'speed' : 10,
-              'defense' : 15,
-              'intellect' : 12
+              'defense' : 10,
+              'intellect' : 15
             },
             'levelingSchedule' : {
               'health' : [1, 10],
               'energy' : [1, 20],
-              'strength' : [1, 1],
+              'strength' : [2, 1],
               'speed' : [1, 1],
-              'defense' : [1, 1],
+              'defense' : [2, 1],
               'intellect' : [1, 1]
             },
             'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]],
@@ -176,16 +169,16 @@
             'description' : 'The Engineer lives and dies by her own preparation. When she\'s aware of the enemy,' +
             ' there\'s no stopping her. Catching her off guard is another story.',
             'baseStats' : {
-              'maxHealth' : 500,
+              'maxHealth' : 180,
               'maxEnergy' : 10,
-              'strength' : 3,
-              'speed' : 100,
-              'defense' : 6,
-              'intellect' : 18
+              'strength' : 6,
+              'speed' : 15,
+              'defense' : 10,
+              'intellect' : 20
             },
             'levelingSchedule' : {
-              'health' : [1, 10],
-              'energy' : [1, 10],
+              'health' : [2, 10],
+              'energy' : [2, 10],
               'strength' : [2, 1],
               'speed' : [2, 1],
               'defense' : [2, 1],
@@ -211,6 +204,7 @@
           'defense' : 1,
           'intellect' : 1
         },
+        'equipment' : [],
         'builds' : [
           {
             'name' : 'Berserker',
@@ -268,6 +262,7 @@
           'defense' : 1,
           'intellect' : 1
         },
+        'equipment' : [],
         'builds' : [
           {
             'name' : 'Berserker',
@@ -325,6 +320,7 @@
           'defense' : 1,
           'intellect' : 1
         },
+        'equipment' : [],
         'builds' : [
           {
             'name' : 'Berserker',

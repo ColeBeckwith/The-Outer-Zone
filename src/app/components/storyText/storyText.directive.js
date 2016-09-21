@@ -26,7 +26,6 @@
       vm.storyTexts = storyService.storyTexts;
 
       vm.continue = function() {
-        console.log(vm.storyProgress);
         if (vm.storyProgress === 0 || vm.storyProgress === 2) {
           progressTracker.addNewAlly();
           stateChangeService.setPlayerState('characterSelect');

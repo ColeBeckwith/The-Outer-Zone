@@ -1,5 +1,5 @@
 <div ng-if="fightSummary.battleWon">
-  <h1 class="text-center text-success">Victory!</h1>
+  <h1 class="text-center text-success">Victory</h1>
 
   <div class="text-block">
     <h4 class="text-center">Experience Awarded: {{ fightSummary.experienceAwarded }}</h4>
@@ -17,12 +17,12 @@
     <div ng-repeat="loot in fightSummary.loot track by $index">
       <div class="row">
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
           <h4 ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
             {{ loot.name }}</h4>
         </div>
 
-        <div class="col-sm-8 text-right">
+        <div class="col-sm-6 text-right">
 
           <div uib-dropdown class="inline-block">
             <button role="button"
@@ -33,9 +33,10 @@
               Equip <b class="caret"></b>
             </button>
             <ul uib-dropdown-menu>
-              <li class="text-center" ng-repeat="ally in fightSummary.activeAllies">
-                <a ng-click="fightSummary.equipToAlly(ally, $parent.$index, loot)"
-                   ng-class="{'disabled' : fightSummary.checkIfReqsMet(ally, loot)}">
+              <li class="text-center"
+                  ng-repeat="ally in fightSummary.activeAllies"
+                  ng-class="{'disabled text-muted' : fightSummary.checkIfReqsMet(ally, loot)}">
+                <a ng-click="fightSummary.equipToAlly(ally, $parent.$index, loot)">
                   {{ ally.name }}</a>
               </li>
             </ul>
@@ -59,6 +60,10 @@
         <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
         <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
       </p>
+      <p>Level: {{ loot.lvlReq }}
+            <span ng-if="loot.characterReq !== 'None'">
+              | Character: {{ fightSummary.activeAllies[loot.characterReq - 101].name }} </span>
+        <span ng-if="loot.classReq !== 'None'"> | Class: {{ loot.classReq }}</span></p>
       <hr ng-if="fightSummary.loot.length > 1">
     </div>
 

@@ -1,6 +1,7 @@
 <h1 class="text-center">{{ storyText.storyTexts[storyText.storyProgress][0][0] }}</h1>
 <div class="text-block">
-  <p ng-repeat="text in storyText.storyTexts[storyText.storyProgress][1]">{{ text }}</p>
+  <p ng-repeat="text in storyText.storyTexts[storyText.storyProgress][1]"
+     ng-class="{'text-center' : text === '. . .'}">{{ text }}</p>
 </div>
 <div class="text-center">
   <button class="btn btn-success"

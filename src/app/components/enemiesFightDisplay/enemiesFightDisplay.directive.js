@@ -25,8 +25,8 @@
 
       vm.allyAttackEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {
-          if ((Math.random() * 6 * fightQueueService.queuePool[0].stats.speed) > (Math.random() * 3 * enemy.stats.speed)) {
-            var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * fightQueueService.queuePool[0].stats.strength)) - enemy.stats.defense;
+          if ((Math.random() * 6 * fightQueueService.queuePool[0].stats.speed) > (Math.random() * enemy.stats.speed)) {
+            var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * fightQueueService.queuePool[0].stats.strength) - (.75*enemy.stats.defense));
 
             if (damage <= 0) {
               damage = 0;

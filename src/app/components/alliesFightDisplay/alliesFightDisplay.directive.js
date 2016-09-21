@@ -42,7 +42,7 @@
         }
 
         if (movesService.selectedMove === "Rest") {
-          fightQueueService.queuePool[0].stats.energy += 10;
+          fightQueueService.queuePool[0].stats.energy += 5;
           if (fightQueueService.queuePool[0].stats.energy > fightQueueService.queuePool[0].stats.maxEnergy) {
             fightQueueService.queuePool[0].stats.energy = fightQueueService.queuePool[0].stats.maxEnergy;
           }
@@ -56,7 +56,7 @@
         }
 
         if (movesService.selectedMove === "Fury") {
-          if (vm.checkResources(20, 40)) {
+          if (vm.checkResources(20, 75)) {
             fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
             fightLogService.pushToFightLog('Select Three Targets');
             enemiesService.selectNumberOfTargets(3);
@@ -170,7 +170,7 @@
 
       vm.clickAlly = function(ally) {
         if (vm.targetSelectMode > 0) {
-          ally.stats.health += 60;
+          ally.stats.health += 3 * fightQueueService.queuePool[0].stats.intellect;
           if (ally.stats.health > ally.stats.maxHealth) {
             ally.stats.health = ally.stats.maxHealth;
           }

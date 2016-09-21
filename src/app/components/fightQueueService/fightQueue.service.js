@@ -75,8 +75,8 @@
         return;
       }
 
-      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * 3 * alliesService.activeAllies[target].stats.speed)) {
-        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)) - alliesService.activeAllies[target].stats.defense;
+      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * alliesService.activeAllies[target].stats.speed)) {
+        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75*alliesService.activeAllies[target].stats.defense));
 
         if (damage <= 0) {
           damage = 1;
@@ -104,7 +104,7 @@
 
       $timeout(function () {
         vm.nextTurn()
-      }, 1000);
+      }, 400);
 
       vm.cycleQueue();
 
@@ -115,9 +115,6 @@
 
     vm.allyCharge = function() {
       var temp = [];
-      angular.forEach(vm.activeAllies, function(ally) {
-        temp.push(ally);
-      });
       angular.forEach(vm.activeAllies, function(ally) {
         temp.push(ally);
       });

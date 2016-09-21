@@ -6,12 +6,12 @@
       <p ng-if="equipment.equipment.length === 0">No Inventory to Display.</p>
       <div ng-repeat="loot in equipment.equipment track by $index">
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-8">
             <h4 ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
               {{ loot.name }}</h4>
           </div>
 
-          <div class="col-sm-8 text-right">
+          <div class="col-sm-4 text-right">
             <button class="btn btn-info"
                     ng-class="{'disabled' : equipment.checkIfReqsMet(loot)}"
                     ng-click="equipment.equipItem(loot, $index)">Equip</button>
@@ -28,6 +28,10 @@
             <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
             <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
           </p>
+          <p>Level: {{ loot.lvlReq }}
+            <span ng-if="loot.characterReq !== 'None'">
+              | Character: {{ equipment.activeAllies[loot.characterReq - 101].name }} </span>
+            <span ng-if="loot.classReq !== 'None'"> | Class: {{ loot.classReq }}</span></p>
           <hr ng-if="equipment.equipment.length > 1">
 
 
@@ -60,6 +64,7 @@
           <p>Health: {{ equipment.stats.health }} | Energy: {{ equipment.stats.energy }} | STR: {{ equipment.stats.strength }} | DEF:
             {{ equipment.stats.defense }} | SPD: {{ equipment.stats.speed }} | INT: {{ equipment.stats.intellect }}</p>
         </div>
+        <hr>
       </div>
     </div>
   </div>
