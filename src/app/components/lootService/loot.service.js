@@ -21,7 +21,7 @@
         'lvlReq' : 1,
         'rarity' : 'Common',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health': 10,
           'energy': 0,
@@ -42,7 +42,7 @@
         'lvlReq' : 3,
         'rarity' : 'Uncommon',
         'worth' : 30,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health': 10,
           'energy': 0,
@@ -68,11 +68,6 @@
 
       var chance = Math.random() * 100000 + exp;
       console.log(chance);
-
-      loot.push(svc.commons[Math.floor(Math.random()*svc.commons.length)]);
-      loot.push(svc.epics[Math.floor(Math.random()*svc.epics.length)]);
-      loot.push(svc.rares[Math.floor(Math.random()*svc.rares.length)]);
-      loot.push(svc.uncommons[Math.floor(Math.random()*svc.uncommons.length)]);
 
       if (chance > 99910) {
         loot.push(svc.epics[Math.floor(Math.random()*svc.epics.length)]);
@@ -174,7 +169,7 @@
         'lvlReq' : 1,
         'rarity' : 'Common',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health' : 10,
           'energy' : 0,
@@ -199,7 +194,7 @@
         'lvlReq' : 5,
         'rarity' : 'Rare',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health' : 0,
           'energy' : 30,
@@ -289,7 +284,7 @@
         'lvlReq' : 5,
         'rarity' : 'Rare',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health' : 100,
           'energy' : 30,
@@ -311,7 +306,7 @@
         'lvlReq' : 10,
         'rarity' : 'Epic',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health' : 0,
           'energy' : 30,
@@ -401,7 +396,7 @@
         'lvlReq' : 10,
         'rarity' : 'Epic',
         'worth' : 15,
-        'type' : 'Hands',
+        'type' : 'Arms',
         'stats' : {
           'health' : 0,
           'energy' : 30,

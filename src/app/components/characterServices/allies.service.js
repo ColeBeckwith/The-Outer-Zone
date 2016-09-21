@@ -17,8 +17,16 @@
         'level' : 1,
         'exp' : 0,
         'expNeeded' : 500,
-        'status' : 'inactive',
+        'status' : 'alive',
         'stats' : {
+          'maxHealth' : 1,
+          'maxEnergy' : 1,
+          'strength' : 1,
+          'speed' : 1,
+          'defense' : 1,
+          'intellect' : 1
+        },
+        'baseStats' : {
           'maxHealth' : 1,
           'maxEnergy' : 1,
           'strength' : 1,
@@ -366,6 +374,27 @@
       vm.updateActives();
     };
 
+    vm.deactivateAlly = function(ally) {
+      ally.status = 'inactive';
+      vm.updateActives();
+    };
+
+    vm.updateActives = function() {
+      vm.activeAllies = [];
+      angular.forEach(vm.allies, function(ally) {
+        if (ally.status !== 'inactive') {
+          vm.activeAllies.push(ally);
+        }
+      });
+      angular.forEach(vm.activeAllies, function(ally) {
+        vm.updatePercentages(ally);
+      });
+    };
+
+    vm.updatePercentages = function(ally) {
+      ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
+    };
+
     vm.distributeExperience = function(exp) {
       angular.forEach(vm.activeAllies, function(ally) {
         ally.exp += Math.round((exp/vm.activeAllies.length)*((100 + ally.stats.intellect)/100));
@@ -400,28 +429,6 @@
       if (ally.level % ally.levelingSchedule.intellect[0] === 0) {
         ally.baseStats.intellect += ally.levelingSchedule.intellect[1];
       }
-      // TODO could also allot a certain amount of points for the user to spend as they see fit.
-    };
-
-    vm.deactivateAlly = function(ally) {
-      ally.status = 'inactive';
-      vm.updateActives();
-    };
-
-    vm.updateActives = function() {
-      vm.activeAllies = [];
-      angular.forEach(vm.allies, function(ally) {
-        if (ally.status !== 'inactive') {
-          vm.activeAllies.push(ally);
-        }
-      });
-      angular.forEach(vm.activeAllies, function(ally) {
-        vm.updatePercentages(ally);
-      });
-    };
-
-    vm.updatePercentages = function(ally) {
-      ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
     };
 
     vm.checkForDeath = function(ally) {
@@ -472,11 +479,9 @@
     };
 
     vm.equipToAlly = function(ally, item) {
-      var location = -1;
-      angular.forEach(ally.equipment, function(piece) {
-        location++;
+      angular.forEach(ally.equipment, function(piece, index) {
         if (piece.type === item.type) {
-          vm.removeEquipment(ally, piece, location);
+          vm.removeEquipment(ally, piece, index);
         }
       });
       ally.baseStats.maxHealth += item.stats.health;

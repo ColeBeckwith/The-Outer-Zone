@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9" style="overflow: scroll">
+      <h2 class="text-center">Team</h2>
+      <div ng-repeat="ally in mainMenu.activeAllies"
+           class="team-card">
+        <h4>{{ ally.name }} | <span class="subtext"> Lvl. {{ ally.level}} {{ ally.class }}</span></h4>
+        <h6 class="text-center">STR : {{ ally.stats.strength }} &nbsp; | &nbsp; SPD : {{ ally.stats.speed }}
+          &nbsp; | &nbsp; DEF : {{ ally.stats.defense }} &nbsp; | &nbsp; INT: {{ ally.stats.intellect }}</h6>
+        <div style="display: inline">
+          <uib-progressbar max="ally.expNeeded"
+                           value="ally.exp"
+                           type="info">Exp. {{ally.exp}} / {{ ally.expNeeded }}</uib-progressbar>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="btn-group-vertical full-width">
+        <button class="btn btn-primary btn-lg btn-block" ng-click="mainMenu.goTo('equipment')">Equipment</button>
+        <button class="btn btn-primary btn-lg btn-block" ng-click="mainMenu.goTo('store')">Store</button>
+        <button class="btn btn-primary btn-lg btn-block disabled">Skills</button>
+        <button class="btn btn-primary btn-lg btn-block disabled">Arena</button>
+        <button class="btn btn-primary btn-lg btn-block" ng-click="mainMenu.goTo('prefight')">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

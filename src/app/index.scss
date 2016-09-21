@@ -14,6 +14,14 @@
   display: none;
 }
 
+.full-width {
+  width: 100%;
+}
+
+.subtext {
+  font-size: 68%;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -44,6 +52,19 @@
 
 .enemies-fight-bar {
   top: 0;
+}
+
+.team-card {
+  border: 3px solid gray;
+  border-radius: 10px;
+  width: 100%;
+  padding: 0 .6em;
+  margin-bottom: .1em;
+}
+
+.team-container {
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .card {
@@ -136,8 +157,12 @@
   height: 212px;
 }
 
+.icon-btn {
+  width: 6em;
+}
+
 .text-epic {
-  color: purple;
+  color: #9B30FF;
 }
 
 .text-pulse {

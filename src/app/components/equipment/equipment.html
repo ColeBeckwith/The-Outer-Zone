@@ -1,0 +1,72 @@
+<h1 class="text-center">Equipment</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 text-block">
+      <h2 class="text-center">Inventory</h2>
+      <p ng-if="equipment.equipment.length === 0">No Inventory to Display.</p>
+      <div ng-repeat="loot in equipment.equipment track by $index">
+        <div class="row">
+          <div class="col-sm-4">
+            <h4 ng-class="{'text-success' : loot.rarity === 'Uncommon', 'text-warning' : loot.rarity === 'Rare', 'text-epic' : loot.rarity === 'Epic'}">
+              {{ loot.name }}</h4>
+          </div>
+
+          <div class="col-sm-8 text-right">
+            <button class="btn btn-info"
+                    ng-class="{'disabled' : equipment.checkIfReqsMet(loot)}"
+                    ng-click="equipment.equipItem(loot, $index)">Equip</button>
+                    <!--TODO ng-class here will eventually have to be in the inventory service-->
+          </div>
+        </div>
+          <i>{{ loot.description }}</i>
+          <p>
+            Type: {{ loot.type }}
+            <span ng-if="loot.stats.health !== 0">&nbsp;| Health: {{ loot.stats.health }}</span>
+            <span ng-if="loot.stats.energy !== 0">&nbsp;| Energy: {{ loot.stats.energy }}</span>
+            <span ng-if="loot.stats.strength !== 0">&nbsp;| STR: {{ loot.stats.strength }}</span>
+            <span ng-if="loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
+            <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
+            <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
+          </p>
+          <hr ng-if="equipment.equipment.length > 1">
+
+
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-6 text-block">
+      <div class="text-center">
+        <div class="btn-group">
+          <button ng-repeat="ally in equipment.activeAllies"
+                  ng-class="ally.icon"
+                  ng-click="equipment.makeActiveSelection(ally)"
+                  class="btn btn-primary icon-btn"></button>
+        </div>
+      </div>
+      <h3 class="text-center">{{ equipment.activeSelection.name }}</h3>
+      <p class="text-center">Health: {{ equipment.activeSelection.baseStats.maxHealth }} | Energy: {{
+        equipment.activeSelection.baseStats.maxEnergy }} | STR: {{ equipment.activeSelection.baseStats.strength }} |
+        DEF: {{ equipment.activeSelection.baseStats.defense }} | SPD: {{ equipment.activeSelection.baseStats.speed }}
+        | INT: {{ equipment.activeSelection.baseStats.intellect }}</p>
+
+      <div ng-repeat="type in equipment.equipmentTypes">
+        <h4 class="text-center">{{ type }}</h4>
+
+        <div ng-repeat="equipment in equipment.activeSelection.equipment | filter: {'type' : type}">
+          <h4 ng-class="{'text-success' : equipment.rarity === 'Uncommon', 'text-warning' : equipment.rarity === 'Rare', 'text-epic' : equipment.rarity === 'Epic'}">
+            {{ equipment.name }}</h4>
+          <p>Health: {{ equipment.stats.health }} | Energy: {{ equipment.stats.energy }} | STR: {{ equipment.stats.strength }} | DEF:
+            {{ equipment.stats.defense }} | SPD: {{ equipment.stats.speed }} | INT: {{ equipment.stats.intellect }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="text-center">
+    <button class="btn btn-primary" ng-click="equipment.backToMain()">Back To Main Menu</button>
+  </div>
+</div>

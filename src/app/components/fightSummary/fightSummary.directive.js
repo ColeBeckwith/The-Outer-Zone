@@ -49,6 +49,10 @@
         }, 1000);
       }
 
+      vm.checkIfReqsMet = function(ally, item) {
+        return inventoryService.checkIfReqsMet(ally, item);
+      };
+
       vm.sellItem = function(item, index) {
         vm.loot.splice(index, 1);
         vm.moneyAwarded += item.worth;
@@ -63,7 +67,7 @@
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
         progressTracker.advanceStory();
-        stateChangeService.setPlayerState('story');
+        stateChangeService.setPlayerState('mainMenu');
       };
 
       vm.tryAgain = function() {

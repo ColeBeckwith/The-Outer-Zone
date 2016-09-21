@@ -34,7 +34,9 @@
             </button>
             <ul uib-dropdown-menu>
               <li class="text-center" ng-repeat="ally in fightSummary.activeAllies">
-                <a ng-click="fightSummary.equipToAlly(ally, $parent.$index, loot)">{{ ally.name }}</a>
+                <a ng-click="fightSummary.equipToAlly(ally, $parent.$index, loot)"
+                   ng-class="{'disabled' : fightSummary.checkIfReqsMet(ally, loot)}">
+                  {{ ally.name }}</a>
               </li>
             </ul>
           </div>
@@ -56,7 +58,6 @@
         <span ng-if="loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
         <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
         <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
-        |
       </p>
       <hr ng-if="fightSummary.loot.length > 1">
     </div>
