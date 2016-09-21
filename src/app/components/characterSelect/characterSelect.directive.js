@@ -38,7 +38,7 @@
         vm.newAlly.moves = [['Attack', 1],['Rest', 1]].concat(vm.activeSelection.moves);
         lootService.pullFromVault(vm.newAlly);
         alliesService.activateAlly(vm.newAlly);
-        stateChangeService.playerState = 'prefight';
+        stateChangeService.playerState = 'mainMenu';
       };
 
     }

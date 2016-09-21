@@ -67,11 +67,11 @@
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
         progressTracker.advanceStory();
-        stateChangeService.setPlayerState('mainMenu');
+        stateChangeService.setPlayerState('story');
       };
 
       vm.tryAgain = function() {
-        stateChangeService.setPlayerState('prefight');
+        stateChangeService.setPlayerState('mainMenu');
       };
     }
   }
