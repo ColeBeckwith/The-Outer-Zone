@@ -51,43 +51,9 @@
           fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
           vm.endTurn();
         } else if (vm.queuePool[0].id >= 200) {
-          vm.enemyAttackAlly(vm.queuePool[0]);
+          movesService.enemyAttackAlly(vm.queuePool[0]);
           vm.endTurn();
         }
-      }
-    };
-
-    vm.enemyAttackAlly = function(enemy) {
-
-      //TODO for Man of Stone create an if that checks for target priority and if not targets as normal.
-
-      var target = Math.floor(Math.random() * alliesService.activeAllies.length);
-      while (alliesService.activeAllies[target].status !== 'alive') {
-        target = Math.floor(Math.random() * alliesService.activeAllies.length);
-      }
-
-      if (alliesService.activeAllies[target].stance === "Parrying") {
-        fightLogService.pushToFightLog(alliesService.activeAllies[target].name + " blocked the attack.");
-        alliesService.activeAllies[target].stanceCount--;
-        if (alliesService.activeAllies[target].stanceCount === 0) {
-          alliesService.activeAllies[target].stance = "Normal";
-        }
-        return;
-      }
-
-      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * alliesService.activeAllies[target].stats.speed)) {
-        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75*alliesService.activeAllies[target].stats.defense));
-
-        if (damage <= 0) {
-          damage = 1;
-        }
-
-        alliesService.activeAllies[target].stats.health -= damage;
-        fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
-        alliesService.checkForDeath(vm.activeAllies[target]);
-        alliesService.updatePercentages(vm.activeAllies[target]);
-      } else {
-        fightLogService.pushToFightLog(alliesService.activeAllies[target].name + ' dodged ' + enemy.name + '\'s attack.')
       }
     };
 
@@ -107,10 +73,6 @@
       }, 400);
 
       vm.cycleQueue();
-
-      if (vm.queuePool[0].id < 200) {
-        fightLogService.pushToFightLog(vm.queuePool[0].name + "'s turn.")
-      }
     };
 
     vm.allyCharge = function() {
@@ -122,6 +84,18 @@
         vm.queuePool.splice(1, 0, ally)
       });
       fightLogService.pushToFightLog("CHARGE!")
+    };
+
+    vm.takeAwayTurn = function(player, numOfTurns) {
+      for (var i = 0; i < vm.queuePool.length; i++) {
+        if (vm.queuePool[i].id === player.id) {
+          vm.queuePool.splice(i, 1);
+          numOfTurns--;
+          if (numOfTurns === 0) {
+            break;
+          }
+        }
+      }
     }
 
   }

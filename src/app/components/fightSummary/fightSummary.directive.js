@@ -44,6 +44,8 @@
 
         vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
 
+        alliesService.restoreAll();
+
         $timeout(function() {
           alliesService.distributeExperience(vm.experienceAwarded);
         }, 1000);

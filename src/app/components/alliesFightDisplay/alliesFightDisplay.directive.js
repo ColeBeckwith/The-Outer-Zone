@@ -33,7 +33,7 @@
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
 
-      vm.selectMove = function (move) {
+      vm.selectMove = function(move) {
         movesService.setSelectedMove(move);
 
         if (movesService.selectedMove === "Attack") {
@@ -56,33 +56,41 @@
         }
 
         if (movesService.selectedMove === "Fury") {
-          if (vm.checkResources(20, 75)) {
-            fightLogService.pushToFightLog('The Scarecrow is in Fury mode.');
+          if (vm.checkResources(40, 75)) {
             fightLogService.pushToFightLog('Select Three Targets');
             enemiesService.selectNumberOfTargets(3);
           }
         }
 
-        if (movesService.selectedMove === "Fortify") {
-          if (vm.checkResources(10, 0)) {
-            var hasFortified = 0;
-            angular.forEach(fightQueueService.queuePool[0].statusEffects, function(status) {
-              if (status.indexOf('Fortified') !== -1) {
-                hasFortified++;
-              }
-            });
+        if (movesService.selectedMove === "Unchained") {
+          fightQueueService.queuePool[0].stats.strength += fightQueueService.queuePool[0].stats.defense;
+          fightQueueService.queuePool[0].stats.defense = 0;
+          fightQueueService.queuePool[0].stats.speed += fightQueueService.queuePool[0].stats.intellect;
+          fightQueueService.queuePool[0].stats.intellect = 0;
+          fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + ' is unchained.');
+          fightQueueService.endTurn();
+        }
 
-            if (!hasFortified) {
+        if (movesService.selectedMove === "Bloodbath") {}
+
+        if (movesService.selectedMove === "Fortify") {
+          if (!alliesService.checkForStatusEffect(fightQueueService.queuePool[0], 'Fortified')) {
+            if (vm.checkResources(10, 0)) {
               var boost = Math.round(fightQueueService.queuePool[0].baseStats.defense * .15);
               fightQueueService.queuePool[0].stats.defense += boost;
               fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + "'s defense has been raised by " + boost + " for the duration of the fight. This effect does NOT stack.");
               fightQueueService.queuePool[0].statusEffects.push(['Fortified', 9999]);
-            } else {
-              fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " has already been fortified.")
+              fightQueueService.endTurn();
             }
-            fightQueueService.endTurn();
+          } else {
+            fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " has already been fortified.");
+            movesService.setSelectedMove('');
           }
         }
+
+        if (movesService.selectedMove === "Absorb") {}
+
+        if (movesService.selectedMove === "Man of Stone") {}
 
         if (movesService.selectedMove === "Parry") {
           if (vm.checkResources(10, 0)) {
@@ -93,12 +101,36 @@
           }
         }
 
+        if (movesService.selectedMove === "Knockout") {
+          if (vm.checkResources(40, 0)) {
+            fightLogService.pushToFightLog('Select target to Knockout.');
+            enemiesService.selectNumberOfTargets(1);
+          }
+        }
+
+        if (movesService.selectedMove === "Death Punch") {}
+
         if (movesService.selectedMove === "Heal") {
           if (vm.checkResources(20, 0)) {
-            $timeout(function () {
+            $timeout(function() {
               vm.targetSelectMode++;
             }, 100);
             fightLogService.pushToFightLog("Select ally to Heal.")
+          }
+        }
+
+        if (movesService.selectedMove === "Energize") {
+          if (vm.checkResources(10, 0)) {
+            $timeout(function() {
+              vm.targetSelectMode++;
+            }, 100);
+            fightLogService.pushToFightLog("Select ally to Energize.")
+          }
+        }
+
+        if (movesService.selectedMove === "Restore") {
+          if (vm.checkResources(120, 0)) {
+            alliesService.restoreAlliesMove(fightQueueService.queuePool[0]);
           }
         }
 
@@ -108,6 +140,10 @@
             fightQueueService.endTurn();
           }
         }
+
+        if (movesService.selectedMove === "Inspire") {}
+
+        if (movesService.selectedMove === "Vanquish") {}
 
         if (movesService.selectedMove === "Upgrade") {
           if (vm.checkResources(2, 0)) {
@@ -152,6 +188,16 @@
             fightQueueService.endTurn();
           }
         }
+
+        if (movesService.selectedMove === "Hijack Weapons") {
+          //Adds status effect to enemies that has a chance to backfire when they attack.
+        }
+
+        if (movesService.selectedMove === "Build Turret") {
+          //Adds another member to ActiveAllies with the "temporary" : true attribute. These are then discarded at
+          // the end of the fight. Need to find a way to 'insert' moves into the queue. Done with Modulus probably.
+        }
+        
       };
 
       vm.checkResources = function(energyReq, healthReq) {
@@ -170,13 +216,22 @@
 
       vm.clickAlly = function(ally) {
         if (vm.targetSelectMode > 0) {
-          ally.stats.health += 3 * fightQueueService.queuePool[0].stats.intellect;
-          if (ally.stats.health > ally.stats.maxHealth) {
-            ally.stats.health = ally.stats.maxHealth;
+          if (movesService.selectedMove === "Heal") {
+            if (ally.status === 'dead') {
+              fightLogService.pushToFightLog(ally.name + " cannot be revived.")
+            } else {
+              alliesService.healAlly(ally, 3 * fightQueueService.queuePool[0].stats.intellect);
+              vm.targetSelectMode--;
+            }
           }
-          alliesService.updatePercentages(ally);
-          fightLogService.pushToFightLog("Healed");
-          vm.targetSelectMode--;
+          if (movesService.selectedMove === "Energize") {
+            if (ally.status === 'dead') {
+              fightLogService.pushToFightLog(ally.name + " cannot be energized.")
+            } else {
+              alliesService.energizeAlly(ally, fightQueueService.queuePool[0].stats.intellect);
+              vm.targetSelectMode--;
+            }
+          }
           if (vm.targetSelectMode === 0) {
             fightQueueService.endTurn();
           }

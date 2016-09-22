@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('enemiesFightDisplay', enemiesFightDisplay);
 
-  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService", "progressTracker", "$timeout"];
+  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "fightLogService", "stateChangeService", "progressTracker", "$timeout", "movesService"];
 
-  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService, progressTracker, $timeout) {
+  function enemiesFightDisplay(enemiesService, fightQueueService, fightLogService, stateChangeService, progressTracker, $timeout, movesService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/enemiesFightDisplay/enemiesFightDisplay.html',
@@ -36,19 +36,21 @@
             enemy.percentageHealth = (enemy.stats.health / enemy.stats.maxHealth) * 100 + '%';
             fightLogService.pushToFightLog(fightQueueService.queuePool[0].name + " attacked " + enemy.name + " for " + damage + " damage.");
 
-            enemiesService.targetSelectMode--;
-            if (enemiesService.targetSelectMode === 0) {
-              fightQueueService.endTurn();
+            if (movesService.selectedMove === "Knockout") {
+              fightQueueService.takeAwayTurn(enemy, 1);
+              fightLogService.pushToFightLog(enemy.name + " is knocked out and will miss their next turn.")
             }
+
+            enemiesService.targetSelectMode--;
 
             vm.checkForDead(enemy);
 
           } else {
             fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
             enemiesService.targetSelectMode--;
-            if (enemiesService.targetSelectMode === 0) {
-              fightQueueService.endTurn();
-            }
+          }
+          if (enemiesService.targetSelectMode === 0) {
+            fightQueueService.endTurn();
           }
         }
       };

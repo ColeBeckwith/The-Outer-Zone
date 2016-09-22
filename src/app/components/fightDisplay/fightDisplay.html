@@ -1,13 +1,26 @@
 <enemies-fight-display></enemies-fight-display>
 
-<div ng-include="'app/components/fightQueue/fightQueue.html'"></div>
-
-<div class="fight-log">
-  <p ng-repeat="entry in fight.fightLog | orderBy : '-'"
-     ng-class="{'text-muted' : entry.id < fight.fightLog.length - 3}"
-     class="flash-in">{{ ::entry.message }}</p>
-  <!--TODO This is utilizing a lot of watchers. Should be bound only once.-->
+<div class="middle-fight-bar">
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+          <div ng-include="'app/components/fightQueue/fightQueue.html'"></div>
+        </div>
+        <div class="col-sm-9">
+          <div class="fight-log">
+            <p ng-repeat="entry in fight.fightLog | orderBy : '-'"
+               ng-class="{'text-muted' : entry.id < fight.fightLog.length - 3}"
+               class="flash-in">{{ ::entry.message }}</p>
+            <!--TODO This is utilizing a lot of watchers. Should be bound only once.-->
+          </div>
+        </div>
+        <!--<div class="col-sm-3">
+          <div class="fight-log text-center">
+            <fight-control ng-if="fight.queuePool[0].id < 200"></fight-control>
+          </div>
+        </div>-->
+    </div>
+  </div>
 </div>
-
 
 <allies-fight-display></allies-fight-display>
