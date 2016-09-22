@@ -9,6 +9,8 @@
 
   function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService) {
     var vm = this;
+    
+    vm.targetSelectMode = 0;
 
     vm.allies = [
       {
@@ -559,6 +561,10 @@
           vm.energizeAlly(ally, health.stats.intellect);
         }
       });
+    };
+    
+    vm.selectNumberOfTargets = function(number) {
+      vm.targetSelectMode = number;
     };
 
     vm.updateActives();

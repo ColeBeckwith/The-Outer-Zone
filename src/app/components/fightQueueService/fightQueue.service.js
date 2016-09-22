@@ -96,6 +96,17 @@
           }
         }
       }
+    };
+
+    vm.selectMove = function(move) {
+      if (move === "Charge") {
+        if (movesService.selectMove(move, vm.queuePool[0])) {
+          vm.allyCharge();
+          vm.endTurn();
+        }
+      } else if (movesService.selectMove(move, vm.queuePool[0])) {
+        vm.endTurn();
+      }
     }
 
   }
