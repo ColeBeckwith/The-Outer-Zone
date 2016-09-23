@@ -1,6 +1,6 @@
 <h1 class="text-center">Select a class for {{ characterSelect.newAlly.name }}</h1>
 <div class="text-center row">
-  <div ng-repeat="build in characterSelect.newAlly.builds"
+  <div ng-repeat="build in characterSelect.builds"
        class="card class-card target"
        ng-click="characterSelect.makeActiveSelection(build)"
        ng-class="{'active-card' : characterSelect.activeSelection === build}">

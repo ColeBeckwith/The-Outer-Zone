@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('characterSelect', characterSelect);
 
-  characterSelect.$inject = ["alliesService", "stateChangeService", "progressTracker", "lootService"];
+  characterSelect.$inject = ["alliesService", "stateChangeService", "progressTracker", "lootService", "buildsService"];
 
-  function characterSelect(alliesService, stateChangeService, progressTracker, lootService) {
+  function characterSelect(alliesService, stateChangeService, progressTracker, lootService, buildsService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/characterSelect/characterSelect.html',
@@ -23,6 +23,7 @@
 
       vm.allies = alliesService.allies;
       vm.newAlly = vm.allies[progressTracker.getNewAlly()];
+      vm.builds = buildsService.getBuilds();
 
       vm.makeActiveSelection = function(build) {
         vm.activeSelection = build;

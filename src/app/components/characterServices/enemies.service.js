@@ -395,7 +395,7 @@
       });
       return vm.enemies[progressTracker.storyProgress]
     };
-    
+
     vm.updateHealthBarType = function(enemy) {
       if ((enemy.stats.health/enemy.stats.maxHealth) > .5) {
         enemy.healthBarType = 'success'
@@ -436,6 +436,7 @@
         enemy.status = 'dead';
         enemy.stats.health = 0;
         enemy.active = false;
+        vm.getCardWidth();
         return true;
       }
     };
@@ -454,5 +455,16 @@
     vm.selectNumberOfTargets = function(number) {
       vm.targetSelectMode = number;
     };
+
+    vm.getCardWidth = function() {
+      var livingEnemies = 0;
+      for (var i = 0; i < vm.enemies[progressTracker.storyProgress].length; i++) {
+        if (vm.enemies[progressTracker.storyProgress][i].status !== 'dead') {
+          livingEnemies++;
+        }
+      }
+      vm.cardWidth = 90/livingEnemies + '%';
+    };
+
   }
 })();

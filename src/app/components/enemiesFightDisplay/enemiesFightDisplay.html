@@ -1,7 +1,7 @@
 <div class="container">
   <div class="fight-bar enemies-fight-bar">
     <div class="card fight-card"
-         ng-style="{width: enemiesFightDisplay.cardWidth}"
+         ng-style="{width: enemiesFightDisplay.enemiesService.cardWidth}"
          ng-repeat="enemy in enemiesFightDisplay.enemies"
          ng-if="enemy.status === 'alive'"
          ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id, 'target' : enemiesFightDisplay.enemiesService.targetSelectMode > 0}"
