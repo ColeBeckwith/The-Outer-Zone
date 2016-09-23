@@ -32,7 +32,7 @@
             'defense' : [3, 1],
             'intellect' : [2, 1]
           },
-          'moves' : [['Fury', 1, 40, 70], ['Unchained', 5, 0, 0], ['Bloodbath', 10, 100, 0]],
+          'moves' : [['Fury', 1, 40, 70], ['Unchained', 5, 0, 0], ['Bloodbath', 10, 10, 0]],
           'icon' : 'fa fa-tint'
 
 
@@ -57,7 +57,7 @@
             'defense' : [1, 1],
             'intellect' : [1, 2]
           },
-          'moves' : [['Parry', 1, 10, 0], ['Knockout', 5, 20, 0], ['Death Punch', 10, 60, 0]],
+          'moves' : [['Parry', 1, 10, 0], ['Knockout', 5, 20, 0], ['Death Punch', 10, 10, 0]],
           'icon' : 'fa fa-trophy'
         },
         {
@@ -80,7 +80,7 @@
             'defense' : [1, 3],
             'intellect' : [2, 1]
           },
-          'moves' : [['Fortify', 1, 10, 0], ['Absorb', 5, 40, 0], ['Man of Stone', 10, 50, 0]],
+          'moves' : [['Fortify', 1, 10, 0], ['Absorb', 5, 10, 0], ['Man of Stone', 10, 10, 0]],
           'icon' : 'fa fa-shield'
         }
       ],

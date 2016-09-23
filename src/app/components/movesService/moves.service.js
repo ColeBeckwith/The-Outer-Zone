@@ -23,21 +23,23 @@
     };
 
     vm.enemyAttackAlly = function(enemy) {
-
-      //TODO for Man of Stone create an if that checks for target priority and if not targets as normal.
-
-      var target = Math.floor(Math.random() * vm.activeAllies.length);
-      while (vm.activeAllies[target].status !== 'alive') {
+      var target = alliesService.checkForTargetPriority();
+      while (vm.activeAllies[target] === undefined || vm.activeAllies[target].status === 'dead') {
         target = Math.floor(Math.random() * vm.activeAllies.length);
       }
 
       if (vm.activeAllies[target].stance === "Parrying") {
-        fightLogService.pushToFightLog(vm.activeAllies[target].name + " blocked the attack.");
-        vm.activeAllies[target].stanceCount--;
-        if (vm.activeAllies[target].stanceCount === 0) {
-          vm.activeAllies[target].stance = "Normal";
-        }
+        enemy.stats.health -= Math.round(vm.activeAllies[target].stats.defense/3);
+        fightLogService.pushToFightLog(vm.activeAllies[target].name + " deflected the attack.");
+        alliesService.reduceStanceCount(vm.activeAllies[target]);
         return;
+      }
+
+      if (vm.activeAllies[target].stance === "Absorbing") {
+        alliesService.healAlly(vm.activeAllies[target], Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
+        fightLogService.pushToFightLog(vm.activeAllies[target].name + " absorbed the attack.");
+        alliesService.reduceStanceCount(vm.activeAllies[target]);
+        return
       }
 
       if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * vm.activeAllies[target].stats.speed)) {
@@ -94,6 +96,11 @@
         }
 
         if (vm.selectedMove[0] === "Bloodbath") {
+          if (!alliesService.checkForStatusEffect(atBat, 'Bloodbath')) {
+            atBat.statusEffects.push(['Bloodbath', 9999]);
+          }
+          fightLogService.pushToFightLog('Let the carnage begin.');
+          return true;
         }
 
         if (vm.selectedMove[0] === "Fortify") {
@@ -110,14 +117,26 @@
           }
         }
 
-        if (vm.selectedMove[0] === "Absorb") {}
+        if (vm.selectedMove[0] === "Absorb") {
+          atBat.stance = 'Absorbing';
+          atBat.stanceCount = 1;
+          fightLogService.pushToFightLog(atBat.name + ' will absorb the next incoming attack.')
+          return true
+        }
 
-        if (vm.selectedMove[0] === "Man of Stone") {}
+        if (vm.selectedMove[0] === "Man of Stone") {
+          atBat.stance = 'Man of Stone';
+          atBat.stanceCount = 9999;
+          atBat.stats.defense += atBat.stats.speed;
+          atBat.stats.speed = 0;
+          fightLogService.pushToFightLog(atBat.name + " is the Man of Stone.");
+          return true
+        }
 
         if (vm.selectedMove[0] === "Parry") {
           atBat.stance = 'Parrying';
           atBat.stanceCount = 2;
-          fightLogService.pushToFightLog("The Scarecrow will deflect the next 2 incoming attacks.");
+          fightLogService.pushToFightLog(atBat.name + " will deflect the next 2 incoming attacks.");
           return true;
         }
 
@@ -126,7 +145,10 @@
           enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Death Punch") {}
+        if (vm.selectedMove[0] === "Death Punch") {
+          fightLogService.pushToFightLog('Select target to Death Punch.');
+          enemiesService.selectNumberOfTargets(1);
+        }
 
         if (vm.selectedMove[0] === "Heal") {
           $timeout(function () {
@@ -156,13 +178,7 @@
 
         if (vm.selectedMove[0] === "Upgrade") {
           angular.forEach(vm.activeAllies, function (ally) {
-            var hasUpgraded = 0;
-            angular.forEach(ally.statusEffects, function (status) {
-              if (status.indexOf('Upgraded') !== -1) {
-                hasUpgraded++;
-              }
-            });
-            if (!hasUpgraded) {
+            if (!alliesService.checkForStatusEffect(ally, 'Upgraded')) {
               var upgrade = Math.round(atBat.stats.intellect / 6);
 
               var max = ally.stats.strength;
@@ -187,6 +203,8 @@
               }
 
               ally.statusEffects.push(['Upgraded', 9999]);
+            } else {
+              fightLogService.pushToFightLog(ally.name + ' has already been upgraded.')
             }
           });
           return true;
@@ -202,6 +220,22 @@
         }
 
         if (vm.selectedMove[0] === "Last Dance") {}
+
+        if (vm.selectedMove[0] === "Poison Tips") {}
+
+        if (vm.selectedMove[0] === "Finishing Touch") {}
+
+        if (vm.selectedMove[0] === "Headshot") {}
+
+        if (vm.selectedMove[0] === "Perch") {}
+
+        if (vm.selectedMove[0] === "Eagle Eye") {}
+
+        if (vm.selectedMove[0] === "Unload") {}
+
+        if (vm.selectedMove[0] === "Arsenal") {}
+
+        if (vm.selectedMove[0] === "Bullet Hell") {}
       }
 
     };
@@ -222,6 +256,17 @@
           alliesService.energizeAlly(allyActed, allyActing.stats.intellect);
           alliesService.targetSelectMode--;
         }
+      }
+    };
+
+    vm.deathPunch = function(enemy, ally) {
+      if (ally.stats.intellect + (Math.random() * 20) > 40) {
+        enemy.stats.health -= 100 + (ally.stats.strength * 3);
+        enemiesService.targetSelectMode--;
+        fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ' in the temple.');
+      } else {
+        fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ', but missed the strike zone.');
+        vm.regularAttackEnemy(enemy, ally)
       }
     };
 

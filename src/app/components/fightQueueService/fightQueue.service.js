@@ -47,10 +47,15 @@
 
     vm.nextTurn = function() {
       if (progressTracker.fightOngoing) {
-        if (vm.queuePool[0].status !== 'alive') {
+        if (vm.queuePool[0].status === 'dead') {
           fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
           vm.endTurn();
-        } else if (vm.queuePool[0].id >= 200) {
+        }
+        if (vm.queuePool[0].stance === 'Man of Stone') {
+          fightLogService.pushToFightLog(vm.queuePool[0].name + " stands firm.");
+          vm.endTurn();
+        }
+        if (vm.queuePool[0].id >= 200) {
           movesService.enemyAttackAlly(vm.queuePool[0]);
           vm.endTurn();
         }
@@ -122,10 +127,15 @@
         }
       }
 
+      if (movesService.selectedMove[0] === 'Death Punch') {
+        movesService.deathPunch(enemy, vm.queuePool[0]);
+      }
+
       enemiesService.updateHealthBarType(enemy);
 
       if (enemiesService.checkForDead(enemy)) {
         fightLogService.pushToFightLog(enemy.name + " has been defeated.");
+        alliesService.runEnemyDeathStatuses();
         vm.removeFromPool(enemy.id);
         if (enemiesService.checkForVictory()) {
           progressTracker.stopFight();

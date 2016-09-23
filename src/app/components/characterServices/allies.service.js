@@ -273,6 +273,35 @@
       vm.targetSelectMode = number;
     };
 
+    vm.checkForTargetPriority = function() {
+      for (var i = 0; i < vm.activeAllies.length; i++) {
+        if (vm.activeAllies[i].stance === 'Man of Stone') {
+          return i
+        }
+      }
+    };
+
+    vm.reduceStanceCount = function(ally) {
+      ally.stanceCount--;
+      if (ally.stanceCount === 0) {
+        ally.stance = "Normal";
+      }
+    };
+
+    vm.runEnemyDeathStatuses = function() {
+      angular.forEach(vm.activeAllies, function(ally) {
+        angular.forEach(ally.statusEffects, function(effect) {
+          if (effect[0] === "Bloodbath") {
+            fightLogService.pushToFightLog(ally.name + ' grows stronger.');
+            ally.stats.strength += (Math.round(ally.stats.strength/3));
+            ally.stats.speed += (Math.round(ally.stats.speed/3));
+            vm.healAlly(ally, (Math.round(ally.stats.maxHealth/6)));
+            vm.energizeAlly(ally, (Math.round(ally.stats.maxEnergy/4)));
+          }
+        })
+      });
+    };
+
     vm.updateActives();
   }
 })();

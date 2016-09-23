@@ -27,6 +27,8 @@
 
       vm.activeAllies = alliesService.activeAllies;
 
+      alliesService.restoreAll();
+
       angular.forEach(vm.activeAllies, function(ally) {
         ally.leveledUp = false;
       });
@@ -43,8 +45,6 @@
         vm.experienceAwarded += enemiesService.getExperience();
 
         vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
-
-        alliesService.restoreAll();
 
         $timeout(function() {
           alliesService.distributeExperience(vm.experienceAwarded);
