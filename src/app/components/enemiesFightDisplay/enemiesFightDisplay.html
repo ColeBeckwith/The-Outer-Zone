@@ -5,7 +5,7 @@
          ng-repeat="enemy in enemiesFightDisplay.enemies"
          ng-if="enemy.status === 'alive'"
          ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id, 'target' : enemiesFightDisplay.enemiesService.targetSelectMode > 0}"
-         ng-click="enemiesFightDisplay.allyAttackEnemy(enemy)">
+         ng-click="enemiesFightDisplay.clickEnemy(enemy)">
       <h5>{{ enemy.name }}</h5>
       <div class="progress">
         <div class="progress-bar progress-bar-success"

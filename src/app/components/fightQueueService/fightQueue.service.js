@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService) {
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService) {
     var vm = this;
 
     vm.buildQueue = function() {
@@ -108,6 +108,34 @@
     vm.actionOnAlly = function(ally) {
       movesService.allyActionAlly(ally, vm.queuePool[0]);
       if (alliesService.targetSelectMode === 0) {
+        vm.endTurn();
+      }
+    };
+
+    vm.actionOnEnemy = function(enemy) {
+      if (['Fury', 'Attack', 'Knockout'].indexOf(movesService.selectedMove[0]) !== -1) {
+        if (movesService.regularAttackEnemy(enemy, vm.queuePool[0])) {
+         if (movesService.selectedMove[0] === 'Knockout') {
+           vm.takeAwayTurn(enemy, 1);
+           fightLogService.pushToFightLog(enemy.name + " is knocked out and will miss their next turn.")
+         }
+        }
+      }
+      
+      if (enemiesService.checkForDead(enemy)) {
+        fightLogService.pushToFightLog(enemy.name + " has been defeated.");
+        vm.removeFromPool(enemy.id);
+        if (enemiesService.checkForVictory()) {
+          progressTracker.stopFight();
+          progressTracker.setBattleWon(true);
+          fightLogService.pushToFightLog("Victorious");
+          $timeout(function() {
+            stateChangeService.setPlayerState("fightSummary");
+          }, 1500);
+        }
+      }
+      
+      if (enemiesService.targetSelectMode === 0) {
         vm.endTurn();
       }
     }

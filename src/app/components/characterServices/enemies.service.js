@@ -417,6 +417,24 @@
       })
     };
 
+    vm.checkForDead = function(enemy) {
+      if (enemy.stats.health <= 0) {
+        enemy.status = 'dead';
+        enemy.stats.health = 0;
+        enemy.active = false;
+        return true;
+      }
+    };
+
+    vm.checkForVictory = function() {
+      for (var i = 0; i < vm.enemies[progressTracker.storyProgress].length; i++) {
+        if (vm.enemies[progressTracker.storyProgress][i].status !== 'dead') {
+          return false;
+        }
+      }
+      return true;
+    };
+
     vm.targetSelectMode = 0;
 
     vm.selectNumberOfTargets = function(number) {

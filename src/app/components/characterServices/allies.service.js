@@ -11,7 +11,7 @@
     var vm = this;
 
     vm.targetSelectMode = 0;
-    
+
     vm.allies = [
       {
         'name' : 'Scarecrow',
@@ -164,7 +164,7 @@
               'intellect' : [1, 1]
             },
             'moves' : [['Charge', 1, 40, 0], ['Inspire', 5, 60, 0], ['Vanquish', 10, 100, 0]],
-            'icon' : 'fa fa-bookmark'
+            'icon' : 'fa fa-flag'
           },
           {
             'name' : 'Engineer',

@@ -207,7 +207,7 @@
     };
 
     vm.allyActionAlly = function(allyActed, allyActing) {
-      if (vm.selectedMove === "Heal") {
+      if (vm.selectedMove[0] === "Heal") {
         if (allyActed.status === 'dead') {
           fightLogService.pushToFightLog(allyActed.name + " cannot be revived.")
         } else {
@@ -215,13 +215,29 @@
           alliesService.targetSelectMode--;
         }
       }
-      if (vm.selectedMove === "Energize") {
+      if (vm.selectedMove[0] === "Energize") {
         if (allyActed.status === 'dead') {
           fightLogService.pushToFightLog(allyActed.name + " cannot be energized.")
         } else {
           alliesService.energizeAlly(allyActed, allyActing.stats.intellect);
           alliesService.targetSelectMode--;
         }
+      }
+    };
+
+    vm.regularAttackEnemy = function(enemy, ally) {
+      enemiesService.targetSelectMode--;
+      if ((Math.random() * 6 * ally.stats.speed) > (Math.random() * enemy.stats.speed)) {
+        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * ally.stats.strength) - (.75 * enemy.stats.defense));
+        if (damage <= 0) {
+          damage = 0;
+        }
+        enemy.stats.health -= damage;
+        enemy.percentageHealth = (enemy.stats.health / enemy.stats.maxHealth) * 100 + '%';
+        fightLogService.pushToFightLog(ally.name + " attacked " + enemy.name + " for " + damage + " damage.");
+        return true;
+      } else {
+        fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
       }
     };
 
