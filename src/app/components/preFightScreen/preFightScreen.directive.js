@@ -33,7 +33,7 @@
         progressTracker.setBattleWon(false);
         progressTracker.startFight();
         fightLogService.clearLog();
-        movesService.setSelectedMove('');
+        movesService.setSelectedMove([]);
         stateChangeService.setPlayerState('fight');
       }
 

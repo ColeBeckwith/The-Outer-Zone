@@ -4,7 +4,7 @@
              ng-repeat="ally in alliesFightDisplay.activeAllies"
              ng-style="{width: alliesFightDisplay.cardWidth}"
              ng-if="ally.status !== 'inactive'"
-             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive'}"
+             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive', 'target' : alliesFightDisplay.alliesService.targetSelectMode > 0}"
              ng-click="alliesFightDisplay.clickAlly(ally)">
 
             <div class="row">
@@ -58,9 +58,9 @@
             <div class="btn-group">
               <button ng-repeat="move in ally.moves"
                       class="btn btn-default"
-                      ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive' || alliesFightDisplay.movesService.selectedMove !== '')}"
+                      ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive' || alliesFightDisplay.movesService.selectedMove.length > 0)}"
                       ng-if="ally.level >= move[1]"
-                      ng-click="alliesFightDisplay.selectMove(move[0])">{{ move[0] }}</button>
+                      ng-click="alliesFightDisplay.selectMove(move)">{{ move[0] }}</button>
             </div>
           </div>
 

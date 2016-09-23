@@ -20,6 +20,8 @@
 
     function enemiesFightDisplayController() {
       var vm = this;
+      
+      vm.enemiesService = enemiesService;
 
       vm.enemies = enemiesService.getEnemies();
 

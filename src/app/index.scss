@@ -96,7 +96,9 @@
   outline: none;
   max-width: 30%;
   margin: 10px;
+}
 
+.target {
   &:hover {
     border: 3px solid gold;
   }

@@ -9,9 +9,9 @@
 
   function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService) {
     var vm = this;
-    
-    vm.targetSelectMode = 0;
 
+    vm.targetSelectMode = 0;
+    
     vm.allies = [
       {
         'name' : 'Scarecrow',
@@ -50,7 +50,7 @@
               'defense' : [3, 1],
               'intellect' : [2, 1]
             },
-            'moves' : [['Fury', 1], ['Unchained', 5], ['Bloodbath', 10]],
+            'moves' : [['Fury', 1, 40, 70], ['Unchained', 5, 0, 0], ['Bloodbath', 10, 100, 0]],
             'icon' : 'fa fa-tint'
             //TODO would be cool to eventually add a passive ability to each class.
 
@@ -75,7 +75,7 @@
               'defense' : [1, 1],
               'intellect' : [1, 2]
             },
-            'moves' : [['Parry', 1], ['Knockout', 5], ['Death Punch', 10]],
+            'moves' : [['Parry', 1, 10, 0], ['Knockout', 5, 20, 0], ['Death Punch', 10, 60, 0]],
             'icon' : 'fa fa-trophy'
           },
           {
@@ -98,7 +98,7 @@
               'defense' : [1, 3],
               'intellect' : [2, 1]
             },
-            'moves' : [['Fortify', 1], ['Absorb', 5], ['Man of Stone', 10]],
+            'moves' : [['Fortify', 1, 10, 0], ['Absorb', 5, 40, 0], ['Man of Stone', 10, 50, 0]],
             'icon' : 'fa fa-shield'
           }
         ]
@@ -140,7 +140,7 @@
               'defense' : [2, 1],
               'intellect' : [1, 2]
             },
-            'moves' : [['Heal', 1], ['Energize', 5], ['Restore', 10]],
+            'moves' : [['Heal', 1, 30, 0], ['Energize', 5, 5, 0], ['Restore', 10, 60, 0]],
             'icon' : 'fa fa-medkit'
           },
           {
@@ -163,7 +163,7 @@
               'defense' : [2, 1],
               'intellect' : [1, 1]
             },
-            'moves' : [['Charge', 1], ['Inspire', 5], ['Vanquish', 10]],
+            'moves' : [['Charge', 1, 40, 0], ['Inspire', 5, 60, 0], ['Vanquish', 10, 100, 0]],
             'icon' : 'fa fa-bookmark'
           },
           {
@@ -186,7 +186,7 @@
               'defense' : [2, 1],
               'intellect' : [1, 4]
             },
-            'moves' : [['Upgrade', 1], ['Hijack Weapons', 5], ['Build Turret', 10]],
+            'moves' : [['Upgrade', 1, 10, 0], ['Hijack Weapons', 5, 20, 0], ['Build Turret', 10, 30, 0]],
             'icon' : 'fa fa-wrench'
         }
       ]
@@ -545,7 +545,7 @@
       vm.updatePercentages(ally);
       fightLogService.pushToFightLog(ally.name + " healed by " + points + " points.");
     };
-    
+
     vm.energizeAlly = function(ally, points) {
       ally.stats.energy += points;
       if (ally.stats.energy > ally.stats.maxEnergy) {
@@ -562,7 +562,7 @@
         }
       });
     };
-    
+
     vm.selectNumberOfTargets = function(number) {
       vm.targetSelectMode = number;
     };

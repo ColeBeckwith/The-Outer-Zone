@@ -66,13 +66,11 @@
     };
 
     vm.endTurn = function() {
-      movesService.setSelectedMove('');
-
+      movesService.setSelectedMove([]);
+      vm.cycleQueue();
       $timeout(function () {
         vm.nextTurn()
       }, 400);
-
-      vm.cycleQueue();
     };
 
     vm.allyCharge = function() {
@@ -99,12 +97,17 @@
     };
 
     vm.selectMove = function(move) {
-      if (move === "Charge") {
-        if (movesService.selectMove(move, vm.queuePool[0])) {
-          vm.allyCharge();
-          vm.endTurn();
+      if (movesService.selectMove(move, vm.queuePool[0])) {
+        if (move[0] === "Charge") {
+          vm.allyCharge()
         }
-      } else if (movesService.selectMove(move, vm.queuePool[0])) {
+        vm.endTurn();
+      }
+    };
+
+    vm.actionOnAlly = function(ally) {
+      movesService.allyActionAlly(ally, vm.queuePool[0]);
+      if (alliesService.targetSelectMode === 0) {
         vm.endTurn();
       }
     }

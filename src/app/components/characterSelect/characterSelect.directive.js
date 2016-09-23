@@ -35,7 +35,7 @@
         vm.newAlly.class = vm.activeSelection.name;
         vm.newAlly.icon = vm.activeSelection.icon;
         vm.newAlly.levelingSchedule = vm.activeSelection.levelingSchedule;
-        vm.newAlly.moves = [['Attack', 1],['Rest', 1]].concat(vm.activeSelection.moves);
+        vm.newAlly.moves = [['Attack', 1, 0, 0],['Rest', 1, 0, 0]].concat(vm.activeSelection.moves);
         lootService.pullFromVault(vm.newAlly);
         alliesService.activateAlly(vm.newAlly);
         stateChangeService.playerState = 'mainMenu';
