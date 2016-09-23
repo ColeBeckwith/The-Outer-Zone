@@ -390,7 +390,20 @@
     ];
 
     vm.getEnemies = function() {
+      angular.forEach (vm.enemies[progressTracker.storyProgress], function(enemy) {
+        enemy.healthBarType = 'success';
+      });
       return vm.enemies[progressTracker.storyProgress]
+    };
+    
+    vm.updateHealthBarType = function(enemy) {
+      if ((enemy.stats.health/enemy.stats.maxHealth) > .5) {
+        enemy.healthBarType = 'success'
+      } else if ((enemy.stats.health/enemy.stats.maxHealth) > .25) {
+        enemy.healthBarType = 'warning'
+      } else {
+        enemy.healthBarType = 'danger'
+      }
     };
 
     vm.getExperience = function() {
@@ -414,6 +427,7 @@
         enemy.stats.health = enemy.stats.maxHealth;
         enemy.status = 'alive';
         enemy.statusEffects = [];
+        enemy.healthBarType = 'success';
       })
     };
 

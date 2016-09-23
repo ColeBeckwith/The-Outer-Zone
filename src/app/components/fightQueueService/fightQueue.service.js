@@ -121,7 +121,9 @@
          }
         }
       }
-      
+
+      enemiesService.updateHealthBarType(enemy);
+
       if (enemiesService.checkForDead(enemy)) {
         fightLogService.pushToFightLog(enemy.name + " has been defeated.");
         vm.removeFromPool(enemy.id);
@@ -134,7 +136,7 @@
           }, 1500);
         }
       }
-      
+
       if (enemiesService.targetSelectMode === 0) {
         vm.endTurn();
       }

@@ -7,14 +7,9 @@
          ng-class="{'border-pulse' : enemy.id === fight.queuePool[0].id, 'target' : enemiesFightDisplay.enemiesService.targetSelectMode > 0}"
          ng-click="enemiesFightDisplay.clickEnemy(enemy)">
       <h5>{{ enemy.name }}</h5>
-      <div class="progress">
-        <div class="progress-bar progress-bar-success"
-             ng-class="{'progress-bar-warning' : enemy.stats.health/enemy.stats.maxHealth <= .5, 'progress-bar-danger' : enemy.stats.health/enemy.stats.maxHealth <= .25}"
-             role="progressbar"
-             style="width: {{ enemy.percentageHealth }}">
-          {{ enemy.stats.health }}/{{ enemy.stats.maxHealth }}
-        </div>
-      </div>
+      <uib-progressbar max="enemy.stats.maxHealth"
+                       value="enemy.stats.health"
+                       type="{{ enemy.healthBarType }}">{{enemy.stats.health}} / {{ enemy.stats.maxHealth }}</uib-progressbar>
       <h6 class="text-center">STR : {{ enemy.stats.strength }} &nbsp; | &nbsp; SPD : {{ enemy.stats.speed }}
         &nbsp; | &nbsp; DEF : {{ enemy.stats.defense }} &nbsp; | &nbsp; INT: {{ enemy.stats.intellect }}</h6>
     </div>

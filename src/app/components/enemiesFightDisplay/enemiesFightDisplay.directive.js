@@ -32,13 +32,14 @@
         }
       };
 
+      //TODO Somehow move the updateActiveEnemies function to the enemiesService
+
       vm.updateActiveEnemies = function() {
         vm.enemyCount = 0;
         angular.forEach(vm.enemies, function(enemy) {
           if (enemy.status !== 'dead') {
             vm.enemyCount++
           }
-          enemy.percentageHealth = (enemy.stats.health/enemy.stats.maxHealth)*100 + '%';
         });
 
         vm.cardWidth = (90/vm.enemyCount).toString() + '%';
