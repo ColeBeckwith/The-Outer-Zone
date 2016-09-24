@@ -25,5 +25,10 @@
     svc.checkIfReqsMet = function(ally, item) {
       return (item.lvlReq > ally.level || (item.characterReq !== ally.id && item.characterReq !== 'None') || (item.classReq !== ally.class && item.classReq !== 'None'))
     };
+    
+    svc.loadGame = function(equipment, money) {
+      svc.equipment = equipment;
+      svc.money = money;
+    }
   }
 })();

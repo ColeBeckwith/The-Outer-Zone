@@ -43,6 +43,11 @@
 
     vm.stopFight = function() {
       vm.fightOngoing = false;
+    };
+    
+    vm.loadGame = function(storyProgress, allyProgress) {
+      vm.storyProgress = storyProgress;
+      vm.newAlly = allyProgress;
     }
   }
 })();

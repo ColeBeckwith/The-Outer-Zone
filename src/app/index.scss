@@ -10,8 +10,18 @@
 // bower:scss
 // endbower
 
+//$ozPrimary: rgb(48, 161, 86);
+$ozPrimary: rgb(72, 161, 103);
+$ozSecondary: gold;
+
 ::-webkit-scrollbar {
   display: none;
+}
+
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
 }
 
 .full-width {
@@ -55,7 +65,7 @@
 }
 
 .team-card {
-  border: 3px solid gray;
+  border: 3px solid $ozPrimary;
   border-radius: 10px;
   width: 100%;
   padding: 0 .6em;
@@ -91,7 +101,7 @@
 .card {
   display: inline-block;
   border-radius: 10px;
-  border: 3px solid gray;
+  border: 3px solid $ozPrimary;
   text-align: left;
   outline: none;
   max-width: 30%;
@@ -100,7 +110,7 @@
 
 .target {
   &:hover {
-    border: 3px solid gold;
+    border: 3px solid $ozSecondary;
   }
 }
 
@@ -120,6 +130,7 @@
 
 .fight-icon {
   font-size: 2em !important;
+  //TODO need to do something about this.
 }
 
 .dead-card {
@@ -127,14 +138,14 @@
 }
 
 .active-card {
-  border: 3px solid gold;
+  border: 3px solid $ozSecondary;
   outline: none;
 }
 
 .text-block {
   width: 70%;
   max-width: 700px;
-  border: 3px solid gray;
+  border: 3px solid $ozPrimary;
   padding: 1em;
   border-radius: 10px;
   margin: 5px auto;
@@ -175,7 +186,7 @@
   }
 
   50% {
-    color: gold;
+    color: $ozSecondary;
   }
 
   100% {
@@ -193,7 +204,7 @@
   }
 
   50% {
-    border-color: gold;
+    border-color: $ozSecondary;
   }
 
   100% {
@@ -206,7 +217,7 @@
 }
 
 @keyframes flash-in {
-  0% {color: gold;}
+  0% {color: $ozSecondary;}
 
   100% {color: white;}
 }

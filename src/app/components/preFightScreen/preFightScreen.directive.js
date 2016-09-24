@@ -23,7 +23,7 @@
 
       vm.allies = alliesService.activeAllies;
       vm.enemies = enemiesService.getEnemies();
-      
+
       vm.fightTitle = storyService.getTitle();
 
       vm.readyUp = function() {
@@ -33,6 +33,7 @@
         progressTracker.setBattleWon(false);
         progressTracker.startFight();
         fightLogService.clearLog();
+        movesService.getActiveAllies();
         movesService.setSelectedMove([]);
         stateChangeService.setPlayerState('fight');
       }

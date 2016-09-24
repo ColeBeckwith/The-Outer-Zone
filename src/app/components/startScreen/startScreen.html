@@ -3,9 +3,12 @@
     <h1>The Outer Zone</h1>
 
     <div class="btn-group-vertical">
-      <button class="btn btn-primary" ng-click="startScreen.newGame()">New Game</button>
+      <button class="btn btn-primary"
+              ng-click="startScreen.newGame()">New Game</button>
       <button class="btn btn-primary disabled">New Game+</button>
-      <button class="btn btn-primary disabled">Continue</button>
+      <button class="btn btn-primary"
+              ng-class="{'disabled' : !startScreen.saveGameRetrieved}"
+              ng-click="startScreen.loadGame()">Continue</button>
       <button class="btn btn-primary">Options</button>
     </div>
   </div>

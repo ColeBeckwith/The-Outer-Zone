@@ -12,7 +12,9 @@
 
     vm.selectedMove = [];
 
-    vm.activeAllies = alliesService.activeAllies;
+    vm.getActiveAllies = function() {
+      vm.activeAllies = alliesService.getActiveAllies();
+    };
 
     vm.setSelectedMove = function(move) {
       vm.selectedMove = move;
@@ -24,7 +26,10 @@
 
     vm.enemyAttackAlly = function(enemy) {
       var target = alliesService.checkForTargetPriority();
-      while (vm.activeAllies[target] === undefined || vm.activeAllies[target].status === 'dead') {
+      if (target === undefined) {
+        target = Math.floor(Math.random() * vm.activeAllies.length)
+      }
+      while (vm.activeAllies[target].status === 'dead') {
         target = Math.floor(Math.random() * vm.activeAllies.length);
       }
 
@@ -298,5 +303,7 @@
         return false;
       }
     };
+
+    vm.getActiveAllies();
   }
 })();

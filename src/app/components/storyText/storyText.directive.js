@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('storyText', storyText);
 
-  storyText.$inject = ["stateChangeService", "progressTracker", "storyService"];
+  storyText.$inject = ["stateChangeService", "progressTracker", "storyService", "saveGame"];
 
-  function storyText(stateChangeService, progressTracker, storyService) {
+  function storyText(stateChangeService, progressTracker, storyService, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/storyText/storyText.html',
@@ -30,6 +30,7 @@
           progressTracker.addNewAlly();
           stateChangeService.setPlayerState('characterSelect');
         } else {
+          saveGame.saveGame();
           stateChangeService.setPlayerState('mainMenu');
         }
       }

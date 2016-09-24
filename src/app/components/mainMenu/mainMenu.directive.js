@@ -25,7 +25,7 @@
 
       vm.goTo = function(state) {
         stateChangeService.setPlayerState(state);
-      }
+      };
 
     }
   }

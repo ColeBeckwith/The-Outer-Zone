@@ -122,6 +122,15 @@
       });
     };
 
+    vm.setAllies = function(allies) {
+      vm.allies = allies;
+      vm.updateActives();
+    };
+
+    vm.getActiveAllies = function() {
+      return vm.activeAllies;
+    };
+
     vm.updatePercentages = function(ally) {
       ally.percentageHealth = (ally.stats.health/ally.stats.maxHealth)*100 + '%';
     };
@@ -279,6 +288,7 @@
           return i
         }
       }
+      return undefined;
     };
 
     vm.reduceStanceCount = function(ally) {
