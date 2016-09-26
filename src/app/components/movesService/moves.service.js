@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('movesService', movesService);
 
-  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout"];
+  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "statusEffectsService"];
 
-  function movesService(alliesService, enemiesService, fightLogService, $timeout) {
+  function movesService(alliesService, enemiesService, fightLogService, $timeout, statusEffectsService) {
     var vm = this;
 
     vm.selectedMove = [];
@@ -25,6 +25,15 @@
     };
 
     vm.enemyAttackAlly = function(enemy) {
+      if (statusEffectsService.checkForStatusEffect(enemy, 'Hijacked')) {
+        var hijack = statusEffectsService.getStatus(enemy, 'Hijacked');
+        if ((Math.random() * 100) < hijack[2]) {
+          fightLogService.pushToFightLog(enemy.name + '\'s weapon backfired.');
+          enemiesService.deliverRegularDamage(enemy, enemy.stats.strength);
+          return;
+        }
+      }
+
       var target = alliesService.checkForTargetPriority();
       if (target === undefined) {
         target = Math.floor(Math.random() * vm.activeAllies.length)
@@ -44,7 +53,7 @@
         alliesService.healAlly(vm.activeAllies[target], Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
         fightLogService.pushToFightLog(vm.activeAllies[target].name + " absorbed the attack.");
         alliesService.reduceStanceCount(vm.activeAllies[target]);
-        return
+        return;
       }
 
       if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * vm.activeAllies[target].stats.speed)) {
@@ -76,7 +85,7 @@
           if (atBat.stats.energy > atBat.stats.maxEnergy) {
             atBat.stats.energy = atBat.stats.maxEnergy;
           }
-          atBat.stats.health += 10;
+          atBat.stats.health += 5;
           if (atBat.stats.health > atBat.stats.maxHealth) {
             atBat.stats.health = atBat.stats.maxHealth;
           }
@@ -101,7 +110,7 @@
         }
 
         if (vm.selectedMove[0] === "Bloodbath") {
-          if (!alliesService.checkForStatusEffect(atBat, 'Bloodbath')) {
+          if (!statusEffectsService.checkForStatusEffect(atBat, 'Bloodbath')) {
             atBat.statusEffects.push(['Bloodbath', 9999]);
           }
           fightLogService.pushToFightLog('Let the carnage begin.');
@@ -109,7 +118,7 @@
         }
 
         if (vm.selectedMove[0] === "Fortify") {
-          if (!alliesService.checkForStatusEffect(atBat, 'Fortified')) {
+          if (!statusEffectsService.checkForStatusEffect(atBat, 'Fortified')) {
             var boost = Math.round(atBat.baseStats.defense * .15);
             atBat.stats.defense += boost;
             fightLogService.pushToFightLog(atBat.name + "'s defense has been raised by " + boost + " for the duration" +
@@ -171,19 +180,30 @@
 
         if (vm.selectedMove[0] === "Restore") {
           alliesService.restoreAlliesMove(atBat);
+          return true;
         }
 
         if (vm.selectedMove[0] === "Charge") {
           return true;
         }
 
-        if (vm.selectedMove[0] === "Inspire") {}
+        if (vm.selectedMove[0] === "Inspire") {
+          angular.forEach(vm.activeAllies, function(ally) {
+            if (ally.id !== atBat.id) {
+              ally.statusEffects.push(['Inspired', 1])
+            }
+          });
+          return true;
+        }
 
-        if (vm.selectedMove[0] === "Vanquish") {}
+        if (vm.selectedMove[0] === "Vanquish") {
+          fightLogService.pushToFightLog('Select target to Vanquish.');
+          enemiesService.selectNumberOfTargets(1);
+        }
 
         if (vm.selectedMove[0] === "Upgrade") {
           angular.forEach(vm.activeAllies, function (ally) {
-            if (!alliesService.checkForStatusEffect(ally, 'Upgraded')) {
+            if (!statusEffectsService.checkForStatusEffect(ally, 'Upgraded')) {
               var upgrade = Math.round(atBat.stats.intellect / 6);
 
               var max = ally.stats.strength;
@@ -216,23 +236,43 @@
         }
 
         if (vm.selectedMove[0] === "Hijack Weapons") {
-          //Adds status effect to enemies that has a chance to backfire when they attack.
+          angular.forEach(enemiesService.getEnemies(), function(enemy) {
+            if (atBat.stats.intellect > enemy.stats.intellect) {
+              enemy.statusEffects.push(["Hijacked", 5, atBat.stats.intellect]);
+              fightLogService.pushToFightLog(enemy.name + '\'s weapons have been hijacked.')
+            } else {
+              fightLogService.pushToFightLog(enemy.name + ' stopped the Hijacking attempt.')
+            }
+          });
+          return true;
         }
 
         if (vm.selectedMove[0] === "Build Turret") {
-          //Adds another member to ActiveAllies with the "temporary" : true attribute. These are then discarded at
-          // the end of the fight. Need to find a way to 'insert' moves into the queue. Done with Modulus probably.
+          atBat.statusEffects.push(['Building Turret', 5]);
+          return true;
         }
 
-        if (vm.selectedMove[0] === "Last Dance") {}
+        if (vm.selectedMove[0] === "Last Dance") {
+          fightLogService.pushToFightLog('Select target to Attack.');
+          enemiesService.selectNumberOfTargets(1);
+        }
 
-        if (vm.selectedMove[0] === "Poison Tips") {}
+        if (vm.selectedMove[0] === "Poison Tips") {
+          atBat.statusEffects.push(['Poison Weapons', 4, atBat.stats.intellect]);
+          return true;
+        }
 
-        if (vm.selectedMove[0] === "Finishing Touch") {}
+        if (vm.selectedMove[0] === "Finishing Touch") {
+          fightLogService.pushToFightLog('Select target to Attack.');
+          enemiesService.selectNumberOfTargets(1);
+        }
 
         if (vm.selectedMove[0] === "Headshot") {}
 
-        if (vm.selectedMove[0] === "Perch") {}
+        if (vm.selectedMove[0] === "Perch") {
+          atBat.stance = 'Perched';
+          return true;
+        }
 
         if (vm.selectedMove[0] === "Eagle Eye") {}
 
@@ -267,7 +307,6 @@
     vm.deathPunch = function(enemy, ally) {
       if (ally.stats.intellect + (Math.random() * 20) > 40) {
         enemy.stats.health -= 100 + (ally.stats.strength * 3);
-        enemiesService.targetSelectMode--;
         fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ' in the temple.');
       } else {
         fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ', but missed the strike zone.');
@@ -275,16 +314,37 @@
       }
     };
 
+    vm.vanquish = function(enemy) {
+      var power = 0;
+      angular.forEach(vm.activeAllies, function(ally) {
+        power += ally.stats.strength;
+      });
+      enemiesService.deliverRegularDamage(enemy, power);
+      fightLogService.pushToFightLog(enemy.name + ' has been Vanquished.')
+    };
+
+    vm.lastDance = function(enemy, ally) {
+      enemiesService.deliverRegularDamage(enemy, ally.stats.speed);
+      if (enemiesService.checkForDead(enemy)) {
+        fightLogService.pushToFightLog('Keep on dancing.');
+        enemiesService.targetSelectMode++;
+      }
+    };
+    
+    vm.finishingTouch = function(enemy) {
+      if (enemy.stats.health/enemy.stats.maxHealth < .3) {
+        enemy.stats.health = 0;
+      }
+    };
+
     vm.regularAttackEnemy = function(enemy, ally) {
-      enemiesService.targetSelectMode--;
       if ((Math.random() * 6 * ally.stats.speed) > (Math.random() * enemy.stats.speed)) {
-        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * ally.stats.strength) - (.75 * enemy.stats.defense));
-        if (damage <= 0) {
-          damage = 0;
+        if (statusEffectsService.checkForStatusEffect(ally, "Poison Weapons")) {
+          var poison = statusEffectsService.getStatus(ally, "Poison Weapons");
+          enemy.statusEffects.push(["Poisoned", 3, poison[2]])
         }
-        enemy.stats.health -= damage;
-        enemy.percentageHealth = (enemy.stats.health / enemy.stats.maxHealth) * 100 + '%';
-        fightLogService.pushToFightLog(ally.name + " attacked " + enemy.name + " for " + damage + " damage.");
+        enemiesService.deliverRegularDamage(enemy, ally.stats.strength);
+        fightLogService.pushToFightLog(ally.name + " attacked " + enemy.name + '.');
         return true;
       } else {
         fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
@@ -292,8 +352,14 @@
     };
 
     vm.checkResources = function(player) {
-      if (player.stats.energy >= vm.selectedMove[2] && player.stats.health > vm.selectedMove[3]) {
-        player.stats.energy -= vm.selectedMove[2];
+      var energyReq = 0;
+      if (statusEffectsService.checkForStatusEffect(player, "Inspired")) {
+        energyReq = Math.floor(vm.selectedMove[2]/2);
+      } else {
+        energyReq = vm.selectedMove[2]
+      }
+      if (player.stats.energy >= energyReq && player.stats.health > vm.selectedMove[3]) {
+        player.stats.energy -= energyReq;
         player.stats.health -= vm.selectedMove[3];
         alliesService.updatePercentages(player);
         return true;

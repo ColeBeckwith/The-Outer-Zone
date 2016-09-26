@@ -121,9 +121,9 @@
         'stats' : {
           'maxHealth' : 150,
           'health' : 150,
-          'speed' : 5,
-          'strength' : 12,
-          'defense' : 10,
+          'speed' : 10,
+          'strength' : 13,
+          'defense' : 13,
           'intellect' : 8
         },
         'experience' : 190,
@@ -137,8 +137,8 @@
             'maxHealth' : 150,
             'health' : 150,
             'speed' : 9,
-            'strength' : 14,
-            'defense' : 8,
+            'strength' : 16,
+            'defense' : 10,
             'intellect' : 8
           },
           'experience' : 190,
@@ -389,9 +389,11 @@
       ]
     ];
 
+    vm.targetSelectMode = 0;
+
     vm.getEnemies = function() {
       angular.forEach (vm.enemies[progressTracker.storyProgress], function(enemy) {
-        enemy.healthBarType = 'success';
+        vm.updateHealthBarType(enemy);
       });
       return vm.enemies[progressTracker.storyProgress]
     };
@@ -449,9 +451,7 @@
       }
       return true;
     };
-
-    vm.targetSelectMode = 0;
-
+    
     vm.selectNumberOfTargets = function(number) {
       vm.targetSelectMode = number;
     };
@@ -465,6 +465,14 @@
       }
       vm.cardWidth = 90/livingEnemies + '%';
     };
+    
+    vm.deliverRegularDamage = function(enemy, power) {
+      var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * power) - (.75 * enemy.stats.defense));
+      if (damage <= 0) {
+        damage = 0;
+      }
+      enemy.stats.health -= damage;
+    }
 
   }
 })();

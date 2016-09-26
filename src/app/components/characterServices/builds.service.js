@@ -105,7 +105,7 @@
             'defense' : [2, 1],
             'intellect' : [1, 2]
           },
-          'moves' : [['Heal', 1, 30, 0], ['Energize', 5, 5, 0], ['Restore', 10, 60, 0]],
+          'moves' : [['Heal', 1, 30, 0], ['Energize', 5, 5, 0], ['Restore', 10, 10, 0]],
           'icon' : 'fa fa-medkit'
         },
         {
@@ -151,7 +151,7 @@
             'defense' : [2, 1],
             'intellect' : [1, 4]
           },
-          'moves' : [['Upgrade', 1, 10, 0], ['Hijack Weapons', 5, 20, 0], ['Build Turret', 10, 30, 0]],
+          'moves' : [['Upgrade', 1, 10, 0], ['Hijack Weapons', 5, 10, 0], ['Build Turret', 10, 10, 0]],
           'icon' : 'fa fa-wrench'
         }
       ],

@@ -16,7 +16,7 @@
       {
         'name' : 'Scarecrow',
         'id' : 101,
-        'level' : 10,
+        'level' : 1,
         'exp' : 0,
         'expNeeded' : 500,
         'status' : 'alive',
@@ -33,7 +33,7 @@
       {
         'name' : 'D. Taylor',
         'id' : 102,
-        'level' : 1,
+        'level' : 10,
         'exp' : 0,
         'expNeeded' : 500,
         'status' : 'inactive',
@@ -242,16 +242,6 @@
       inventoryService.addToInventory([piece]);
     };
 
-    vm.checkForStatusEffect = function(ally, statusToCheck) {
-      var hasStatus = 0;
-      angular.forEach(ally.statusEffects, function(status) {
-        if (status.indexOf(statusToCheck) !== -1) {
-          hasStatus++;
-        }
-      });
-      return hasStatus;
-    };
-
     vm.healAlly = function(ally, points) {
       ally.stats.health += points;
       if (ally.stats.health > ally.stats.maxHealth) {
@@ -273,7 +263,10 @@
       angular.forEach(vm.activeAllies, function(ally) {
         if (ally.id !== healer.id) {
           vm.healAlly(ally, healer.stats.intellect * 3);
-          vm.energizeAlly(ally, health.stats.intellect);
+          vm.energizeAlly(ally, healer.stats.intellect);
+          if (ally.status === 'dead') {
+            ally.status = 'alive'
+          }
         }
       });
     };
@@ -310,6 +303,17 @@
           }
         })
       });
+    };
+    
+    vm.runEndTurnStatusEffects = function(ally) {
+      angular.forEach(ally.statusEffects, function(effect, index) {
+        if (effect[0] === "Poisoned Weapons") {
+          effect[1]--;
+        }
+        if (effect[1] === 0) {
+          ally.statusEffects.splice(index, 1)
+        }
+      })
     };
 
     vm.updateActives();

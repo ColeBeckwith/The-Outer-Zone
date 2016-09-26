@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService", "statusEffectsService"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService) {
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService, statusEffectsService) {
     var vm = this;
 
     vm.buildQueue = function() {
@@ -51,6 +51,10 @@
           fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
           vm.endTurn();
         }
+        if (statusEffectsService.checkForStatusEffect(vm.queuePool[0], "Building Turret")) {
+          fightLogService.pushToFightLog(vm.queuePool[0].name + " is building.");
+          vm.endTurn();
+        }
         if (vm.queuePool[0].stance === 'Man of Stone') {
           fightLogService.pushToFightLog(vm.queuePool[0].name + " stands firm.");
           vm.endTurn();
@@ -71,6 +75,7 @@
     };
 
     vm.endTurn = function() {
+      statusEffectsService.runEndTurnStatusEffects(vm.queuePool[0]);
       movesService.setSelectedMove([]);
       vm.cycleQueue();
       $timeout(function () {
@@ -131,6 +136,18 @@
         movesService.deathPunch(enemy, vm.queuePool[0]);
       }
 
+      if (movesService.selectedMove[0] === 'Vanquish') {
+        movesService.vanquish(enemy);
+      }
+
+      if (movesService.selectedMove[0] === 'Last Dance') {
+        movesService.lastDance(enemy, vm.queuePool[0]);
+      }
+      
+      if (movesService.selectedMove[0] === "Finishing Touch") {
+        movesService.finishingTouch(enemy, vm.queuePool[0]);
+      }
+
       enemiesService.updateHealthBarType(enemy);
 
       if (enemiesService.checkForDead(enemy)) {
@@ -146,6 +163,8 @@
           }, 1500);
         }
       }
+      
+      enemiesService.targetSelectMode--;
 
       if (enemiesService.targetSelectMode === 0) {
         vm.endTurn();
