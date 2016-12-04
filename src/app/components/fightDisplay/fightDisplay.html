@@ -3,10 +3,13 @@
 <div class="middle-fight-bar">
   <div class="container">
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <div ng-include="'app/components/fightQueue/fightQueue.html'"></div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-6">
+          <game-board></game-board>
+        </div>
+        <div class="col-sm-4">
           <div class="fight-log">
             <p ng-repeat="entry in fight.fightLog | orderBy : '-'"
                ng-class="{'text-muted' : entry.id < fight.fightLog.length - 3}"
@@ -14,11 +17,8 @@
             <!--TODO This is utilizing a lot of watchers. Should be bound only once.-->
           </div>
         </div>
-        <!--<div class="col-sm-3">
-          <div class="fight-log text-center">
-            <fight-control ng-if="fight.queuePool[0].id < 200"></fight-control>
-          </div>
-        </div>-->
+
+
     </div>
   </div>
 </div>

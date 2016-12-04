@@ -10,17 +10,110 @@
 
     svc.buildBoardLayout = buildBoardLayout;
     svc.getValidMovements = getValidMovements;
+    svc.placeCharacter = placeCharacter;
+    svc.placeCharacterSet = placeCharacterSet;
     svc.getBoards = getBoards;
+    svc.getBoardNumber = getBoardNumber;
 
     // numRows and numCols are always the max col/row. Boards can be any shape, but they are represented as rectangles
     // and then cells are removed one by one to get the desired shape.
     svc.boards = [
       {
         name: null,
-        numRows: 15,
-        numCols: 15,
+        numCols: 10,
+        numRows: 10,
+        specialCells: null
+      },
+      {
+        name: null,
+        numCols: 25,
+        numRows: 8,
+        specialCells: null
+      },
+      {
+        name: null,
+        numCols: 20,
+        numRows: 10,
+        specialCells: null
+      },
+      {
+        name: null,
+        numCols: 20,
+        numRows: 10,
+        specialCells: null
+      },
+      {
+        name: null,
+        numCols: 20,
+        numRows: 10,
+        specialCells: null
+      },
+      {
+        name: null,
+        numCols: 20,
+        numRows: 10,
         specialCells: null
       }
+    ];
+
+    svc.initialAllyPositions = [
+      [
+        [3, 3],
+        [3, 5],
+        [3, 7]
+      ],
+      [
+        [3, 3],
+        [3, 5],
+        [3, 7]
+      ],
+      [
+        [3, 3],
+        [3, 5],
+        [3, 7]
+      ],
+      [
+        [3, 3],
+        [3, 5],
+        [3, 7]
+      ],
+      [
+        [3, 3],
+        [3, 5],
+        [3, 7]
+      ]
+    ];
+
+    svc.initialEnemyPositions = [
+      [
+        [6, 7]
+      ],
+      [
+        [19, 2],
+        [18, 4],
+        [18, 5],
+        [19, 7]
+      ],
+      [
+        [7, 7],
+        [6, 9]
+      ],
+      [
+        [15, 2],
+        [12, 4],
+        [20, 5],
+        [12, 6],
+        [15, 8]
+      ],
+      [
+        [10, 4],
+        [10, 5],
+        [10, 6]
+      ],
+      [
+        [10, 4],
+        [10, 5]
+      ]
     ];
 
     function buildBoardLayout(boardData) {
@@ -41,8 +134,7 @@
       return boardLayout;
     }
 
-    // currentLoc is passed in as an array e.g. [1, 3]
-    function getValidMovements(boardLayout, currentLoc, distance) {
+    function getValidMovements(board, currentLoc, distance) {
       var availableMoves = [currentLoc];
       var newCells = [currentLoc];
 
@@ -50,10 +142,10 @@
         var cellsToAdd = [];
         angular.forEach(newCells, function(cell) {
           var neighboringCells = [
-              boardLayout[cell.xCoord - 1][cell.yCoord],
-              boardLayout[cell.xCoord + 1][cell.yCoord],
-              boardLayout[cell.xCoord][cell.yCoord - 1],
-              boardLayout[cell.xCoord][cell.yCoord + 1]
+              board.layout[cell.xCoord - 1][cell.yCoord],
+              board.layout[cell.xCoord + 1][cell.yCoord],
+              board.layout[cell.xCoord][cell.yCoord - 1],
+              board.layout[cell.xCoord][cell.yCoord + 1]
           ];
           angular.forEach(neighboringCells, function(neighboringCell) {
             // If it exists, it's not blocked and it's not already added.
@@ -73,8 +165,30 @@
       return availableMoves;
     }
 
+    function placeCharacter(cell, character) {
+      if (!cell.blocked) {
+        cell.occupant = character;
+        cell.blocked = true;
+      }
+    }
+
+    function placeCharacterSet(layout, coordinates, characterSet) {
+      for (var i = 0; i < characterSet.length; i++) {
+        var cell = layout[coordinates[i][0]][coordinates[i][1]];
+        if (!cell.blocked) {
+          cell.occupant = characterSet[i];
+          cell.blocked = true;
+          characterSet[i].location = cell;
+        }
+      }
+    }
+
     function getBoards() {
       return svc.boards;
+    }
+
+    function getBoardNumber(number) {
+      return svc.boards[number];
     }
   }
 

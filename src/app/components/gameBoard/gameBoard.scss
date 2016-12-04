@@ -1,0 +1,25 @@
+.game-board {
+
+  .game-board-row {
+    height: 24px;
+
+    .game-board-cell {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      width: 22px;
+      border: 2px solid gray;
+      border-radius: 3px;
+      margin: 1px;
+
+      .game-board-contents {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50%;
+        width: 50%;
+      }
+    }
+  }
+}

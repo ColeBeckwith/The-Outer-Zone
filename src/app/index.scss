@@ -22,13 +22,12 @@ body {
   min-height: 500px;
   min-width: 1000px;
 }
-//TODO these are not applying to the fight display.
 
-.vertical-center {
-  display: inline-block;
-  vertical-align: middle;
-  float: none;
-}
+//.vertical-center {
+//  display: inline-block;
+//  vertical-align: middle;
+//  float: none;
+//}
 
 .full-width {
   width: 100%;
@@ -44,7 +43,6 @@ body {
 
 .vertical-center {
   min-height: 100vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,9 +168,6 @@ body {
 .center-me {
   display: inline-block;
 }
-
-
-
 
 .icon-btn {
   width: 6em;
