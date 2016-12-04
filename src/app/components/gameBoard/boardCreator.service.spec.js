@@ -54,8 +54,8 @@
 
     describe('getValidMovements', function() {
       beforeEach(function() {
-        this.currentLocation = [7, 7];
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
+        this.currentLocation = this.defaultBoard.layout[7][7];
       });
 
       it('if distance is 0, should return an empty array', function() {
@@ -63,13 +63,31 @@
       });
 
       it('if distance is 1, should return the surrounding cells', function() {
-        var expectedMoves = [[7, 6], [7, 8], [6, 7], [8, 7]].sort();
+        var expectedMoves = [
+            { xCoord: 7, yCoord: 6, blocked: false, special: null },
+            { xCoord: 7, yCoord: 8, blocked: false, special: null },
+            { xCoord: 6, yCoord: 7, blocked: false, special: null },
+            { xCoord: 8, yCoord: 7, blocked: false, special: null }
+          ].sort();
         expect(bc.getValidMovements(this.defaultBoard.layout, this.currentLocation, 1).sort()).toEqual(expectedMoves);
       });
 
       it('if distance is 2, returns all tiles 2 away', function() {
-        var expectedMoves = [[5, 7], [6, 6], [6, 7], [6, 8], [7, 5], [7, 6], [7, 8], [7, 8], [8, 6], [8, 7], [8, 8], [9, 9]];
-        expect(bc.getValidMovements(this.defaultBoard.layout, this.currentLocation, 2).sort()).toEqual(expectedMoves.sort())
+        var expectedMoves = [
+          { xCoord: 7, yCoord: 6, blocked: false, special: null },
+          { xCoord: 7, yCoord: 8, blocked: false, special: null },
+          { xCoord: 6, yCoord: 7, blocked: false, special: null },
+          { xCoord: 8, yCoord: 7, blocked: false, special: null },
+          { xCoord: 6, yCoord: 6, blocked: false, special: null },
+          { xCoord: 6, yCoord: 8, blocked: false, special: null },
+          { xCoord: 5, yCoord: 7, blocked: false, special: null },
+          { xCoord: 8, yCoord: 6, blocked: false, special: null },
+          { xCoord: 8, yCoord: 8, blocked: false, special: null },
+          { xCoord: 9, yCoord: 7, blocked: false, special: null },
+          { xCoord: 7, yCoord: 5, blocked: false, special: null },
+          { xCoord: 7, yCoord: 9, blocked: false, special: null }
+        ].sort();
+        expect(bc.getValidMovements(this.defaultBoard.layout, this.currentLocation, 2)).toEqual(expectedMoves)
       });
 
       it('if blocked in, returns an empty array', function() {

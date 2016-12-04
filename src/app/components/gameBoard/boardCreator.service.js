@@ -50,18 +50,14 @@
         var cellsToAdd = [];
         angular.forEach(newCells, function(cell) {
           var neighboringCells = [
-              [cell[0] - 1, cell[1]],
-              [cell[0] + 1, cell[1]],
-              [cell[0], cell[1] - 1],
-              [cell[0], cell[1] + 1]
+              boardLayout[cell.xCoord - 1][cell.yCoord],
+              boardLayout[cell.xCoord + 1][cell.yCoord],
+              boardLayout[cell.xCoord][cell.yCoord - 1],
+              boardLayout[cell.xCoord][cell.yCoord + 1]
           ];
           angular.forEach(neighboringCells, function(neighboringCell) {
-            availableMoves.push(neighboringCell);
-            cellsToAdd.push(neighboringCell);
-            If it exists, it's not blocked and it's not already added.
-            if (boardLayout[neighboringCell[0]][neighboringCell[1]]
-              && !boardLayout[neighboringCell[0]][neighboringCell[1]].blocked
-              && availableMoves.indexOf(neighboringCell) === -1) {
+            // If it exists, it's not blocked and it's not already added.
+            if (neighboringCell && !neighboringCell.blocked && availableMoves.indexOf(neighboringCell) === -1) {
                 availableMoves.push(neighboringCell);
                 cellsToAdd.push(neighboringCell);
             }
