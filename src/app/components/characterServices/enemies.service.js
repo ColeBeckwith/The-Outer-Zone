@@ -8,9 +8,9 @@
   enemiesService.$inject = ["progressTracker"];
 
   function enemiesService(progressTracker) {
-    var vm = this;
+    var svc = this;
 
-    vm.enemies = [
+    svc.enemies = [
       [
         {
           'name' : 'Clive',
@@ -389,16 +389,16 @@
       ]
     ];
 
-    vm.targetSelectMode = 0;
+    svc.targetSelectMode = 0;
 
-    vm.getEnemies = function() {
-      angular.forEach (vm.enemies[progressTracker.storyProgress], function(enemy) {
-        vm.updateHealthBarType(enemy);
+    svc.getEnemies = function() {
+      angular.forEach (svc.enemies[progressTracker.storyProgress], function(enemy) {
+        svc.updateHealthBarType(enemy);
       });
-      return vm.enemies[progressTracker.storyProgress]
+      return svc.enemies[progressTracker.storyProgress]
     };
 
-    vm.updateHealthBarType = function(enemy) {
+    svc.updateHealthBarType = function(enemy) {
       if ((enemy.stats.health/enemy.stats.maxHealth) > .5) {
         enemy.healthBarType = 'success'
       } else if ((enemy.stats.health/enemy.stats.maxHealth) > .25) {
@@ -408,24 +408,24 @@
       }
     };
 
-    vm.getExperience = function() {
+    svc.getExperience = function() {
       var exp = 0;
-      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+      angular.forEach(svc.enemies[progressTracker.storyProgress], function(enemy) {
         exp += enemy.experience
       });
       return exp;
     };
 
-    vm.getMoney = function() {
+    svc.getMoney = function() {
       var money = 0;
-      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+      angular.forEach(svc.enemies[progressTracker.storyProgress], function(enemy) {
         money += enemy.money
       });
       return money;
     };
 
-    vm.restoreAll = function() {
-      angular.forEach(vm.enemies[progressTracker.storyProgress], function(enemy) {
+    svc.restoreAll = function() {
+      angular.forEach(svc.enemies[progressTracker.storyProgress], function(enemy) {
         enemy.stats.health = enemy.stats.maxHealth;
         enemy.status = 'alive';
         enemy.statusEffects = [];
@@ -433,40 +433,41 @@
       })
     };
 
-    vm.checkForDead = function(enemy) {
+    svc.checkForDead = function(enemy) {
       if (enemy.stats.health <= 0) {
         enemy.status = 'dead';
         enemy.stats.health = 0;
         enemy.active = false;
-        vm.getCardWidth();
+        svc.getCardWidth();
         return true;
       }
+      return false;
     };
 
-    vm.checkForVictory = function() {
-      for (var i = 0; i < vm.enemies[progressTracker.storyProgress].length; i++) {
-        if (vm.enemies[progressTracker.storyProgress][i].status !== 'dead') {
+    svc.checkForVictory = function() {
+      for (var i = 0; i < svc.enemies[progressTracker.storyProgress].length; i++) {
+        if (svc.enemies[progressTracker.storyProgress][i].status !== 'dead') {
           return false;
         }
       }
       return true;
     };
-    
-    vm.selectNumberOfTargets = function(number) {
-      vm.targetSelectMode = number;
+
+    svc.selectNumberOfTargets = function(number) {
+      svc.targetSelectMode = number;
     };
 
-    vm.getCardWidth = function() {
+    svc.getCardWidth = function() {
       var livingEnemies = 0;
-      for (var i = 0; i < vm.enemies[progressTracker.storyProgress].length; i++) {
-        if (vm.enemies[progressTracker.storyProgress][i].status !== 'dead') {
+      for (var i = 0; i < svc.enemies[progressTracker.storyProgress].length; i++) {
+        if (svc.enemies[progressTracker.storyProgress][i].status !== 'dead') {
           livingEnemies++;
         }
       }
-      vm.cardWidth = 90/livingEnemies + '%';
+      svc.cardWidth = 90/livingEnemies + '%';
     };
-    
-    vm.deliverRegularDamage = function(enemy, power) {
+
+    svc.deliverRegularDamage = function(enemy, power) {
       var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * power) - (.75 * enemy.stats.defense));
       if (damage <= 0) {
         damage = 0;

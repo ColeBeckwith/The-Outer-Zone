@@ -10,13 +10,19 @@
 // bower:scss
 // endbower
 
-//$ozPrimary: rgb(48, 161, 86);
 $ozPrimary: rgb(72, 161, 103);
 $ozSecondary: gold;
 
 ::-webkit-scrollbar {
   display: none;
 }
+
+body {
+  height: auto;
+  min-height: 500px;
+  min-width: 1000px;
+}
+//TODO these are not applying to the fight display.
 
 .vertical-center {
   display: inline-block;
