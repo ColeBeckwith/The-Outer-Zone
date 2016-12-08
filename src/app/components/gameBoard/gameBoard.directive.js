@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive("gameBoard", gameBoard);
 
-  gameBoard.$inject = ["boardCreator", "progressTracker", "alliesService", "enemiesService"];
+  gameBoard.$inject = ["boardCreator", "fightQueueService"];
 
-  function gameBoard(boardCreator, progressTracker, alliesService, enemiesService) {
+  function gameBoard(boardCreator, fightQueueService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/gameBoard/gameBoard.html',
@@ -21,22 +21,43 @@
     function gameBoardCtrl() {
       var vm = this;
 
-      vm.board = null;
-
-      vm.getBoard = getBoard;
+      vm.selectCell = selectCell;
+      vm.mouseEnter = mouseEnter;
+      vm.mouseLeave = mouseLeave;
 
       activate();
 
       function activate() {
-        getBoard();
+        vm.board = boardCreator.currentBoard;
       }
 
-      function getBoard() {
-        var storyProgress = progressTracker.getStoryProgress();
-        vm.board = boardCreator.getBoardNumber(storyProgress);
-        vm.board.layout = boardCreator.buildBoardLayout(vm.board);
-        boardCreator.placeCharacterSet(vm.board.layout, boardCreator.initialAllyPositions[storyProgress], alliesService.getActiveAllies());
-        boardCreator.placeCharacterSet(vm.board.layout, boardCreator.initialEnemyPositions[storyProgress], enemiesService.getEnemies());
+      function selectCell(cell) {
+        if (cell.movable) {
+          var player = fightQueueService.queuePool[0];
+          boardCreator.placeCharacter(cell, player, vm.board);
+          boardCreator.clearMoveAndTarget();
+        }
+        if (cell.targetable) {
+          if (cell.occupant) {
+            if (cell.occupant.id >= 200) {
+              fightQueueService.actionOnEnemy(cell.occupant);
+            } else {
+              fightQueueService.actionOnAlly(cell.occupant);
+            }
+          }
+        }
+      }
+
+      function mouseEnter(cell) {
+        if (cell.occupant) {
+          cell.occupant.hovered = true;
+        }
+      }
+
+      function mouseLeave(cell) {
+        if (cell.occupant) {
+          cell.occupant.hovered = false;
+        }
       }
     }
 

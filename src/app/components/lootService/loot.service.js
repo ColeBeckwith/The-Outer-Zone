@@ -403,6 +403,7 @@
     ];
 
     svc.gimmeTheLoot = function() {
+      // TODO these need to be a copy of the loot in question, so that the vaults are not emptied out.
       var loot = [];
       var exp = enemiesService.getExperience();
       var chance = Math.random() * 100000 + exp;

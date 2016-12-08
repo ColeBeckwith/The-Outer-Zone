@@ -5,99 +5,103 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService", "statusEffectsService"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService", "statusEffectsService", "boardCreator"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService, statusEffectsService) {
-    var vm = this;
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService, statusEffectsService, boardCreator) {
+    var svc = this;
 
-    vm.buildQueue = function() {
-      vm.activeAllies = alliesService.activeAllies;
-      vm.enemies = enemiesService.getEnemies();
-      vm.queuePool = [];
+    svc.buildQueue = function() {
+      svc.activeAllies = alliesService.activeAllies;
+      svc.enemies = enemiesService.getEnemies();
+      svc.queuePool = [];
 
-      angular.forEach(vm.activeAllies, function(ally) {
+      angular.forEach(svc.activeAllies, function(ally) {
         var x = 0;
         while (x < ally.stats.speed) {
-          vm.queuePool.push(ally);
+          svc.queuePool.push(ally);
           x++;
         }
       });
 
-      angular.forEach(vm.enemies, function(enemy) {
+      angular.forEach(svc.enemies, function(enemy) {
         var x = 0;
         while (x < enemy.stats.speed) {
-          vm.queuePool.push(enemy);
+          svc.queuePool.push(enemy);
           x++;
         }
       });
 
-      for (var i = vm.queuePool.length - 1; i > 0; i--) {
+      for (var i = svc.queuePool.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
-        var temp = vm.queuePool[i];
-        vm.queuePool[i] = vm.queuePool[j];
-        vm.queuePool[j] = temp;
+        var temp = svc.queuePool[i];
+        svc.queuePool[i] = svc.queuePool[j];
+        svc.queuePool[j] = temp;
       }
 
-      return vm.queuePool;
+      return svc.queuePool;
     };
 
-    vm.cycleQueue = function() {
-      vm.queuePool.push(vm.queuePool.shift());
+    svc.cycleQueue = function() {
+      svc.queuePool.push(svc.queuePool.shift());
     };
 
-    vm.nextTurn = function() {
+    svc.nextTurn = function() {
       if (progressTracker.fightOngoing) {
-        if (vm.queuePool[0].status === 'dead') {
-          fightLogService.pushToFightLog(vm.queuePool[0].name + " is unable to act.");
-          vm.endTurn();
-        }
-        if (statusEffectsService.checkForStatusEffect(vm.queuePool[0], "Building Turret")) {
-          fightLogService.pushToFightLog(vm.queuePool[0].name + " is building.");
-          vm.endTurn();
-        }
-        if (vm.queuePool[0].stance === 'Man of Stone') {
-          fightLogService.pushToFightLog(vm.queuePool[0].name + " stands firm.");
-          vm.endTurn();
-        }
-        if (vm.queuePool[0].id >= 200) {
-          movesService.enemyAttackAlly(vm.queuePool[0]);
-          vm.endTurn();
-        }
-      }
-    };
-
-    vm.removeFromPool = function(id) {
-      for (var i = vm.queuePool.length - 1; i >= 0; i--) {
-        if (vm.queuePool[i].id === id) {
-          vm.queuePool.splice(i, 1);
+        if (svc.queuePool[0].status === 'dead') {
+          fightLogService.pushToFightLog(svc.queuePool[0].name + " is unable to act.");
+          svc.endTurn();
+        } else if (statusEffectsService.checkForStatusEffect(svc.queuePool[0], "Building Turret")) {
+          fightLogService.pushToFightLog(svc.queuePool[0].name + " is building.");
+          svc.endTurn();
+        } else if (svc.queuePool[0].stance === 'Man of Stone') {
+          fightLogService.pushToFightLog(svc.queuePool[0].name + " stands firm.");
+          svc.endTurn();
+        } else if (svc.queuePool[0].id >= 200) {
+          movesService.enemyAttackAlly(svc.queuePool[0]);
+          svc.endTurn();
+        } else {
+          var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
+          var currentLocation = [svc.queuePool[0].coordinates.x, svc.queuePool[0].coordinates.y];
+          var validMoves = boardCreator.getValidMovements(boardCreator.currentBoard, currentLocation, distance);
+          boardCreator.makeCellsMovable(validMoves);
+          fightLogService.pushToFightLog('Select Move or Action.');
         }
       }
     };
 
-    vm.endTurn = function() {
-      statusEffectsService.runEndTurnStatusEffects(vm.queuePool[0]);
-      movesService.setSelectedMove([]);
-      vm.cycleQueue();
+    svc.endTurn = function() {
+      boardCreator.clearMoveAndTarget();
+      statusEffectsService.runEndTurnStatusEffects(svc.queuePool[0]);
+      movesService.setSelectedMove(null);
+      svc.cycleQueue();
       $timeout(function () {
-        vm.nextTurn()
+        svc.nextTurn();
       }, 400);
     };
 
-    vm.allyCharge = function() {
+    svc.removeFromPool = function(id) {
+      for (var i = svc.queuePool.length - 1; i >= 0; i--) {
+        if (svc.queuePool[i].id === id) {
+          svc.queuePool.splice(i, 1);
+        }
+      }
+    };
+
+    svc.allyCharge = function() {
       var temp = [];
-      angular.forEach(vm.activeAllies, function(ally) {
+      angular.forEach(svc.activeAllies, function(ally) {
         temp.push(ally);
       });
       angular.forEach(temp, function(ally) {
-        vm.queuePool.splice(1, 0, ally)
+        svc.queuePool.splice(1, 0, ally)
       });
       fightLogService.pushToFightLog("CHARGE!")
     };
 
-    vm.takeAwayTurn = function(player, numOfTurns) {
-      for (var i = 0; i < vm.queuePool.length; i++) {
-        if (vm.queuePool[i].id === player.id) {
-          vm.queuePool.splice(i, 1);
+    svc.takeAwayTurn = function(player, numOfTurns) {
+      for (var i = 0; i < svc.queuePool.length; i++) {
+        if (svc.queuePool[i].id === player.id) {
+          svc.queuePool.splice(i, 1);
           numOfTurns--;
           if (numOfTurns === 0) {
             break;
@@ -106,46 +110,55 @@
       }
     };
 
-    vm.selectMove = function(move) {
-      if (movesService.selectMove(move, vm.queuePool[0])) {
-        if (move[0] === "Charge") {
-          vm.allyCharge()
+    svc.selectMove = function(move) {
+      // Fight Queue needs to know if the turn will end or not, so it passes through on its way to the movesService.
+      if (movesService.selectMove(move, svc.queuePool[0])) {
+        if (move.name === "Charge") {
+          svc.allyCharge()
         }
-        vm.endTurn();
+        svc.endTurn();
       }
     };
 
-    vm.actionOnAlly = function(ally) {
-      movesService.allyActionAlly(ally, vm.queuePool[0]);
+    svc.actionOnAlly = function(ally) {
+      if (movesService.selectedMove.targetType !== 'Ally') {
+        fightLogService.pushToFightLog('Cannot target Ally with this move');
+        return;
+      }
+      movesService.allyActionAlly(ally, svc.queuePool[0]);
       if (alliesService.targetSelectMode === 0) {
-        vm.endTurn();
+        svc.endTurn();
       }
     };
 
-    vm.actionOnEnemy = function(enemy) {
-      if (['Fury', 'Attack', 'Knockout'].indexOf(movesService.selectedMove[0]) !== -1) {
-        if (movesService.regularAttackEnemy(enemy, vm.queuePool[0])) {
-         if (movesService.selectedMove[0] === 'Knockout') {
-           vm.takeAwayTurn(enemy, 1);
+    svc.actionOnEnemy = function(enemy) {
+      if (movesService.selectedMove.targetType !== 'Enemy') {
+        fightLogService.pushToFightLog('Cannot target Enemy with this move');
+        return;
+      }
+      if (['Fury', 'Attack', 'Knockout'].indexOf(movesService.selectedMove.name) !== -1) {
+        if (movesService.regularAttackEnemy(enemy, svc.queuePool[0])) {
+         if (movesService.selectedMove.name === 'Knockout') {
+           svc.takeAwayTurn(enemy, 1);
            fightLogService.pushToFightLog(enemy.name + " is knocked out and will miss their next turn.")
          }
         }
       }
 
-      if (movesService.selectedMove[0] === 'Death Punch') {
-        movesService.deathPunch(enemy, vm.queuePool[0]);
+      if (movesService.selectedMove.name === 'Death Punch') {
+        movesService.deathPunch(enemy, svc.queuePool[0]);
       }
 
-      if (movesService.selectedMove[0] === 'Vanquish') {
+      if (movesService.selectedMove.name === 'Vanquish') {
         movesService.vanquish(enemy);
       }
 
-      if (movesService.selectedMove[0] === 'Last Dance') {
-        movesService.lastDance(enemy, vm.queuePool[0]);
+      if (movesService.selectedMove.name === 'Last Dance') {
+        movesService.lastDance(enemy, svc.queuePool[0]);
       }
-      
-      if (movesService.selectedMove[0] === "Finishing Touch") {
-        movesService.finishingTouch(enemy, vm.queuePool[0]);
+
+      if (movesService.selectedMove.name === "Finishing Touch") {
+        movesService.finishingTouch(enemy, svc.queuePool[0]);
       }
 
       enemiesService.updateHealthBarType(enemy);
@@ -153,7 +166,7 @@
       if (enemiesService.checkForDead(enemy)) {
         fightLogService.pushToFightLog(enemy.name + " has been defeated.");
         alliesService.runEnemyDeathStatuses();
-        vm.removeFromPool(enemy.id);
+        svc.removeFromPool(enemy.id);
         if (enemiesService.checkForVictory()) {
           progressTracker.stopFight();
           progressTracker.setBattleWon(true);
@@ -163,11 +176,11 @@
           }, 1500);
         }
       }
-      
+
       enemiesService.targetSelectMode--;
 
       if (enemiesService.targetSelectMode === 0) {
-        vm.endTurn();
+        svc.endTurn();
       }
     }
 

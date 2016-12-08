@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('fightSummary', fightSummary);
 
-  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout", "lootService", "inventoryService"];
+  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout", "lootService", "inventoryService", "boardCreator"];
 
-  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService, inventoryService) {
+  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService, inventoryService, boardCreator) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -26,6 +26,8 @@
       vm.moneyAwarded = 0;
 
       vm.activeAllies = alliesService.activeAllies;
+
+      vm.allies = alliesService.allies;
 
       alliesService.restoreAll();
 
@@ -66,6 +68,7 @@
       };
 
       vm.continue = function() {
+        boardCreator.clearAllyLocations(vm.allies);
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
         progressTracker.advanceStory();

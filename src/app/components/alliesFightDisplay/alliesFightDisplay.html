@@ -3,9 +3,11 @@
     <div class="fight-bar allies-fight-bar">
         <div class="card fight-card"
              ng-repeat="ally in alliesFightDisplay.activeAllies"
-             ng-style="{width: alliesFightDisplay.cardWidth}"
+             ng-style="{width: enemiesFightDisplay.enemiesService.cardWidth}"
              ng-if="ally.status !== 'inactive'"
-             ng-class="{'border-pulse' : ally.id === fight.queuePool[0].id, 'dead-card' : ally.status !== 'alive', 'target' : alliesFightDisplay.alliesService.targetSelectMode > 0}"
+             ng-class="{'border-pulse at-bat' : ally.id === fight.queuePool[0].id,
+                        'dead-card' : ally.status !== 'alive',
+                        'target' : alliesFightDisplay.alliesService.targetSelectMode > 0}"
              ng-click="alliesFightDisplay.clickAlly(ally)">
 
             <div class="row">
@@ -16,7 +18,7 @@
             </div>
 
             <div class="text-center">
-              <span style="font-size: 80%;">
+              <span class="level-and-stance">
                 Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance}}
               </span>
             </div>
@@ -59,12 +61,16 @@
             </div>-->
           <!--This may still be useful when the list of moves is too long-->
 
-          <div class="btn-group move-btn-group text-center">
+          <div class="btn-group move-btn-group text-center"
+               ng-if="ally.id === fight.queuePool[0].id">
             <button ng-repeat="move in ally.moves"
                     class="btn btn-default move-btn"
-                    ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive' || alliesFightDisplay.movesService.selectedMove.length > 0)}"
-                    ng-if="ally.level >= move[1]"
-                    ng-click="alliesFightDisplay.selectMove(move)">{{ move[0] }}</button>
+                    ng-class="{'disabled' : (ally.id !== fight.queuePool[0].id || ally.status !== 'alive' || alliesFightDisplay.movesService.selectedMove)}"
+                    ng-if="ally.level >= move.levelReq && !alliesFightDisplay.movesService.selectedMove"
+                    ng-click="alliesFightDisplay.selectMove(move)">{{ move.name }}</button>
+            <button class="btn btn-default move-btn"
+                    ng-if="alliesFightDisplay.movesService.selectedMove"
+                    ng-click="alliesFightDisplay.pass()">Pass</button>
           </div>
         </div>
     </div>

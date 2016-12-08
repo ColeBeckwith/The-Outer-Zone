@@ -13,6 +13,40 @@
       border-radius: 3px;
       margin: 1px;
 
+      &:hover {
+        border-color: gold;
+      }
+
+      &.movable {
+        background-color: yellow;
+        opacity: .7;
+
+        &:hover {
+          opacity: 1;
+          border-color: gray;
+        }
+      }
+
+      &.enemy-targetable {
+        background-color: red;
+        opacity: .7;
+
+        &.hover {
+          opacity: 1;
+          border-color: gray;
+        }
+      }
+
+      &.ally-targetable {
+        background-color: green;
+        opacity: .7;
+
+        &.hover {
+          opacity: 1;
+          border-color: gray;
+        }
+      }
+
       .game-board-contents {
         display: flex;
         align-items: center;

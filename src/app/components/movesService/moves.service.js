@@ -5,26 +5,45 @@
     .module('outerZone')
     .service('movesService', movesService);
 
-  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "statusEffectsService"];
+  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "statusEffectsService", "boardCreator"];
 
-  function movesService(alliesService, enemiesService, fightLogService, $timeout, statusEffectsService) {
-    var vm = this;
+  function movesService(alliesService, enemiesService, fightLogService, $timeout, statusEffectsService, boardCreator) {
+    var svc = this;
 
-    vm.selectedMove = [];
+    svc.selectedMove = null;
 
-    vm.getActiveAllies = function() {
-      vm.activeAllies = alliesService.getActiveAllies();
+    svc.getActiveAllies = getActiveAllies;
+    svc.setSelectedMove = setSelectedMove;
+    svc.getSelectedMove = getSelectedMove;
+    svc.enemyAttackAlly = enemyAttackAlly;
+    svc.selectMove = selectMove;
+    svc.allyActionAlly = allyActionAlly;
+    svc.deathPunch = deathPunch;
+    svc.vanquish = vanquish;
+    svc.lastDance = lastDance;
+    svc.finishingTouch = finishingTouch;
+    svc.regularAttackEnemy = regularAttackEnemy;
+    svc.checkResources = checkResources;
+
+    activate();
+
+    function activate() {
+      getActiveAllies();
+    }
+
+    function getActiveAllies() {
+      svc.activeAllies = alliesService.getActiveAllies();
+    }
+
+    function setSelectedMove(move) {
+      svc.selectedMove = move;
     };
 
-    vm.setSelectedMove = function(move) {
-      vm.selectedMove = move;
+    function getSelectedMove() {
+      return svc.selectedMove;
     };
 
-    vm.getSelectedMove = function() {
-      return vm.selectedMove;
-    };
-
-    vm.enemyAttackAlly = function(enemy) {
+    function enemyAttackAlly(enemy) {
       if (statusEffectsService.checkForStatusEffect(enemy, 'Hijacked')) {
         var hijack = statusEffectsService.getStatus(enemy, 'Hijacked');
         if ((Math.random() * 100) < hijack[2]) {
@@ -36,51 +55,70 @@
 
       var target = alliesService.checkForTargetPriority();
       if (target === undefined) {
-        target = Math.floor(Math.random() * vm.activeAllies.length)
+        target = Math.floor(Math.random() * svc.activeAllies.length)
       }
-      while (vm.activeAllies[target].status === 'dead') {
-        target = Math.floor(Math.random() * vm.activeAllies.length);
+      while (svc.activeAllies[target].status === 'dead') {
+        target = Math.floor(Math.random() * svc.activeAllies.length);
       }
 
-      if (vm.activeAllies[target].stance === "Parrying") {
-        enemy.stats.health -= Math.round(vm.activeAllies[target].stats.defense/3);
-        fightLogService.pushToFightLog(vm.activeAllies[target].name + " deflected the attack.");
-        alliesService.reduceStanceCount(vm.activeAllies[target]);
+      if (svc.activeAllies[target].stance === "Parrying") {
+        enemy.stats.health -= Math.round(svc.activeAllies[target].stats.defense/3);
+        fightLogService.pushToFightLog(svc.activeAllies[target].name + " deflected the attack.");
+        alliesService.reduceStanceCount(svc.activeAllies[target]);
         return;
       }
 
-      if (vm.activeAllies[target].stance === "Absorbing") {
-        alliesService.healAlly(vm.activeAllies[target], Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
-        fightLogService.pushToFightLog(vm.activeAllies[target].name + " absorbed the attack.");
-        alliesService.reduceStanceCount(vm.activeAllies[target]);
+      if (svc.activeAllies[target].stance === "Absorbing") {
+        alliesService.healAlly(svc.activeAllies[target], Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
+        fightLogService.pushToFightLog(svc.activeAllies[target].name + " absorbed the attack.");
+        alliesService.reduceStanceCount(svc.activeAllies[target]);
         return;
       }
 
-      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * vm.activeAllies[target].stats.speed)) {
-        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75 * vm.activeAllies[target].stats.defense));
+      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * svc.activeAllies[target].stats.speed)) {
+        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75 * svc.activeAllies[target].stats.defense));
 
         if (damage <= 0) {
           damage = 1;
         }
 
         alliesService.activeAllies[target].stats.health -= damage;
-        fightLogService.pushToFightLog(enemy.name + " attacked " + vm.activeAllies[target].name + " for " + damage + " damage.");
-        alliesService.checkForDeath(vm.activeAllies[target]);
-        alliesService.updatePercentages(vm.activeAllies[target]);
+        fightLogService.pushToFightLog(enemy.name + " attacked " + svc.activeAllies[target].name + " for " + damage + " damage.");
+        alliesService.checkForDeath(svc.activeAllies[target]);
+        alliesService.updatePercentages(svc.activeAllies[target]);
       } else {
-        fightLogService.pushToFightLog(vm.activeAllies[target].name + ' dodged ' + enemy.name + '\'s attack.')
+        fightLogService.pushToFightLog(svc.activeAllies[target].name + ' dodged ' + enemy.name + '\'s attack.')
       }
     };
 
-    vm.selectMove = function(move, atBat) {
-      vm.setSelectedMove(move);
-      if (vm.checkResources(atBat)) {
-        if (vm.selectedMove[0] === "Attack") {
-          fightLogService.pushToFightLog('Select target to Attack.');
-          enemiesService.selectNumberOfTargets(1);
+    function selectMove(move, atBat) {
+      svc.setSelectedMove(move);
+      if (checkResources(atBat, move)) {
+        boardCreator.clearMoveAndTarget();
+
+        if (svc.selectedMove.numOfTargets) {
+          if (svc.selectedMove.targetType === "Enemy") {
+            enemiesService.selectNumberOfTargets(svc.selectedMove.numOfTargets);
+          } else if (svc.selectedMove.targetType === "Ally") {
+            $timeout(function () {
+              alliesService.selectNumberOfTargets(svc.selectedMove.numOfTargets);
+            }, 100);
+          }
         }
 
-        if (vm.selectedMove[0] === "Rest") {
+        if (svc.selectedMove.range) {
+          if (svc.selectedMove.rangeType === 'Single Cell') {
+            var origin = [atBat.coordinates.x, atBat.coordinates.y];
+            var targetableCells = boardCreator.getValidTargets(null, origin, svc.selectedMove.range);
+            boardCreator.makeCellsTargetable(targetableCells, svc.selectedMove.targetType);
+          }
+        }
+
+        if (move.name === "Attack") {
+          fightLogService.pushToFightLog('Select target to Attack.');
+        }
+
+        if (move.name === "Rest") {
           atBat.stats.energy += 5;
           if (atBat.stats.energy > atBat.stats.maxEnergy) {
             atBat.stats.energy = atBat.stats.maxEnergy;
@@ -94,12 +132,11 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Fury") {
+        if (svc.selectedMove.name === "Fury") {
           fightLogService.pushToFightLog('Select Three Targets');
-          enemiesService.selectNumberOfTargets(3);
         }
 
-        if (vm.selectedMove[0] === "Unchained") {
+        if (svc.selectedMove.name === "Unchained") {
           //Needs check for status.
           atBat.stats.strength += atBat.stats.defense;
           atBat.stats.defense = 0;
@@ -109,7 +146,7 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Bloodbath") {
+        if (svc.selectedMove.name === "Bloodbath") {
           if (!statusEffectsService.checkForStatusEffect(atBat, 'Bloodbath')) {
             atBat.statusEffects.push(['Bloodbath', 9999]);
           }
@@ -117,7 +154,7 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Fortify") {
+        if (svc.selectedMove.name === "Fortify") {
           if (!statusEffectsService.checkForStatusEffect(atBat, 'Fortified')) {
             var boost = Math.round(atBat.baseStats.defense * .15);
             atBat.stats.defense += boost;
@@ -127,18 +164,18 @@
             return true;
           } else {
             fightLogService.pushToFightLog(atBat.name + " has already been fortified.");
-            vm.setSelectedMove([]);
+            svc.setSelectedMove(null);
           }
         }
 
-        if (vm.selectedMove[0] === "Absorb") {
+        if (svc.selectedMove.name === "Absorb") {
           atBat.stance = 'Absorbing';
           atBat.stanceCount = 1;
           fightLogService.pushToFightLog(atBat.name + ' will absorb the next incoming attack.')
           return true
         }
 
-        if (vm.selectedMove[0] === "Man of Stone") {
+        if (svc.selectedMove.name === "Man of Stone") {
           atBat.stance = 'Man of Stone';
           atBat.stanceCount = 9999;
           atBat.stats.defense += atBat.stats.speed;
@@ -147,48 +184,43 @@
           return true
         }
 
-        if (vm.selectedMove[0] === "Parry") {
+        if (svc.selectedMove.name === "Parry") {
           atBat.stance = 'Parrying';
           atBat.stanceCount = 2;
           fightLogService.pushToFightLog(atBat.name + " will deflect the next 2 incoming attacks.");
           return true;
         }
 
-        if (vm.selectedMove[0] === "Knockout") {
+        if (svc.selectedMove.name === "Knockout") {
           fightLogService.pushToFightLog('Select target to Knockout.');
-          enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Death Punch") {
+        if (svc.selectedMove.name === "Death Punch") {
           fightLogService.pushToFightLog('Select target to Death Punch.');
-          enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Heal") {
-          $timeout(function () {
-            alliesService.selectNumberOfTargets(1);
-          }, 100);
+        if (svc.selectedMove.name === "Heal") {
           fightLogService.pushToFightLog("Select ally to Heal.")
         }
 
-        if (vm.selectedMove[0] === "Energize") {
+        if (svc.selectedMove.name === "Energize") {
           $timeout(function () {
             alliesService.selectNumberOfTargets(1);
           }, 100);
           fightLogService.pushToFightLog("Select ally to Energize.")
         }
 
-        if (vm.selectedMove[0] === "Restore") {
+        if (svc.selectedMove.name === "Restore") {
           alliesService.restoreAlliesMove(atBat);
           return true;
         }
 
-        if (vm.selectedMove[0] === "Charge") {
+        if (svc.selectedMove.name === "Charge") {
           return true;
         }
 
-        if (vm.selectedMove[0] === "Inspire") {
-          angular.forEach(vm.activeAllies, function(ally) {
+        if (svc.selectedMove.name === "Inspire") {
+          angular.forEach(svc.activeAllies, function(ally) {
             if (ally.id !== atBat.id) {
               ally.statusEffects.push(['Inspired', 1])
             }
@@ -196,13 +228,12 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Vanquish") {
+        if (svc.selectedMove.name === "Vanquish") {
           fightLogService.pushToFightLog('Select target to Vanquish.');
-          enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Upgrade") {
-          angular.forEach(vm.activeAllies, function (ally) {
+        if (svc.selectedMove.name === "Upgrade") {
+          angular.forEach(svc.activeAllies, function (ally) {
             if (!statusEffectsService.checkForStatusEffect(ally, 'Upgraded')) {
               var upgrade = Math.round(atBat.stats.intellect / 6);
 
@@ -235,7 +266,7 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Hijack Weapons") {
+        if (svc.selectedMove.name === "Hijack Weapons") {
           angular.forEach(enemiesService.getEnemies(), function(enemy) {
             if (atBat.stats.intellect > enemy.stats.intellect) {
               enemy.statusEffects.push(["Hijacked", 5, atBat.stats.intellect]);
@@ -247,46 +278,44 @@
           return true;
         }
 
-        if (vm.selectedMove[0] === "Build Turret") {
+        if (svc.selectedMove.name === "Build Turret") {
           atBat.statusEffects.push(['Building Turret', 5]);
           return true;
         }
 
-        if (vm.selectedMove[0] === "Last Dance") {
+        if (svc.selectedMove.name === "Last Dance") {
           fightLogService.pushToFightLog('Select target to Attack.');
-          enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Poison Tips") {
+        if (svc.selectedMove.name === "Poison Tips") {
           atBat.statusEffects.push(['Poison Weapons', 4, atBat.stats.intellect]);
           return true;
         }
 
-        if (vm.selectedMove[0] === "Finishing Touch") {
+        if (svc.selectedMove.name === "Finishing Touch") {
           fightLogService.pushToFightLog('Select target to Attack.');
-          enemiesService.selectNumberOfTargets(1);
         }
 
-        if (vm.selectedMove[0] === "Headshot") {}
+        if (svc.selectedMove.name === "Headshot") {}
 
-        if (vm.selectedMove[0] === "Perch") {
+        if (svc.selectedMove.name === "Perch") {
           atBat.stance = 'Perched';
           return true;
         }
 
-        if (vm.selectedMove[0] === "Eagle Eye") {}
+        if (svc.selectedMove.name === "Eagle Eye") {}
 
-        if (vm.selectedMove[0] === "Unload") {}
+        if (svc.selectedMove.name === "Unload") {}
 
-        if (vm.selectedMove[0] === "Arsenal") {}
+        if (svc.selectedMove.name === "Arsenal") {}
 
-        if (vm.selectedMove[0] === "Bullet Hell") {}
+        if (svc.selectedMove.name === "Bullet Hell") {}
       }
 
-    };
+    }
 
-    vm.allyActionAlly = function(allyActed, allyActing) {
-      if (vm.selectedMove[0] === "Heal") {
+    function allyActionAlly(allyActed, allyActing) {
+      if (svc.selectedMove.name === "Heal") {
         if (allyActed.status === 'dead') {
           fightLogService.pushToFightLog(allyActed.name + " cannot be revived.")
         } else {
@@ -294,7 +323,7 @@
           alliesService.targetSelectMode--;
         }
       }
-      if (vm.selectedMove[0] === "Energize") {
+      if (svc.selectedMove.name === "Energize") {
         if (allyActed.status === 'dead') {
           fightLogService.pushToFightLog(allyActed.name + " cannot be energized.")
         } else {
@@ -302,42 +331,42 @@
           alliesService.targetSelectMode--;
         }
       }
-    };
+    }
 
-    vm.deathPunch = function(enemy, ally) {
+    function deathPunch(enemy, ally) {
       if (ally.stats.intellect + (Math.random() * 20) > 40) {
         enemy.stats.health -= 100 + (ally.stats.strength * 3);
         fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ' in the temple.');
       } else {
         fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ', but missed the strike zone.');
-        vm.regularAttackEnemy(enemy, ally)
+        svc.regularAttackEnemy(enemy, ally)
       }
-    };
+    }
 
-    vm.vanquish = function(enemy) {
+    function vanquish(enemy) {
       var power = 0;
-      angular.forEach(vm.activeAllies, function(ally) {
+      angular.forEach(svc.activeAllies, function(ally) {
         power += ally.stats.strength;
       });
       enemiesService.deliverRegularDamage(enemy, power);
       fightLogService.pushToFightLog(enemy.name + ' has been Vanquished.')
-    };
+    }
 
-    vm.lastDance = function(enemy, ally) {
+    function lastDance(enemy, ally) {
       enemiesService.deliverRegularDamage(enemy, ally.stats.speed);
       if (enemiesService.checkForDead(enemy)) {
         fightLogService.pushToFightLog('Keep on dancing.');
         enemiesService.targetSelectMode++;
       }
     };
-    
-    vm.finishingTouch = function(enemy) {
+
+    function finishingTouch(enemy) {
       if (enemy.stats.health/enemy.stats.maxHealth < .3) {
         enemy.stats.health = 0;
       }
     };
 
-    vm.regularAttackEnemy = function(enemy, ally) {
+    function regularAttackEnemy(enemy, ally) {
       if ((Math.random() * 6 * ally.stats.speed) > (Math.random() * enemy.stats.speed)) {
         if (statusEffectsService.checkForStatusEffect(ally, "Poison Weapons")) {
           var poison = statusEffectsService.getStatus(ally, "Poison Weapons");
@@ -351,25 +380,23 @@
       }
     };
 
-    vm.checkResources = function(player) {
+    function checkResources(player, move) {
       var energyReq = 0;
       if (statusEffectsService.checkForStatusEffect(player, "Inspired")) {
-        energyReq = Math.floor(vm.selectedMove[2]/2);
+        energyReq = Math.round(move.energyReq/2);
       } else {
-        energyReq = vm.selectedMove[2]
+        energyReq = move.energyReq
       }
-      if (player.stats.energy >= energyReq && player.stats.health > vm.selectedMove[3]) {
+      if (player.stats.energy >= energyReq && player.stats.health > move.healthReq) {
         player.stats.energy -= energyReq;
-        player.stats.health -= vm.selectedMove[3];
+        player.stats.health -= move.healthReq;
         alliesService.updatePercentages(player);
         return true;
       } else {
-        fightLogService.pushToFightLog(player.name + " doesn't have the resources to perform " + vm.selectedMove[0] + ".");
-        vm.setSelectedMove([]);
+        fightLogService.pushToFightLog(player.name + " doesn't have the resources to perform " + move.name + ".");
+        svc.setSelectedMove(null);
         return false;
       }
     };
-
-    vm.getActiveAllies();
   }
 })();

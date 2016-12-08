@@ -55,11 +55,11 @@
     describe('getValidMovements', function() {
       beforeEach(function() {
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
-        this.currentLocation = this.defaultBoard.layout[7][7];
+        this.currentLocation = [7, 7];
       });
 
       it('if distance is 0, should return an empty array', function() {
-        expect(bc.getValidMovements(this.defaultBoard.layout, this.currentLocation, 0)).toEqual([]);
+        expect(bc.getValidMovements(this.defaultBoard, this.currentLocation, 0)).toEqual([]);
       });
 
       it('if distance is 1, should return the surrounding cells', function() {
@@ -78,14 +78,14 @@
           { xCoord: 7, yCoord: 8, blocked: false, special: null },
           { xCoord: 6, yCoord: 7, blocked: false, special: null },
           { xCoord: 8, yCoord: 7, blocked: false, special: null },
-          { xCoord: 6, yCoord: 6, blocked: false, special: null },
-          { xCoord: 6, yCoord: 8, blocked: false, special: null },
-          { xCoord: 5, yCoord: 7, blocked: false, special: null },
-          { xCoord: 8, yCoord: 6, blocked: false, special: null },
-          { xCoord: 8, yCoord: 8, blocked: false, special: null },
-          { xCoord: 9, yCoord: 7, blocked: false, special: null },
           { xCoord: 7, yCoord: 5, blocked: false, special: null },
-          { xCoord: 7, yCoord: 9, blocked: false, special: null }
+          { xCoord: 6, yCoord: 6, blocked: false, special: null },
+          { xCoord: 8, yCoord: 6, blocked: false, special: null },
+          { xCoord: 7, yCoord: 9, blocked: false, special: null },
+          { xCoord: 6, yCoord: 8, blocked: false, special: null },
+          { xCoord: 8, yCoord: 8, blocked: false, special: null },
+          { xCoord: 5, yCoord: 7, blocked: false, special: null },
+          { xCoord: 9, yCoord: 7, blocked: false, special: null }
         ].sort();
         expect(bc.getValidMovements(this.defaultBoard, this.currentLocation, 2)).toEqual(expectedMoves)
       });
@@ -146,20 +146,20 @@
 
       it('should place each ally at the given coordinates', function() {
         expect(this.layout[3][3].occupant).toBe(this.allies[0]);
-        expect(this.layout[3][5].occupant).toBe(this.allies[1]);
-        expect(this.layout[3][7].occupant).toBe(this.allies[2]);
+        expect(this.layout[5][3].occupant).toBe(this.allies[1]);
+        expect(this.layout[7][3].occupant).toBe(this.allies[2]);
       });
 
       it('should blocked each coordinate', function() {
         expect(this.layout[3][3].blocked).toBe(true);
-        expect(this.layout[3][5].blocked).toBe(true);
-        expect(this.layout[3][7].blocked).toBe(true);
+        expect(this.layout[5][3].blocked).toBe(true);
+        expect(this.layout[7][3].blocked).toBe(true);
       });
 
       it('should set each characters location to the cell', function() {
-        expect(this.allies[0].location).toBe(this.layout[this.coordinates[0][0]][this.coordinates[0][1]]);
-        expect(this.allies[1].location).toBe(this.layout[this.coordinates[1][0]][this.coordinates[1][1]]);
-        expect(this.allies[2].location).toBe(this.layout[this.coordinates[2][0]][this.coordinates[2][1]]);
+        expect(this.allies[0].coordinates).toEqual({ x : 3, y : 3, special: null});
+        expect(this.allies[1].coordinates).toEqual({ x : 3, y : 5, special: null});
+        expect(this.allies[2].coordinates).toEqual({ x : 3, y : 7, special: null});
       })
     })
 

@@ -122,7 +122,34 @@
             'defense' : [3, 1],
             'intellect' : [2, 1]
           },
-          'moves' : [['Fury', 1, 40, 70], ['Unchained', 5, 0, 0], ['Bloodbath', 10, 10, 0]],
+          'moves' : [
+            {
+              name: 'Fury',
+              levelReq: 1,
+              energyReq: 40,
+              healthReq: 70,
+              targetType: 'Enemy',
+              numOfTargets: 3,
+              range: 1,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Unchained',
+              levelReq: 5,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Bloodbath',
+              levelReq: 10,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            }
+          ],
           'icon' : 'fa fa-tint'
         },
         {
@@ -145,7 +172,36 @@
             'defense' : [1, 1],
             'intellect' : [1, 2]
           },
-          'moves' : [['Parry', 1, 10, 0], ['Knockout', 5, 20, 0], ['Death Punch', 10, 10, 0]],
+          'moves' : [
+            {
+              name: 'Parry',
+              levelReq: 1,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Knockout',
+              levelReq: 5,
+              energyReq: 20,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 1,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Death Punch',
+              levelReq: 10,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 1,
+              rangeType: 'Single Cell'
+            }
+          ],
           'icon' : 'fa fa-trophy'
         },
         {
@@ -168,7 +224,32 @@
             'defense' : [1, 3],
             'intellect' : [2, 1]
           },
-          'moves' : [['Fortify', 1, 10, 0], ['Absorb', 5, 10, 0], ['Man of Stone', 10, 10, 0]],
+          'moves' : [
+            {
+              name: 'Fortify',
+              levelReq: 1,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Absorb',
+              levelReq: 5,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Man of Stone',
+              levelReq: 10,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            }
+          ],
           'icon' : 'fa fa-shield'
         }
       ],
@@ -193,7 +274,36 @@
             'defense' : [2, 1],
             'intellect' : [1, 2]
           },
-          'moves' : [['Heal', 1, 30, 0], ['Energize', 5, 5, 0], ['Restore', 10, 10, 0]],
+          'moves' : [
+            {
+              name: 'Heal',
+              levelReq: 1,
+              energyReq: 30,
+              healthReq: 0,
+              targetType: 'Ally',
+              numOfTargets: 1,
+              range: 3,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Energize',
+              levelReq: 5,
+              energyReq: 5,
+              healthReq: 0,
+              targetType: 'Ally',
+              numOfTargets: 1,
+              range: 3,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Restore',
+              levelReq: 10,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'All Allies',
+              numOfTargets: null
+            }
+          ],
           'icon' : 'fa fa-medkit'
         },
         {
@@ -216,7 +326,37 @@
             'defense' : [2, 1],
             'intellect' : [1, 1]
           },
-          'moves' : [['Charge', 1, 40, 0], ['Inspire', 5, 60, 0], ['Vanquish', 10, 100, 0]],
+          'moves' : [
+            {
+              name: 'Charge',
+              levelReq: 1,
+              energyReq: 40,
+              healthReq: 0,
+              targetType: 'All Allies',
+              numOfTargets: null,
+              range: 20
+            },
+            {
+              name: 'Inspire',
+              levelReq: 5,
+              energyReq: 60,
+              healthReq: 0,
+              targetType: 'Ally',
+              numOfTargets: 1,
+              range: 3,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Vanquish',
+              levelReq: 10,
+              energyReq: 100,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 2,
+              rangeType: 'Single Cell'
+            }
+          ],
           'icon' : 'fa fa-flag'
         },
         {
@@ -239,7 +379,35 @@
             'defense' : [2, 1],
             'intellect' : [1, 4]
           },
-          'moves' : [['Upgrade', 1, 10, 0], ['Hijack Weapons', 5, 10, 0], ['Build Turret', 10, 10, 0]],
+          'moves' : [
+            {
+              name: 'Upgrade',
+              levelReq: 1,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Ally',
+              numOfTargets: 1,
+              range: 2,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Hijack Weapons',
+              levelReq: 5,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'All Enemies',
+              numOfTargets: null,
+              range: 4
+            },
+            {
+              name: 'Build Turret',
+              levelReq: 10,
+              energyReq: 10,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            }
+           ],
           'icon' : 'fa fa-wrench'
         }
       ],
@@ -263,7 +431,36 @@
             'defense' : [1, 1],
             'intellect' : [1, 1]
           },
-          'moves' : [['Headshot', 1], ['Perch', 5], ['Eagle Eye', 10]],
+          'moves' : [
+            {
+              name: 'Headshot',
+              levelReq: 1,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 8,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Perch',
+              levelReq: 5,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Eagle Eye',
+              levelReq: 10,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 15,
+              rangeType: 'Single Cell'
+            }
+           ],
           'icon' : 'fa fa-target'
         },
         {
@@ -285,7 +482,36 @@
             'defense' : [1, 1],
             'intellect' : [2, 1]
           },
-          'moves' : [['Unload', 1], ['Arsenal', 5], ['Bullet Hell', 10]],
+          'moves' : [
+            {
+              name: 'Unload',
+              levelReq: 1,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 5,
+              rangeType: 'Single Cell'
+            },
+            {
+              name: 'Arsenal',
+              levelReq: 5,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'All Allies',
+              numOfTargets: null
+            },
+            {
+              name: 'Bullet Hell',
+              levelReq: 10,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'All Enemies',
+              numOfTargets: null,
+              range: 10,
+              rangeType: 'All'
+            }
+          ],
           'icon' : 'fa fa-bomb'
         },
         {
@@ -307,7 +533,34 @@
             'defense' : [2, 1],
             'intellect' : [1, 2]
           },
-          'moves' : [['Last Dance', 1], ['Poison Tips', 5], ['Finishing Touch', 10]],
+          'moves' : [
+            {
+              name: 'Last Dance',
+              levelReq: 1,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Poison Tips',
+              levelReq: 5,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Self',
+              numOfTargets: 1
+            },
+            {
+              name: 'Finishing Touch',
+              levelReq: 10,
+              energyReq: 0,
+              healthReq: 0,
+              targetType: 'Enemy',
+              numOfTargets: 1,
+              range: 1,
+              rangeType: 'Single Cell'
+            }
+          ],
           'icon' : 'fa fa-eye-slash'
         }
       ],
@@ -433,7 +686,25 @@
       ally.class = build.name;
       ally.icon = build.icon;
       ally.levelingSchedule = build.levelingSchedule;
-      ally.moves = [['Attack', 1, 0, 0],['Rest', 1, 0, 0]].concat(build.moves);
+      ally.moves = [
+        {
+          name: 'Attack',
+          levelReq: 1,
+          energyReq: 0,
+          healthReq: 0,
+          targetType: 'Enemy',
+          numOfTargets: 1,
+          range: 1,
+          rangeType: 'Single Cell'
+        },
+        {
+          name: 'Rest',
+          levelReq: 1,
+          energyReq: 0,
+          healthReq: 0,
+          targetType: 'Self'
+        }
+      ].concat(build.moves);
     };
 
     svc.updatePercentages = function(ally) {

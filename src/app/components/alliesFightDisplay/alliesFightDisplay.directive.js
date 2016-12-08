@@ -25,6 +25,7 @@
       vm.activeAllies = alliesService.activeAllies;
       vm.movesService = movesService;
       vm.alliesService = alliesService;
+      vm.movesService = movesService;
       //TODO Temporary solution. Don't want to expose entire service.
 
       vm.cardWidth = (90 / vm.activeAllies.length).toString() + '%';
@@ -37,6 +38,10 @@
         if (vm.alliesService.targetSelectMode > 0) {
           fightQueueService.actionOnAlly(ally);
         }
+      };
+
+      vm.pass = function() {
+        fightQueueService.endTurn();
       }
     }
   }

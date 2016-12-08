@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('preFightScreen', preFightScreen);
 
-  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService", "alliesService", "enemiesService", "movesService", "storyService"];
+  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService", "alliesService", "enemiesService", "movesService", "storyService", "boardCreator"];
 
-  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService, enemiesService, movesService, storyService) {
+  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService, enemiesService, movesService, storyService, boardCreator) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/preFightScreen/preFightScreen.html',
@@ -26,6 +26,7 @@
 
       vm.fightTitle = storyService.getTitle();
 
+      // Everything that sets up the fight.
       vm.readyUp = function() {
         fightQueueService.buildQueue();
         alliesService.restoreAll();
@@ -34,8 +35,19 @@
         progressTracker.startFight();
         fightLogService.clearLog();
         movesService.getActiveAllies();
-        movesService.setSelectedMove([]);
+        movesService.setSelectedMove(null);
         stateChangeService.setPlayerState('fight');
+
+        // Sets up the board for the fight.
+        var storyProgress = progressTracker.getStoryProgress();
+        var allyPositions = boardCreator.initialAllyPositions[storyProgress];
+        var enemyPositions = boardCreator.initialEnemyPositions[storyProgress];
+        var board = boardCreator.getBoardNumber(storyProgress);
+        board.layout = boardCreator.buildBoardLayout(board);
+        boardCreator.placeCharacterSet(board.layout, allyPositions, alliesService.getActiveAllies());
+        boardCreator.placeCharacterSet(board.layout, enemyPositions, enemiesService.getEnemies());
+        boardCreator.setCurrentBoard(board);
+        boardCreator.clearMoveAndTarget();
       }
 
     }
