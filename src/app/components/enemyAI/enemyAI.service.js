@@ -5,7 +5,9 @@
     .module('outerZone')
     .service('AIService', AIService);
 
-  function AIService() {
+  AIService.$inject = ['boardCreator'];
+
+  function AIService(boardCreator) {
     var svc = this;
 
     svc.getMoveLocation = getMoveLocation;
@@ -18,12 +20,20 @@
 
     function getMoveLocation(board, character) {
       var layout = board.layout;
-      svc.quickFindClosest(board, character)
+      svc.quickFindClosest(board, character);
+      // TODO
     }
 
     function quickFindClosest(board, character) {
       var opponentLocations = getOpponentPositions(board, character.id);
       var dumbSortedAscLocations = dumbSortByClosest(opponentLocations, character);
+      var trueDistanceOfNearest = getTrueDistance(board, dumbSortedAscLocations[0], character);
+      if (trueDistanceOfNearest === dumbSortedAscLocations[0].distanceAway) {
+        return dumbSortedAscLocations[0];
+      } else {
+        return false;
+      }
+      // TODO
     }
 
     function getOpponentPositions(board, characterId) {
@@ -50,12 +60,28 @@
       });
     }
 
-    function getTrueDistance() {
-      // Loop through the dumb distances and see if you can reach any of them. If you can. Move toward them.
+    function getTrueDistance(board, destination, character) {
+      var destinationReached = false;
+      var moves = 0;
+      var startingCell = board.layout[character.coordinates.y][character.coordinates.x];
+      var newCells = boardCreator.getNeighboringCells(board, startingCell);
+      while(!destinationReached && moves < 60) {
+        moves++;
+        angular.forEach(newCells, function(cell) {
+          if (cell.xCoord === destination.x && cell.yCoord === destination.y) {
+            destinationReached = true;
+          }
+        });
+
+
+      }
+      return moves;
     }
 
     function checkIfPlayerCanReach() {
-      
+
+
+      // TODO
     }
 
 

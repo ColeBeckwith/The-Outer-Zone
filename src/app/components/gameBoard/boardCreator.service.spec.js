@@ -65,28 +65,28 @@
       it('if distance is 1, should return the surrounding cells', function() {
         var expectedMoves = [
             { xCoord: 7, yCoord: 6, blocked: false, special: null },
+            { xCoord: 8, yCoord: 7, blocked: false, special: null },
             { xCoord: 7, yCoord: 8, blocked: false, special: null },
-            { xCoord: 6, yCoord: 7, blocked: false, special: null },
-            { xCoord: 8, yCoord: 7, blocked: false, special: null }
+            { xCoord: 6, yCoord: 7, blocked: false, special: null }
           ].sort();
         expect(bc.getValidMovements(this.defaultBoard, this.currentLocation, 1).sort()).toEqual(expectedMoves);
       });
 
       it('if distance is 2, returns all tiles 2 away', function() {
         var expectedMoves = [
-          { xCoord: 7, yCoord: 6, blocked: false, special: null },
-          { xCoord: 7, yCoord: 8, blocked: false, special: null },
-          { xCoord: 6, yCoord: 7, blocked: false, special: null },
-          { xCoord: 8, yCoord: 7, blocked: false, special: null },
-          { xCoord: 7, yCoord: 5, blocked: false, special: null },
-          { xCoord: 6, yCoord: 6, blocked: false, special: null },
-          { xCoord: 8, yCoord: 6, blocked: false, special: null },
-          { xCoord: 7, yCoord: 9, blocked: false, special: null },
-          { xCoord: 6, yCoord: 8, blocked: false, special: null },
-          { xCoord: 8, yCoord: 8, blocked: false, special: null },
-          { xCoord: 5, yCoord: 7, blocked: false, special: null },
-          { xCoord: 9, yCoord: 7, blocked: false, special: null }
-        ].sort();
+          Object({ xCoord: 7, yCoord: 6, blocked: false, special: null }),
+          Object({ xCoord: 8, yCoord: 7, blocked: false, special: null }),
+          Object({ xCoord: 7, yCoord: 8, blocked: false, special: null }),
+          Object({ xCoord: 6, yCoord: 7, blocked: false, special: null }),
+          Object({ xCoord: 7, yCoord: 5, blocked: false, special: null }),
+          Object({ xCoord: 8, yCoord: 6, blocked: false, special: null }),
+          Object({ xCoord: 6, yCoord: 6, blocked: false, special: null }),
+          Object({ xCoord: 9, yCoord: 7, blocked: false, special: null }),
+          Object({ xCoord: 8, yCoord: 8, blocked: false, special: null }),
+          Object({ xCoord: 7, yCoord: 9, blocked: false, special: null }),
+          Object({ xCoord: 6, yCoord: 8, blocked: false, special: null }),
+          Object({ xCoord: 5, yCoord: 7, blocked: false, special: null })
+        ];
         expect(bc.getValidMovements(this.defaultBoard, this.currentLocation, 2)).toEqual(expectedMoves)
       });
 
@@ -160,6 +160,65 @@
         expect(this.allies[0].coordinates).toEqual({ x : 3, y : 3, special: null});
         expect(this.allies[1].coordinates).toEqual({ x : 3, y : 5, special: null});
         expect(this.allies[2].coordinates).toEqual({ x : 3, y : 7, special: null});
+      })
+    });
+
+    describe('getNeighboringCells', function() {
+      beforeEach(function() {
+        this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
+        this.cell = {
+          xCoord : 3,
+          yCoord: 7
+        }
+      });
+
+      it('should return four cells in a normal case', function() {
+        expect(bc.getNeighboringCells(this.defaultBoard, this.cell).length).toEqual(4);
+      });
+
+      it('should return the four cells surrounding the given cell', function() {
+        expect(bc.getNeighboringCells(this.defaultBoard, this.cell)).toEqual([
+          Object({ xCoord: 3, yCoord: 6, blocked: false, special: null }),
+          Object({ xCoord: 4, yCoord: 7, blocked: false, special: null }),
+          Object({ xCoord: 3, yCoord: 8, blocked: false, special: null }),
+          Object({ xCoord: 2, yCoord: 7, blocked: false, special: null })
+        ]);
+      });
+
+      it('if a cell is empty, it should not be returned', function() {
+        this.defaultBoard.layout[8][3].special = 'Empty';
+        expect(bc.getNeighboringCells(this.defaultBoard, this.cell)).toEqual([
+          Object({ xCoord: 3, yCoord: 6, blocked: false, special: null }),
+          Object({ xCoord: 4, yCoord: 7, blocked: false, special: null }),
+          Object({ xCoord: 2, yCoord: 7, blocked: false, special: null })
+        ]);
+      });
+
+      it('should not run into errors if given cell is in the top left', function() {
+        expect(bc.getNeighboringCells(this.defaultBoard, { xCoord : 0, yCoord : 0})).toEqual([
+          Object({ xCoord: 1, yCoord: 0, blocked: false, special: null }),
+          Object({ xCoord: 0, yCoord: 1, blocked: false, special: null })
+        ]);
+      });
+
+      it('should not run into errors if a given cell is in the bottom right', function() {
+        expect(bc.getNeighboringCells(this.defaultBoard, { xCoord: 9, yCoord: 9})).toEqual([
+          Object({ xCoord: 9, yCoord: 8, blocked: false, special: null }),
+          Object({ xCoord: 8, yCoord: 9, blocked: false, special: null })
+        ]);
+      });
+
+      it('should still return cells, even if they are blocked', function() {
+        this.defaultBoard.layout[6][3].blocked = true;
+        this.defaultBoard.layout[7][4].blocked = true;
+        this.defaultBoard.layout[8][3].blocked = true;
+        this.defaultBoard.layout[7][2].blocked = true;
+        expect(bc.getNeighboringCells(this.defaultBoard, this.cell)).toEqual([
+          Object({ xCoord: 3, yCoord: 6, blocked: true, special: null }),
+          Object({ xCoord: 4, yCoord: 7, blocked: true, special: null }),
+          Object({ xCoord: 3, yCoord: 8, blocked: true, special: null }),
+          Object({ xCoord: 2, yCoord: 7, blocked: true, special: null })
+        ]);
       })
     })
 

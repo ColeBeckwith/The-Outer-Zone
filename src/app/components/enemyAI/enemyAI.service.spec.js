@@ -60,6 +60,25 @@
       })
     });
 
+    describe('getTrueDistance', function() {
+      beforeEach(function() {
+        this.character = {
+          coordinates : {
+            x : 3,
+            y: 2
+          }
+        };
+        this.defaultBoard = bc.boards[0];
+        this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
+        this.destination = { x : 4, y: 4}
+      });
+
+      it('should return the dumb distance if there are no blocked cells in between', function() {
+        var trueDistance = AIService.getTrueDistance(this.defaultBoard, this.destination, this.character);
+        expect(trueDistance).toEqual(3);
+      })
+    })
+
   })
 
 })();

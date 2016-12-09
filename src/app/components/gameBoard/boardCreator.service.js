@@ -12,6 +12,7 @@
     svc.setCurrentBoard = setCurrentBoard;
     svc.getValidMovements = getValidMovements;
     svc.getValidTargets = getValidTargets;
+    svc.getNeighboringCells = getNeighboringCells;
     svc.makeCellsMovable = makeCellsMovable;
     svc.makeCellsTargetable = makeCellsTargetable;
     svc.checkPositionTargetable = checkPositionTargetable;
@@ -162,28 +163,42 @@
       for (var i = 0; i < distance; i++) {
         var cellsToAdd = [];
         angular.forEach(newCells, function(cell) {
-          var neighboringCells = [
-              board.layout[cell.yCoord - 1][cell.xCoord],
-              board.layout[cell.yCoord + 1][cell.xCoord],
-              board.layout[cell.yCoord][cell.xCoord - 1],
-              board.layout[cell.yCoord][cell.xCoord + 1]
-          ];
+          var neighboringCells = getNeighboringCells(board, cell);
           angular.forEach(neighboringCells, function(neighboringCell) {
-            // If it exists, it's not blocked and it's not already added.
+            // If it's not blocked and it's not already added.
             if (!neighboringCell.blocked && validMoves.indexOf(neighboringCell) === -1) {
                 validMoves.push(neighboringCell);
                 cellsToAdd.push(neighboringCell);
             }
           })
         });
-
         newCells = cellsToAdd;
       }
-
       // Removes currentLoc.
       validMoves.shift();
-
       return validMoves;
+    }
+
+    function getNeighboringCells(board, cell) {
+      var neighboringCells = [];
+      if (cell.yCoord !== 0) {
+        neighboringCells.push(board.layout[cell.yCoord - 1][cell.xCoord])
+      }
+      if (cell.xCoord !== board.numRows - 1) {
+        neighboringCells.push(board.layout[cell.yCoord][cell.xCoord + 1])
+      }
+      if (cell.yCoord !== board.numCols - 1) {
+        neighboringCells.push(board.layout[cell.yCoord + 1][cell.xCoord])
+      }
+      if (cell.xCoord !== 0) {
+        neighboringCells.push(board.layout[cell.yCoord][cell.xCoord - 1])
+      }
+      for(var i = neighboringCells.length - 1; i > 0; i--) {
+        if (neighboringCells[i].special === 'Empty') {
+          neighboringCells.splice(i, 1);
+        }
+      }
+      return neighboringCells;
     }
 
     function getValidTargets(board, currentLoc, distance) {
@@ -258,7 +273,9 @@
         currentCell.blocked = false;
       }
       if (!cell.blocked) {
+        // TODO will need to fix this now that the character doesnt actually have the location info.
         if (character.location) {
+          // vacateCell(character.location.x, character.location.y);
           character.location.occupant = null;
           character.location.blocked = false;
         }
