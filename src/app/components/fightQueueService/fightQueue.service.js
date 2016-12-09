@@ -5,12 +5,24 @@
     .module('outerZone')
     .service('fightQueueService', fightQueueService);
 
-  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker", "movesService", "stateChangeService", "statusEffectsService", "boardCreator"];
+  fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker",
+    "movesService", "stateChangeService", "statusEffectsService", "boardCreator", "AIService"];
 
-  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService, stateChangeService, statusEffectsService, boardCreator) {
+  function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService,
+                             stateChangeService, statusEffectsService, boardCreator, AIService) {
     var svc = this;
 
-    svc.buildQueue = function() {
+    svc.buildQueue = buildQueue;
+    svc.cycleQueue = cycleQueue;
+    svc.nextTurn = nextTurn;
+    svc.enemyTurn = enemyTurn;
+    svc.endTurn = endTurn;
+    svc.takeAwayTurn = takeAwayTurn;
+    svc.selectMove = selectMove;
+    svc.actionOnAlly = actionOnAlly;
+    svc.actionOnEnemy = actionOnEnemy;
+
+    function buildQueue() {
       svc.activeAllies = alliesService.activeAllies;
       svc.enemies = enemiesService.getEnemies();
       svc.queuePool = [];
@@ -39,13 +51,13 @@
       }
 
       return svc.queuePool;
-    };
+    }
 
-    svc.cycleQueue = function() {
+    function cycleQueue() {
       svc.queuePool.push(svc.queuePool.shift());
-    };
+    }
 
-    svc.nextTurn = function() {
+    function nextTurn() {
       if (progressTracker.fightOngoing) {
         if (svc.queuePool[0].status === 'dead') {
           fightLogService.pushToFightLog(svc.queuePool[0].name + " is unable to act.");
@@ -57,8 +69,7 @@
           fightLogService.pushToFightLog(svc.queuePool[0].name + " stands firm.");
           svc.endTurn();
         } else if (svc.queuePool[0].id >= 200) {
-          movesService.enemyAttackAlly(svc.queuePool[0]);
-          svc.endTurn();
+          svc.enemyTurn();
         } else {
           var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
           var currentLocation = [svc.queuePool[0].coordinates.x, svc.queuePool[0].coordinates.y];
@@ -67,9 +78,15 @@
           fightLogService.pushToFightLog('Select Move or Action.');
         }
       }
-    };
+    }
 
-    svc.endTurn = function() {
+    function enemyTurn() {
+      AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
+      movesService.enemyAttackAlly(svc.queuePool[0]);
+      svc.endTurn();
+    }
+
+    function endTurn() {
       boardCreator.clearMoveAndTarget();
       statusEffectsService.runEndTurnStatusEffects(svc.queuePool[0]);
       movesService.setSelectedMove(null);
@@ -77,17 +94,17 @@
       $timeout(function () {
         svc.nextTurn();
       }, 400);
-    };
+    }
 
-    svc.removeFromPool = function(id) {
+    function removeFromPool(id) {
       for (var i = svc.queuePool.length - 1; i >= 0; i--) {
         if (svc.queuePool[i].id === id) {
           svc.queuePool.splice(i, 1);
         }
       }
-    };
+    }
 
-    svc.allyCharge = function() {
+    function allyCharge() {
       var temp = [];
       angular.forEach(svc.activeAllies, function(ally) {
         temp.push(ally);
@@ -96,9 +113,9 @@
         svc.queuePool.splice(1, 0, ally)
       });
       fightLogService.pushToFightLog("CHARGE!")
-    };
+    }
 
-    svc.takeAwayTurn = function(player, numOfTurns) {
+    function takeAwayTurn(player, numOfTurns) {
       for (var i = 0; i < svc.queuePool.length; i++) {
         if (svc.queuePool[i].id === player.id) {
           svc.queuePool.splice(i, 1);
@@ -108,9 +125,9 @@
           }
         }
       }
-    };
+    }
 
-    svc.selectMove = function(move) {
+    function selectMove(move) {
       // Fight Queue needs to know if the turn will end or not, so it passes through on its way to the movesService.
       if (movesService.selectMove(move, svc.queuePool[0])) {
         if (move.name === "Charge") {
@@ -118,9 +135,9 @@
         }
         svc.endTurn();
       }
-    };
+    }
 
-    svc.actionOnAlly = function(ally) {
+    function actionOnAlly(ally) {
       if (movesService.selectedMove.targetType !== 'Ally') {
         fightLogService.pushToFightLog('Cannot target Ally with this move');
         return;
@@ -129,9 +146,9 @@
       if (alliesService.targetSelectMode === 0) {
         svc.endTurn();
       }
-    };
+    }
 
-    svc.actionOnEnemy = function(enemy) {
+    function actionOnEnemy(enemy) {
       if (movesService.selectedMove.targetType !== 'Enemy') {
         fightLogService.pushToFightLog('Cannot target Enemy with this move');
         return;

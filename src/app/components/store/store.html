@@ -7,22 +7,22 @@
         <div class="row">
           <div class="col-sm-4">
             <h4 ng-class="{'text-success' : item.rarity === 'Uncommon', 'text-warning' : item.rarity === 'Rare', 'text-epic' : item.rarity === 'Epic'}">
-              {{ item.name }}</h4>
+              {{ ::item.name }}</h4>
           </div>
           <div class="col-sm-8 text-right">
             <button class="btn btn-danger"
                     ng-click="store.sellItem(item, $index)">Sell</button>
           </div>
         </div>
-        <i>{{ item.description }}</i>
+        <i>{{ ::item.description }}</i>
         <p>
           Type: {{ item.type }}
-          <span ng-if="item.stats.health !== 0">&nbsp;| Health: {{ item.stats.health }}</span>
-          <span ng-if="item.stats.energy !== 0">&nbsp;| Energy: {{ item.stats.energy }}</span>
-          <span ng-if="item.stats.strength !== 0">&nbsp;| STR: {{ item.stats.strength }}</span>
-          <span ng-if="item.stats.defense !== 0">&nbsp;| DEF: {{ item.stats.defense }}</span>
-          <span ng-if="item.stats.speed !== 0">&nbsp;| SPD: {{ item.stats.speed }}</span>
-          <span ng-if="item.stats.intellect !== 0">&nbsp;| INT: {{ item.stats.intellect }}</span>
+          <span ng-if="::item.stats.health !== 0">&nbsp;| Health: {{ ::item.stats.health }}</span>
+          <span ng-if="::item.stats.energy !== 0">&nbsp;| Energy: {{ ::item.stats.energy }}</span>
+          <span ng-if="::item.stats.strength !== 0">&nbsp;| STR: {{ ::item.stats.strength }}</span>
+          <span ng-if="::item.stats.defense !== 0">&nbsp;| DEF: {{ ::item.stats.defense }}</span>
+          <span ng-if="::item.stats.speed !== 0">&nbsp;| SPD: {{ ::item.stats.speed }}</span>
+          <span ng-if="::item.stats.intellect !== 0">&nbsp;| INT: {{ ::item.stats.intellect }}</span>
         </p>
         <hr ng-if="item.equipment.length > 1">
       </div>
