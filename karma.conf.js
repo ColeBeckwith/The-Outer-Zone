@@ -88,7 +88,9 @@ module.exports = function(config) {
   // The coverage preprocessor is added in gulp/unit-test.js only for single tests
   // It was not possible to do it there because karma doesn't let us now if we are
   // running a single test or not
-  configuration.preprocessors = {};
+  configuration.preprocessors = {
+    '**/src/app/**/*.js' : ['coverage']
+  };
   pathSrcHtml.forEach(function(path) {
     configuration.preprocessors[path] = ['ng-html2js'];
   });

@@ -20,6 +20,8 @@
     svc.clearAllyLocations = clearAllyLocations;
     svc.placeCharacter = placeCharacter;
     svc.placeCharacterSet = placeCharacterSet;
+    svc.moveCharacterTowardLocation = moveCharacterTowardLocation;
+    svc.vacateCell = vacateCell;
     svc.getBoards = getBoards;
     svc.getBoardNumber = getBoardNumber;
 
@@ -267,17 +269,9 @@
     }
 
     function placeCharacter(cell, character, board) {
-      if (character.coordinates) {
-        var currentCell = board.layout[character.coordinates.y][character.coordinates.x];
-        currentCell.occupant = null;
-        currentCell.blocked = false;
-      }
       if (!cell.blocked) {
-        // TODO will need to fix this now that the character doesnt actually have the location info.
-        if (character.location) {
-          // vacateCell(character.location.x, character.location.y);
-          character.location.occupant = null;
-          character.location.blocked = false;
+        if (character.coordinates) {
+          vacateCell(board, character.coordinates.x, character.coordinates.y);
         }
         cell.occupant = character;
         cell.blocked = true;
@@ -302,6 +296,53 @@
           };
         }
       }
+    }
+
+    function moveCharacterTowardLocation(board, player, moveLocation, distance) {
+      var characterLocation = [player.coordinates.x, player.coordinates.y];
+
+      var validMoves = getValidMovements(board, characterLocation, distance);
+      var cellToMoveTo = null;
+
+      var cellsChecked = [];
+      var nearestCellFound = false;
+      var newCells = getNeighboringCells(board, { xCoord: moveLocation.x, yCoord: moveLocation.y });
+      var infiniteLoopGuard = 0;
+      while(!nearestCellFound && infiniteLoopGuard < 100) {
+        var nextBatch = [];
+
+        angular.forEach(newCells, function(cell) {
+          if (nearestCellFound) {
+            return;
+          }
+          if (!cell.blocked) {
+            if (validMoves.indexOf(cell) !== -1) {
+              nearestCellFound = true;
+              cellToMoveTo = cell;
+              return;
+            }
+            angular.forEach(getNeighboringCells(board, cell), function(cell) {
+              if (!cell.blocked && cellsChecked.indexOf(cell) === -1) {
+                nextBatch.push(cell);
+              }
+            })
+          }
+          cellsChecked.push(cell);
+        });
+
+        newCells = nextBatch;
+        infiniteLoopGuard++;
+      }
+
+      if (cellToMoveTo) {
+        placeCharacter(cellToMoveTo, player, board);
+      }
+    }
+
+    function vacateCell(board, xCoord, yCoord) {
+      var cell = board.layout[yCoord][xCoord];
+      cell.occupant = null;
+      cell.blocked = false;
     }
 
     function getBoards() {

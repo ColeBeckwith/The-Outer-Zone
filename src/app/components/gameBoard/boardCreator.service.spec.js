@@ -109,6 +109,7 @@
           name: 'Scarecrow'
         };
         this.layout = bc.buildBoardLayout(this.defaultBoard);
+        this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
       });
 
       it('should place the character at the coordinates', function() {
@@ -119,6 +120,21 @@
       it('should block the cell', function() {
         bc.placeCharacter(this.layout[5][4], this.placeholderCharacter);
         expect(this.layout[5][4].blocked).toBe(true);
+      });
+
+      it('should vacate the characters current cell if there is one', function() {
+        this.placeholderCharacter.coordinates = {
+          x: 5,
+          y: 3
+        };
+        this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
+
+        this.defaultBoard.layout[3][5].occupant = this.placeholderCharacter;
+        this.defaultBoard.layout[3][5].blocked = true;
+
+        bc.placeCharacter(this.defaultBoard.layout[1][2], this.placeholderCharacter, this.defaultBoard);
+        expect(this.defaultBoard.layout[3][5].occupant).toEqual(null);
+        expect(this.defaultBoard.layout[3][5].blocked).toEqual(false);
       })
     });
 
@@ -219,6 +235,33 @@
           Object({ xCoord: 3, yCoord: 8, blocked: true, special: null }),
           Object({ xCoord: 2, yCoord: 7, blocked: true, special: null })
         ]);
+      })
+    });
+
+    describe('movePlayerTowardLocation', function() {
+      beforeEach(function() {
+        this.board = bc.boards[0];
+        this.board.layout = bc.buildBoardLayout(this.board);
+        this.enemy = {
+          coordinates: {
+            x: 0,
+            y: 0
+          }
+        };
+        this.moveLocation = {
+          x: 6,
+          y: 5
+        }
+      });
+
+      it('should move the enemy as close to the given location as possible', function() {
+        bc.moveCharacterTowardLocation(this.board, this.enemy, this.moveLocation, 5);
+        expect(this.enemy.coordinates).toEqual(Object({ x: 5, y: 0, special: null }));
+      });
+
+      it('should move the enemy to a neighboring cell if its near enough', function() {
+        bc.moveCharacterTowardLocation(this.board, this.enemy, this.moveLocation, 25);
+        expect(this.enemy.coordinates).toEqual(Object({ x: 6, y: 4, special: null }))
       })
     })
 

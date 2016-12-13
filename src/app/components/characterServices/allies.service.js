@@ -857,7 +857,7 @@
           return i
         }
       }
-      return undefined;
+      return null;
     };
 
     svc.reduceStanceCount = function(ally) {

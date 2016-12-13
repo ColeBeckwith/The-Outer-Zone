@@ -6,27 +6,26 @@
     .service('fightLogService', fightLogService);
 
   function fightLogService() {
-    var vm = this;
+    var svc = this;
 
-    vm.fightLog = [];
-    vm.fightLogId = 0;
+    svc.pushToFightLog = pushToFightLog;
+    svc.getFightLog = getFightLog;
+    svc.clearLog = clearLog;
 
-    vm.pushToFightLog = function(string) {
-      vm.fightLog.push({'message' : string, 'id' : vm.fightLogId});
-      vm.fightLogId++;
-    };
-    
-    // vm.insufficientResources = function(name, move) {
-    //   vm.pushToFightLog(name + ' lacks the resources to perform ' + move + '.');
-    // };
+    clearLog();
 
-    vm.getFightLog = function() {
-      return vm.fightLog
-    };
-    
-    vm.clearLog = function() {
-      vm.fightLog = [];
-      vm.fightLogId = 0;
+    function pushToFightLog(string) {
+      svc.fightLog.push({'message' : string, 'id' : svc.fightLogId});
+      svc.fightLogId++;
+    }
+
+    function getFightLog() {
+      return svc.fightLog
+    }
+
+    function clearLog() {
+      svc.fightLog = [];
+      svc.fightLogId = 0;
     }
   }
 })();

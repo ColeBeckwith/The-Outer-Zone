@@ -81,8 +81,19 @@
     }
 
     function enemyTurn() {
-      AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
-      movesService.enemyAttackAlly(svc.queuePool[0]);
+      var moveLocation = AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
+
+      console.log(moveLocation);
+      if (moveLocation) {
+        var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
+        boardCreator.moveCharacterTowardLocation(boardCreator.currentBoard, svc.queuePool[0], moveLocation, distance);
+      }
+
+      var target = AIService.getAttackTarget(boardCreator.currentBoard, svc.queuePool[0]);
+      if (target) {
+        movesService.enemyAttackAlly(svc.queuePool[0], target);
+      }
+
       svc.endTurn();
     }
 

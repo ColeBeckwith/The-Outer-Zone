@@ -37,13 +37,13 @@
 
     function setSelectedMove(move) {
       svc.selectedMove = move;
-    };
+    }
 
     function getSelectedMove() {
       return svc.selectedMove;
-    };
+    }
 
-    function enemyAttackAlly(enemy) {
+    function enemyAttackAlly(enemy, target) {
       if (statusEffectsService.checkForStatusEffect(enemy, 'Hijacked')) {
         var hijack = statusEffectsService.getStatus(enemy, 'Hijacked');
         if ((Math.random() * 100) < hijack[2]) {
@@ -53,43 +53,44 @@
         }
       }
 
-      var target = alliesService.checkForTargetPriority();
-      if (target === undefined) {
-        target = Math.floor(Math.random() * svc.activeAllies.length)
-      }
-      while (svc.activeAllies[target].status === 'dead') {
-        target = Math.floor(Math.random() * svc.activeAllies.length);
-      }
+      // TODO a version of this needs to be reimplemented. Also debug this whole function as a lot has changed.
+      // var target = alliesService.checkForTargetPriority();
+      // if (!target) {
+      //   target = Math.floor(Math.random() * svc.activeAllies.length)
+      // }
+      // while (svc.activeAllies[target].status === 'dead') {
+      //   target = Math.floor(Math.random() * svc.activeAllies.length);
+      // }
 
-      if (svc.activeAllies[target].stance === "Parrying") {
-        enemy.stats.health -= Math.round(svc.activeAllies[target].stats.defense/3);
-        fightLogService.pushToFightLog(svc.activeAllies[target].name + " deflected the attack.");
-        alliesService.reduceStanceCount(svc.activeAllies[target]);
+      if (target.stance === "Parrying") {
+        enemy.stats.health -= Math.round(target.stats.defense/3);
+        fightLogService.pushToFightLog(target.name + " deflected the attack.");
+        alliesService.reduceStanceCount(target);
         return;
       }
 
-      if (svc.activeAllies[target].stance === "Absorbing") {
-        alliesService.healAlly(svc.activeAllies[target], Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
-        fightLogService.pushToFightLog(svc.activeAllies[target].name + " absorbed the attack.");
-        alliesService.reduceStanceCount(svc.activeAllies[target]);
+      if (target.stance === "Absorbing") {
+        alliesService.healAlly(target, Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength)));
+        fightLogService.pushToFightLog(target.name + " absorbed the attack.");
+        alliesService.reduceStanceCount(target);
         return;
       }
 
-      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * svc.activeAllies[target].stats.speed)) {
-        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75 * svc.activeAllies[target].stats.defense));
+      if ((Math.random() * 6 * enemy.stats.speed) > (Math.random() * target.stats.speed)) {
+        var damage = Math.round(((1.7 + ((Math.random() * 6) / 10)) * enemy.stats.strength) - (.75 * target.stats.defense));
 
         if (damage <= 0) {
           damage = 1;
         }
 
-        alliesService.activeAllies[target].stats.health -= damage;
-        fightLogService.pushToFightLog(enemy.name + " attacked " + svc.activeAllies[target].name + " for " + damage + " damage.");
-        alliesService.checkForDeath(svc.activeAllies[target]);
-        alliesService.updatePercentages(svc.activeAllies[target]);
+        target.stats.health -= damage;
+        fightLogService.pushToFightLog(enemy.name + " attacked " + target.name + " for " + damage + " damage.");
+        alliesService.checkForDeath(target);
+        alliesService.updatePercentages(target);
       } else {
-        fightLogService.pushToFightLog(svc.activeAllies[target].name + ' dodged ' + enemy.name + '\'s attack.')
+        fightLogService.pushToFightLog(target.name + ' dodged ' + enemy.name + '\'s attack.')
       }
-    };
+    }
 
     function selectMove(move, atBat) {
       svc.setSelectedMove(move);
@@ -358,13 +359,13 @@
         fightLogService.pushToFightLog('Keep on dancing.');
         enemiesService.targetSelectMode++;
       }
-    };
+    }
 
     function finishingTouch(enemy) {
       if (enemy.stats.health/enemy.stats.maxHealth < .3) {
         enemy.stats.health = 0;
       }
-    };
+    }
 
     function regularAttackEnemy(enemy, ally) {
       if ((Math.random() * 6 * ally.stats.speed) > (Math.random() * enemy.stats.speed)) {
@@ -378,7 +379,7 @@
       } else {
         fightLogService.pushToFightLog(enemy.name + " dodged the attack.");
       }
-    };
+    }
 
     function checkResources(player, move) {
       var energyReq = 0;
@@ -397,6 +398,6 @@
         svc.setSelectedMove(null);
         return false;
       }
-    };
+    }
   }
 })();

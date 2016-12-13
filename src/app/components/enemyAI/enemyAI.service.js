@@ -11,29 +11,76 @@
     var svc = this;
 
     svc.getMoveLocation = getMoveLocation;
+    svc.getAttackTarget = getAttackTarget;
     svc.quickFindClosest = quickFindClosest;
+    svc.slowFindClosest = slowFindClosest;
     svc.getOpponentPositions = getOpponentPositions;
     svc.dumbSortByClosest = dumbSortByClosest;
     svc.getTrueDistance = getTrueDistance;
     svc.checkIfPlayerCanReach = checkIfPlayerCanReach;
 
-
     function getMoveLocation(board, character) {
-      var layout = board.layout;
-      svc.quickFindClosest(board, character);
-      // TODO
+      // TODO very first check has to be for Man of Stone. If anyone has priority move toward them.
+
+      var neighboringCells = boardCreator.getNeighboringCells(board, { xCoord: character.coordinates.x, yCoord: character.coordinates.y });
+      for (var i = 0; i < neighboringCells.length; i++) {
+        var occupant = neighboringCells[i].occupant;
+        if (occupant && (occupant.id.toString()[0] !== character.id.toString()[0]) && occupant.status !== 'dead') {
+          return null;
+        }
+      }
+
+      var opponentPositions = getOpponentPositions(board, character.id);
+      if (opponentPositions.length === 0) {
+        return null;
+      }
+
+      var dumbSortedAscLocations = dumbSortByClosest(opponentPositions, character);
+      var moveLocation = svc.quickFindClosest(board, character, dumbSortedAscLocations);
+      if (moveLocation) {
+        return moveLocation;
+      }
+
+      moveLocation = svc.slowFindClosest(board, character, dumbSortedAscLocations);
+      if (moveLocation) {
+        return moveLocation;
+      }
     }
 
-    function quickFindClosest(board, character) {
-      var opponentLocations = getOpponentPositions(board, character.id);
-      var dumbSortedAscLocations = dumbSortByClosest(opponentLocations, character);
-      var trueDistanceOfNearest = getTrueDistance(board, dumbSortedAscLocations[0], character);
-      if (trueDistanceOfNearest === dumbSortedAscLocations[0].distanceAway) {
-        return dumbSortedAscLocations[0];
-      } else {
-        return false;
+    function getAttackTarget(board, character) {
+      // TODO for now an enemy will only attack a player that is right next to them.
+      var characterCell = { xCoord: character.coordinates.x, yCoord: character.coordinates.y };
+      var neighboringCells = boardCreator.getNeighboringCells(board, characterCell);
+      for (var i = 0; i < neighboringCells.length; i++) {
+        var occupant = neighboringCells[i].occupant;
+        if (occupant && (occupant.id.toString()[0] !== character.id.toString()[0])) {
+          return occupant;
+        }
       }
-      // TODO
+
+      return null;
+    }
+
+    function quickFindClosest(board, character, opponentPositions) {
+      if (opponentPositions.length === 0) {
+        return null;
+      }
+      var trueDistanceOfNearest = getTrueDistance(board, opponentPositions[0], character);
+      if (trueDistanceOfNearest === opponentPositions[0].distanceAway) {
+        return opponentPositions[0];
+      } else {
+        return null;
+      }
+    }
+
+    function slowFindClosest(board, character, opponentPositions) {
+      if (opponentPositions.length === 0) {
+        return null;
+      }
+      angular.forEach(opponentPositions, function(position) {
+        position.trueDistance = getTrueDistance(board, position, character)
+      });
+      return opponentPositions.sort(function(a, b) { return a.trueDistance - b.trueDistance })[0];
     }
 
     function getOpponentPositions(board, characterId) {
@@ -41,7 +88,7 @@
       angular.forEach(board.layout, function(row, yCoord) {
         angular.forEach(row, function(cell, xCoord) {
           if (cell.occupant) {
-            if (cell.occupant.id.toString()[0] !== characterId.toString()[0]) {
+            if (cell.occupant.id.toString()[0] !== characterId.toString()[0] && cell.occupant.status !== 'dead') {
               opponentLocations.push({ x : xCoord, y : yCoord});
             }
           }
@@ -61,31 +108,47 @@
     }
 
     function getTrueDistance(board, destination, character) {
+      // This is lacking some efficiency. Cells are checked multiple times.
       var destinationReached = false;
-      var moves = 0;
+      var distance = -1;
+
       var startingCell = board.layout[character.coordinates.y][character.coordinates.x];
-      var newCells = boardCreator.getNeighboringCells(board, startingCell);
-      while(!destinationReached && moves < 60) {
-        moves++;
+      var checkedCells = [startingCell];
+      var newCells = [startingCell];
+
+      while(!destinationReached && distance < 100) {
+        distance++;
+        var cellsToCheckNext = [];
+
         angular.forEach(newCells, function(cell) {
+          checkedCells.push(cell);
+
           if (cell.xCoord === destination.x && cell.yCoord === destination.y) {
             destinationReached = true;
+            return;
           }
+
+          var neighboringCells = [];
+
+          if (!cell.blocked) {
+            neighboringCells = boardCreator.getNeighboringCells(board, cell);
+          }
+
+          angular.forEach(neighboringCells, function(cell) {
+            if (checkedCells.indexOf(cell) === -1 && cellsToCheckNext.indexOf(cell) === -1) {
+              cellsToCheckNext.push(cell);
+            }
+          })
         });
-
-
+        newCells = cellsToCheckNext;
       }
-      return moves;
+
+      return distance;
     }
 
     function checkIfPlayerCanReach() {
-
-
-      // TODO
+      // TODO put in Board Creator though.
     }
-
-
-
 
   }
 
