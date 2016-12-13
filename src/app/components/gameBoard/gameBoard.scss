@@ -47,6 +47,11 @@
         }
       }
 
+      &.empty-cell {
+        opacity: .1;
+        pointer-events: none;
+      }
+
       .game-board-contents {
         display: flex;
         align-items: center;

@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('enemiesService', enemiesService);
 
-  enemiesService.$inject = ["progressTracker"];
+  enemiesService.$inject = ["progressTracker", "boardCreator"];
 
-  function enemiesService(progressTracker) {
+  function enemiesService(progressTracker, boardCreator) {
     var svc = this;
 
     svc.enemies = [
@@ -439,6 +439,7 @@
         enemy.stats.health = 0;
         enemy.active = false;
         svc.getCardWidth();
+        boardCreator.vacateCell(enemy.coordinates.x, enemy.coordinates.y);
         return true;
       }
       return false;

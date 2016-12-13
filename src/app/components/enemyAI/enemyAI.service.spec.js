@@ -70,6 +70,7 @@
         };
         this.defaultBoard = bc.boards[0];
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
+        this.defaultBoard.layout[2][3].blocked = true;
         this.destination = { x : 4, y: 4}
       });
 

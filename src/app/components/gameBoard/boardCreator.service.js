@@ -9,6 +9,8 @@
     var svc = this;
 
     svc.buildBoardLayout = buildBoardLayout;
+    svc.createRandomBoard = createRandomBoard;
+    svc.createCustomBoard = createCustomBoard;
     svc.setCurrentBoard = setCurrentBoard;
     svc.getValidMovements = getValidMovements;
     svc.getValidTargets = getValidTargets;
@@ -41,9 +43,57 @@
         },
         {
           name: null,
-          numCols: 25,
-          numRows: 8,
-          specialCells: null
+          numCols: 9,
+          numRows: 9,
+          specialCells: [
+            [0, 0, 'Empty'],
+            [1, 0, 'Empty'],
+            [2, 0, 'Empty'],
+            [3, 0, 'Empty'],
+            [5, 0, 'Empty'],
+            [6, 0, 'Empty'],
+            [7, 0, 'Empty'],
+            [8, 0, 'Empty'],
+
+            [0, 1, 'Empty'],
+            [1, 1, 'Empty'],
+            [2, 1, 'Empty'],
+            [6, 1, 'Empty'],
+            [7, 1, 'Empty'],
+            [8, 1, 'Empty'],
+
+            [0, 2, 'Empty'],
+            [1, 2, 'Empty'],
+            [7, 2, 'Empty'],
+            [8, 2, 'Empty'],
+
+            [0, 3, 'Empty'],
+            [8, 3, 'Empty'],
+
+            [0, 5, 'Empty'],
+            [8, 5, 'Empty'],
+
+            [0, 6, 'Empty'],
+            [1, 6, 'Empty'],
+            [7, 6, 'Empty'],
+            [8, 6, 'Empty'],
+
+            [0, 7, 'Empty'],
+            [1, 7, 'Empty'],
+            [2, 7, 'Empty'],
+            [6, 7, 'Empty'],
+            [7, 7, 'Empty'],
+            [8, 7, 'Empty'],
+
+            [0, 8, 'Empty'],
+            [1, 8, 'Empty'],
+            [2, 8, 'Empty'],
+            [3, 8, 'Empty'],
+            [5, 8, 'Empty'],
+            [6, 8, 'Empty'],
+            [7, 8, 'Empty'],
+            [8, 8, 'Empty']
+          ]
         },
         {
           name: null,
@@ -73,14 +123,10 @@
 
       svc.initialAllyPositions = [
         [
-          [3, 3],
-          [3, 5],
-          [3, 7]
+          [3, 3]
         ],
         [
-          [3, 3],
-          [3, 5],
-          [3, 7]
+          [4, 4]
         ],
         [
           [3, 3],
@@ -101,13 +147,13 @@
 
       svc.initialEnemyPositions = [
         [
-          [6, 7]
+          [6, 6]
         ],
         [
-          [19, 2],
-          [18, 4],
-          [18, 5],
-          [19, 7]
+          [4, 1],
+          [1, 4],
+          [7, 4],
+          [4, 7]
         ],
         [
           [7, 7],
@@ -143,11 +189,57 @@
 
       if (boardData.specialCells) {
         angular.forEach(boardData.specialCells, function(specialCell) {
-          boardLayout[specialCell[0]][specialCell[1]].special = specialCell[2];
+          var cell = boardLayout[specialCell[1]][specialCell[0]];
+          cell.special = specialCell[2];
+          if (specialCell[2] === 'Empty') {
+            cell.blocked = true;
+          }
         });
       }
 
       return boardLayout;
+    }
+
+    function createRandomBoard(numberOfPlayers) {
+      var numCols = Math.floor(Math.random() * 20) + 1;
+      var numRows = Math.floor(Math.random() * 10) + 1;
+
+      // Make sure they can all fit.
+      while (numCols * numRows < numberOfPlayers * 2) {
+        numCols = Math.floor(Math.random() * 20) + 1;
+        numRows = Math.floor(Math.random() * 10) + 1;
+      }
+
+      var randomBoard = {
+        name: generateRandomName(),
+        numCols: numCols,
+        numRows: numRows,
+        specialCells: generateRandomSpecialCells(numRows, numCols)
+      };
+
+      var startingPositions = generateRandomStartingPositions(numberOfPlayers, numRows, numCols);
+
+      // TODO.
+    }
+
+    function generateRandomSpecialCells(numRows, numCols) {
+
+    }
+
+    function generateRandomName() {
+      var adjectives = ['Mossy', 'Icy', 'Frosty', 'Frosted', 'Cold', 'Frozen', 'Ice Cold', 'Cool', 'Warm', 'Hot', 'Scorching', 'Black', 'Blue', 'Red', 'White', 'Green', 'Rocky', 'Demolished'];
+
+      var nouns = ['Alley', 'Warehouse', 'Penthouse', 'Cellar', 'Bar', 'Night Club', 'Beach', 'Shipwreck', 'Cave', 'Apartment', 'Slums'];
+
+      return adjectives[Math.floor(Math.random() * adjectives.length)] + nouns[Math.floor(Math.random() * nouns.length)]
+    }
+
+    function generateRandomStartingPositions(numberOfPlayers, numRows, numCols) {
+
+    }
+
+    function createCustomBoard(name, numOfCells, numOfRows, specialCells) {
+
     }
 
     function setCurrentBoard(board) {
@@ -186,10 +278,10 @@
       if (cell.yCoord !== 0) {
         neighboringCells.push(board.layout[cell.yCoord - 1][cell.xCoord])
       }
-      if (cell.xCoord !== board.numRows - 1) {
+      if (cell.xCoord !== board.numCols - 1) {
         neighboringCells.push(board.layout[cell.yCoord][cell.xCoord + 1])
       }
-      if (cell.yCoord !== board.numCols - 1) {
+      if (cell.yCoord !== board.numRows - 1) {
         neighboringCells.push(board.layout[cell.yCoord + 1][cell.xCoord])
       }
       if (cell.xCoord !== 0) {
@@ -203,7 +295,7 @@
       return neighboringCells;
     }
 
-    function getValidTargets(board, currentLoc, distance) {
+    function getValidTargets(currentLoc, distance, board) {
       if (!board) {
         board = svc.currentBoard;
       }
@@ -214,15 +306,10 @@
       for (var i = 0; i < distance; i++) {
         var cellsToAdd = [];
         angular.forEach(newCells, function(cell) {
-          var neighboringCells = [
-            board.layout[cell.yCoord - 1][cell.xCoord],
-            board.layout[cell.yCoord + 1][cell.xCoord],
-            board.layout[cell.yCoord][cell.xCoord - 1],
-            board.layout[cell.yCoord][cell.xCoord + 1]
-          ];
+          var neighboringCells = getNeighboringCells(board, cell);
           angular.forEach(neighboringCells, function(neighboringCell) {
             // If it exists, it's not blocked and it's not already added.
-            if (neighboringCell.special !== 'Empty' && validMoves.indexOf(neighboringCell) === -1) {
+            if (neighboringCell.special !== 'Empty' && validMoves.indexOf(neighboringCell) === -1 && cellsToAdd.indexOf(neighboringCell) === -1) {
               validMoves.push(neighboringCell);
               cellsToAdd.push(neighboringCell);
             }
@@ -271,7 +358,7 @@
     function placeCharacter(cell, character, board) {
       if (!cell.blocked) {
         if (character.coordinates) {
-          vacateCell(board, character.coordinates.x, character.coordinates.y);
+          vacateCell(character.coordinates.x, character.coordinates.y, board);
         }
         cell.occupant = character;
         cell.blocked = true;
@@ -321,7 +408,10 @@
               cellToMoveTo = cell;
               return;
             }
-            angular.forEach(getNeighboringCells(board, cell), function(cell) {
+
+            var neighboringCells = getNeighboringCells(board, cell);
+
+            angular.forEach(neighboringCells, function(cell) {
               if (!cell.blocked && cellsChecked.indexOf(cell) === -1) {
                 nextBatch.push(cell);
               }
@@ -339,7 +429,10 @@
       }
     }
 
-    function vacateCell(board, xCoord, yCoord) {
+    function vacateCell(xCoord, yCoord, board) {
+      if (!board) {
+        board = svc.currentBoard;
+      }
       var cell = board.layout[yCoord][xCoord];
       cell.occupant = null;
       cell.blocked = false;

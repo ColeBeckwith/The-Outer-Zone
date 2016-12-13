@@ -40,15 +40,23 @@
       it('should incorporate a single special cell', function() {
         this.defaultBoard.specialCells = [[2, 6, 'Poison']];
         var layout = bc.buildBoardLayout(this.defaultBoard);
-        expect(layout[2][6].special).toEqual('Poison');
+        expect(layout[6][2].special).toEqual('Poison');
       });
 
       it('should incorporate multiple special cells', function() {
         this.defaultBoard.specialCells = [[1, 5, 'Water'], [7, 9, 'Magma'], [4, 4, 'Hole']];
         var layout = bc.buildBoardLayout(this.defaultBoard);
-        expect(layout[1][5].special).toEqual('Water');
-        expect(layout[7][9].special).toEqual('Magma');
+        expect(layout[5][1].special).toEqual('Water');
+        expect(layout[9][7].special).toEqual('Magma');
         expect(layout[4][4].special).toEqual('Hole');
+      });
+
+      it('should block any cell thats special is Empty', function() {
+        this.defaultBoard.specialCells = [[1, 5, 'Empty'], [7, 9, 'Empty'], [4, 4, 'Hole']];
+        var layout = bc.buildBoardLayout(this.defaultBoard);
+        expect(layout[5][1].blocked).toEqual(true);
+        expect(layout[9][7].blocked).toEqual(true);
+        expect(layout[4][4].blocked).toEqual(false);
       })
     });
 

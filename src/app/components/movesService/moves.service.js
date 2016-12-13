@@ -110,7 +110,7 @@
         if (svc.selectedMove.range) {
           if (svc.selectedMove.rangeType === 'Single Cell') {
             var origin = [atBat.coordinates.x, atBat.coordinates.y];
-            var targetableCells = boardCreator.getValidTargets(null, origin, svc.selectedMove.range);
+            var targetableCells = boardCreator.getValidTargets(origin, svc.selectedMove.range);
             boardCreator.makeCellsTargetable(targetableCells, svc.selectedMove.targetType);
           }
         }

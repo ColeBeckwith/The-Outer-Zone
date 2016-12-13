@@ -17,6 +17,7 @@
     svc.nextTurn = nextTurn;
     svc.enemyTurn = enemyTurn;
     svc.endTurn = endTurn;
+    svc.removeFromPool = removeFromPool;
     svc.takeAwayTurn = takeAwayTurn;
     svc.selectMove = selectMove;
     svc.actionOnAlly = actionOnAlly;
@@ -83,7 +84,6 @@
     function enemyTurn() {
       var moveLocation = AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
 
-      console.log(moveLocation);
       if (moveLocation) {
         var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
         boardCreator.moveCharacterTowardLocation(boardCreator.currentBoard, svc.queuePool[0], moveLocation, distance);

@@ -6,12 +6,15 @@
            ng-click="gameBoard.selectCell(cell)"
            ng-class="{'movable' : cell.movable,
                       'enemy-targetable' : cell.targetable && cell.targetType === 'Enemy' && !(cell.occupant.id < 200),
-                      'ally-targetable' : cell.targetable && cell.targetType === 'Ally' && !(cell.occupant.id >= 200)}"
+                      'ally-targetable' : cell.targetable && cell.targetType === 'Ally' && !(cell.occupant.id >= 200),
+                      'empty-cell': cell.special === 'Empty'}"
            ng-mouseenter="gameBoard.mouseEnter(cell)"
            ng-mouseleave="gameBoard.mouseLeave(cell)">
         <div class="game-board-contents">
-          <span ng-if="cell.occupant.icon" ng-class="cell.occupant.icon"></span>
-          <span ng-if="cell.occupant && !cell.occupant.icon">{{ cell.occupant.name.substring(0, 1) }}</span>
+          <div ng-if="cell.occupant">
+            <span ng-if="cell.occupant.icon" ng-class="cell.occupant.icon"></span>
+            <span ng-if="!cell.occupant.icon">{{ cell.occupant.name.substring(0, 1) }}</span>
+          </div>
         </div>
       </div>
     </div>

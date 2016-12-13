@@ -683,6 +683,7 @@
       ally.baseStats = build.baseStats;
       ally.baseStats.health = build.baseStats.maxHealth;
       ally.baseStats.energy = build.baseStats.maxEnergy;
+      ally.stats = angular.copy(ally.baseStats);
       ally.class = build.name;
       ally.icon = build.icon;
       ally.levelingSchedule = build.levelingSchedule;

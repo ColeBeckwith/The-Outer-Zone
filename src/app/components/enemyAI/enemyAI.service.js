@@ -110,11 +110,12 @@
     function getTrueDistance(board, destination, character) {
       // This is lacking some efficiency. Cells are checked multiple times.
       var destinationReached = false;
-      var distance = -1;
+      var distance = 0;
 
       var startingCell = board.layout[character.coordinates.y][character.coordinates.x];
+
       var checkedCells = [startingCell];
-      var newCells = [startingCell];
+      var newCells = boardCreator.getNeighboringCells(board, startingCell);
 
       while(!destinationReached && distance < 100) {
         distance++;
