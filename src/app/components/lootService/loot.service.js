@@ -403,6 +403,7 @@
     ];
 
     svc.gimmeTheLoot = function() {
+
       // TODO these need to be a copy of the loot in question, so that the vaults are not emptied out.
       var loot = [];
       var exp = enemiesService.getExperience();
@@ -428,7 +429,7 @@
         loot.push(svc.commons[Math.floor(Math.random()*svc.commons.length)])
       }
 
-      angular.forEach(enemiesService.getEnemies(), function(enemy) {
+      angular.forEach(enemiesService.getCurrentEnemies(), function(enemy) {
         angular.forEach(enemy.loot, function(enemyLoot) {
           loot.push(enemyLoot);
         });

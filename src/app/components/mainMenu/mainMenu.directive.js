@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('mainMenu', mainMenu);
 
-  mainMenu.$inject = ["alliesService", "stateChangeService"];
+  mainMenu.$inject = ["alliesService", "stateChangeService", "progressTracker"];
 
-  function mainMenu(alliesService, stateChangeService) {
+  function mainMenu(alliesService, stateChangeService, progressTracker) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/mainMenu/mainMenu.html',
@@ -23,7 +23,10 @@
 
       vm.activeAllies = alliesService.activeAllies;
 
-      vm.goTo = function(state) {
+      vm.goTo = function(state, fightType) {
+        if (fightType) {
+          progressTracker.setFightType(fightType);
+        }
         stateChangeService.setPlayerState(state);
       };
 

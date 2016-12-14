@@ -13,6 +13,19 @@
 
   <h3 class="text-danger">Enemies</h3>
 
+  <div class="form-group input-group-sm"
+       ng-if="preFight.fightType === 'arena'">
+    <span>Select Difficulty:</span>
+    <select ng-change="preFight.selectDifficulty(preFight.enemyDifficulty)"
+            ng-model="preFight.enemyDifficulty"
+            class="form-control input-sm">
+      <option value="-1">Easy</option>
+      <option value="0">Normal</option>
+      <option value="2">Hard</option>
+      <option value="5">Insane</option>
+    </select>
+  </div>
+
   <div ng-repeat="enemy in preFight.enemies">
     <h4>{{ enemy.name }}</h4>
     <p>STR : {{ enemy.stats.strength }} &nbsp; | &nbsp; SPD : {{ enemy.stats.speed }}
@@ -20,6 +33,7 @@
   </div>
 </div>
 <div class="text-center">
-  <button class="btn btn-success" ng-click="preFight.readyUp()">Ready</button>
+  <button class="btn btn-success" ng-class="{'disabled' : !preFight.enemies}" ng-click="preFight.readyUp()">Ready</button>
+  <button class="btn btn-warning" ng-click="preFight.goBack()">Go Back</button>
 </div>
 

@@ -25,7 +25,7 @@
 
     function buildQueue() {
       svc.activeAllies = alliesService.activeAllies;
-      svc.enemies = enemiesService.getEnemies();
+      svc.enemies = enemiesService.getCurrentEnemies();
       svc.queuePool = [];
 
       angular.forEach(svc.activeAllies, function(ally) {

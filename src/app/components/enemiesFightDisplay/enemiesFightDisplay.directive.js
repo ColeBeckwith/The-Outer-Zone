@@ -23,7 +23,7 @@
 
       vm.enemiesService = enemiesService;
 
-      vm.enemies = enemiesService.getEnemies();
+      vm.enemies = enemiesService.getCurrentEnemies();
 
       vm.clickEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {

@@ -7,7 +7,10 @@
            ng-class="{'movable' : cell.movable,
                       'enemy-targetable' : cell.targetable && cell.targetType === 'Enemy' && !(cell.occupant.id < 200),
                       'ally-targetable' : cell.targetable && cell.targetType === 'Ally' && !(cell.occupant.id >= 200),
-                      'empty-cell': cell.special === 'Empty'}"
+                      'void-cell': cell.special === 'Void',
+                      'water-cell' : cell.special === 'Water',
+                      'acid-cell' : cell.special === 'Acid',
+                      'fire-cell' : cell.special === 'Fire'}"
            ng-mouseenter="gameBoard.mouseEnter(cell)"
            ng-mouseleave="gameBoard.mouseLeave(cell)">
         <div class="game-board-contents">

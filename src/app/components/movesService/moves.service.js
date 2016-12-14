@@ -268,7 +268,7 @@
         }
 
         if (svc.selectedMove.name === "Hijack Weapons") {
-          angular.forEach(enemiesService.getEnemies(), function(enemy) {
+          angular.forEach(enemiesService.getCurrentEnemies(), function(enemy) {
             if (atBat.stats.intellect > enemy.stats.intellect) {
               enemy.statusEffects.push(["Hijacked", 5, atBat.stats.intellect]);
               fightLogService.pushToFightLog(enemy.name + '\'s weapons have been hijacked.')

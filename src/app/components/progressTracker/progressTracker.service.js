@@ -6,48 +6,57 @@
     .service('progressTracker', progressTracker);
 
   function progressTracker() {
-    var vm = this;
+    var svc = this;
 
-    vm.storyProgress = 0;
-    vm.newAlly = -1;
-    vm.fightOngoing = false;
-    vm.battleWon = false;
+    svc.storyProgress = 0;
+    svc.newAlly = -1;
+    svc.fightOngoing = false;
+    svc.battleWon = false;
+    svc.fightType = null;
 
-    vm.getStoryProgress = function() {
-      return vm.storyProgress;
+    svc.getStoryProgress = function() {
+      return svc.storyProgress;
     };
 
-    vm.advanceStory = function() {
-      vm.storyProgress++;
+    svc.advanceStory = function() {
+      svc.storyProgress++;
     };
 
-    vm.setBattleWon = function(result) {
-      vm.battleWon = result;
+    svc.setBattleWon = function(result) {
+      svc.battleWon = result;
     };
 
-    vm.getBattleWon = function() {
-      return vm.battleWon;
+    svc.getBattleWon = function() {
+      return svc.battleWon;
     };
 
-    vm.getNewAlly = function() {
-      return vm.newAlly;
+    svc.setFightType = function(type) {
+      svc.fightType = type;
     };
 
-    vm.addNewAlly = function() {
-      vm.newAlly++;
+    svc.getFightType = function() {
+      return svc.fightType;
     };
 
-    vm.startFight = function() {
-      vm.fightOngoing = true;
+    svc.getNewAlly = function() {
+      return svc.newAlly;
     };
 
-    vm.stopFight = function() {
-      vm.fightOngoing = false;
+    svc.addNewAlly = function() {
+      svc.newAlly++;
     };
-    
-    vm.loadGame = function(storyProgress, allyProgress) {
-      vm.storyProgress = storyProgress;
-      vm.newAlly = allyProgress;
+
+    svc.startFight = function() {
+      svc.fightOngoing = true;
+    };
+
+    svc.stopFight = function() {
+      svc.fightOngoing = false;
+    };
+
+    svc.loadGame = function(storyProgress, allyProgress) {
+      svc.storyProgress = storyProgress;
+      svc.newAlly = allyProgress;
     }
   }
 })();

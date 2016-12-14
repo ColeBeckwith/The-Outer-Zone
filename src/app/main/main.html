@@ -1,10 +1,13 @@
-<character-select ng-if="main.stateChangeService.playerState === 'characterSelect'"></character-select>
+<start-screen ng-if="main.stateChangeService.playerState === 'startScreen'"></start-screen>
+
+<main-menu ng-if="main.stateChangeService.playerState === 'mainMenu'"></main-menu>
+
+<pre-fight-screen ng-if="main.stateChangeService.playerState === 'prefight'"></pre-fight-screen>
 <fight-display ng-if="main.stateChangeService.playerState === 'fight'"></fight-display>
 <fight-summary ng-if="main.stateChangeService.playerState === 'fightSummary'"></fight-summary>
 <story-text ng-if="main.stateChangeService.playerState === 'story'"></story-text>
-<pre-fight-screen ng-if="main.stateChangeService.playerState === 'prefight'"></pre-fight-screen>
-<start-screen ng-if="main.stateChangeService.playerState === 'startScreen'"></start-screen>
-<main-menu ng-if="main.stateChangeService.playerState === 'mainMenu'"></main-menu>
+<character-select ng-if="main.stateChangeService.playerState === 'characterSelect'"></character-select>
+
 <equipment ng-if="main.stateChangeService.playerState === 'equipment'"></equipment>
 <store ng-if="main.stateChangeService.playerState === 'store'"></store>
 

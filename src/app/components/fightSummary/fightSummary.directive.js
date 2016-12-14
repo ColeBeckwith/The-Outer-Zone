@@ -5,9 +5,11 @@
     .module("outerZone")
     .directive('fightSummary', fightSummary);
 
-  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout", "lootService", "inventoryService", "boardCreator"];
+  fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout",
+    "lootService", "inventoryService", "boardCreator", "saveGame"];
 
-  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService, inventoryService, boardCreator) {
+  function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService,
+                        inventoryService, boardCreator, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -71,8 +73,13 @@
         boardCreator.clearAllyLocations(vm.allies);
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
-        progressTracker.advanceStory();
-        stateChangeService.setPlayerState('story');
+        if (progressTracker.fightType === 'story') {
+          progressTracker.advanceStory();
+          stateChangeService.setPlayerState('story');
+        } else if (progressTracker.fightType === 'arena') {
+          saveGame.saveGame();
+          stateChangeService.setPlayerState('mainMenu');
+        }
       };
 
       vm.tryAgain = function() {

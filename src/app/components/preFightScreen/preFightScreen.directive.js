@@ -5,9 +5,11 @@
     .module("outerZone")
     .directive('preFightScreen', preFightScreen);
 
-  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService", "alliesService", "enemiesService", "movesService", "storyService", "boardCreator"];
+  preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService",
+    "alliesService", "enemiesService", "movesService", "storyService", "boardCreator", "enemyGenerator"];
 
-  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService, enemiesService, movesService, storyService, boardCreator) {
+  function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService,
+                          enemiesService, movesService, storyService, boardCreator, enemyGenerator) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/preFightScreen/preFightScreen.html',
@@ -21,13 +23,35 @@
     function preFightController() {
       var vm = this;
 
-      vm.allies = alliesService.activeAllies;
-      vm.enemies = enemiesService.getEnemies();
+      vm.readyUp = readyUp;
+      vm.goBack = goBack;
+      vm.selectDifficulty = selectDifficulty;
 
-      vm.fightTitle = storyService.getTitle();
+      activate();
+
+      function activate() {
+        vm.allies = alliesService.activeAllies;
+        vm.fightType = progressTracker.getFightType();
+        if (vm.fightType === 'story') {
+          vm.enemies = enemiesService.getEnemiesForStory();
+          vm.fightTitle = storyService.getTitle();
+        } else if (vm.fightType === 'arena') {
+          vm.fightTitle = 'Arena Match';
+          vm.enemies = null;
+        }
+      }
+
+      function selectDifficulty(difficulty) {
+        vm.enemies = enemyGenerator.generateEnemies(difficulty, vm.allies);
+      }
+
+      function goBack() {
+        stateChangeService.setPlayerState('mainMenu');
+      }
 
       // Everything that sets up the fight.
-      vm.readyUp = function() {
+      function readyUp() {
+        enemiesService.setCurrentEnemies(vm.enemies);
         fightQueueService.buildQueue();
         alliesService.restoreAll();
         enemiesService.restoreAll();
@@ -39,17 +63,23 @@
         stateChangeService.setPlayerState('fight');
 
         // Sets up the board for the fight.
-        var storyProgress = progressTracker.getStoryProgress();
-        var allyPositions = boardCreator.initialAllyPositions[storyProgress];
-        var enemyPositions = boardCreator.initialEnemyPositions[storyProgress];
-        var board = boardCreator.getBoardNumber(storyProgress);
-        board.layout = boardCreator.buildBoardLayout(board);
-        boardCreator.placeCharacterSet(board.layout, allyPositions, alliesService.getActiveAllies());
-        boardCreator.placeCharacterSet(board.layout, enemyPositions, enemiesService.getEnemies());
+        var board = null;
+        if (vm.fightType === 'story') {
+          var storyProgress = progressTracker.getStoryProgress();
+          var allyPositions = boardCreator.initialAllyPositions[storyProgress];
+          var enemyPositions = boardCreator.initialEnemyPositions[storyProgress];
+          board = boardCreator.getBoardNumber(storyProgress);
+          board.layout = boardCreator.buildBoardLayout(board);
+          boardCreator.placeCharacterSet(board.layout, allyPositions, alliesService.getActiveAllies());
+          boardCreator.placeCharacterSet(board.layout, enemyPositions, vm.enemies);
+        } else if (vm.fightType === 'arena') {
+          board = boardCreator.createRandomBoard(alliesService.getActiveAllies(), vm.enemies);
+        }
+
         boardCreator.setCurrentBoard(board);
+        console.log(board);
         boardCreator.clearMoveAndTarget();
       }
-
     }
   }
 })();

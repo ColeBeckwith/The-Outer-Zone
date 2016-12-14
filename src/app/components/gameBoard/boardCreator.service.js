@@ -10,6 +10,7 @@
 
     svc.buildBoardLayout = buildBoardLayout;
     svc.createRandomBoard = createRandomBoard;
+    svc.generateRandomStartingPositions = generateRandomStartingPositions;
     svc.createCustomBoard = createCustomBoard;
     svc.setCurrentBoard = setCurrentBoard;
     svc.getValidMovements = getValidMovements;
@@ -46,53 +47,53 @@
           numCols: 9,
           numRows: 9,
           specialCells: [
-            [0, 0, 'Empty'],
-            [1, 0, 'Empty'],
-            [2, 0, 'Empty'],
-            [3, 0, 'Empty'],
-            [5, 0, 'Empty'],
-            [6, 0, 'Empty'],
-            [7, 0, 'Empty'],
-            [8, 0, 'Empty'],
+            [0, 0, 'Void'],
+            [1, 0, 'Void'],
+            [2, 0, 'Void'],
+            [3, 0, 'Void'],
+            [5, 0, 'Void'],
+            [6, 0, 'Void'],
+            [7, 0, 'Void'],
+            [8, 0, 'Void'],
 
-            [0, 1, 'Empty'],
-            [1, 1, 'Empty'],
-            [2, 1, 'Empty'],
-            [6, 1, 'Empty'],
-            [7, 1, 'Empty'],
-            [8, 1, 'Empty'],
+            [0, 1, 'Void'],
+            [1, 1, 'Void'],
+            [2, 1, 'Void'],
+            [6, 1, 'Void'],
+            [7, 1, 'Void'],
+            [8, 1, 'Void'],
 
-            [0, 2, 'Empty'],
-            [1, 2, 'Empty'],
-            [7, 2, 'Empty'],
-            [8, 2, 'Empty'],
+            [0, 2, 'Void'],
+            [1, 2, 'Void'],
+            [7, 2, 'Void'],
+            [8, 2, 'Void'],
 
-            [0, 3, 'Empty'],
-            [8, 3, 'Empty'],
+            [0, 3, 'Void'],
+            [8, 3, 'Void'],
 
-            [0, 5, 'Empty'],
-            [8, 5, 'Empty'],
+            [0, 5, 'Void'],
+            [8, 5, 'Void'],
 
-            [0, 6, 'Empty'],
-            [1, 6, 'Empty'],
-            [7, 6, 'Empty'],
-            [8, 6, 'Empty'],
+            [0, 6, 'Void'],
+            [1, 6, 'Void'],
+            [7, 6, 'Void'],
+            [8, 6, 'Void'],
 
-            [0, 7, 'Empty'],
-            [1, 7, 'Empty'],
-            [2, 7, 'Empty'],
-            [6, 7, 'Empty'],
-            [7, 7, 'Empty'],
-            [8, 7, 'Empty'],
+            [0, 7, 'Void'],
+            [1, 7, 'Void'],
+            [2, 7, 'Void'],
+            [6, 7, 'Void'],
+            [7, 7, 'Void'],
+            [8, 7, 'Void'],
 
-            [0, 8, 'Empty'],
-            [1, 8, 'Empty'],
-            [2, 8, 'Empty'],
-            [3, 8, 'Empty'],
-            [5, 8, 'Empty'],
-            [6, 8, 'Empty'],
-            [7, 8, 'Empty'],
-            [8, 8, 'Empty']
+            [0, 8, 'Void'],
+            [1, 8, 'Void'],
+            [2, 8, 'Void'],
+            [3, 8, 'Void'],
+            [5, 8, 'Void'],
+            [6, 8, 'Void'],
+            [7, 8, 'Void'],
+            [8, 8, 'Void']
           ]
         },
         {
@@ -191,7 +192,7 @@
         angular.forEach(boardData.specialCells, function(specialCell) {
           var cell = boardLayout[specialCell[1]][specialCell[0]];
           cell.special = specialCell[2];
-          if (specialCell[2] === 'Empty') {
+          if (specialCell[2] === 'Void') {
             cell.blocked = true;
           }
         });
@@ -200,12 +201,12 @@
       return boardLayout;
     }
 
-    function createRandomBoard(numberOfPlayers) {
-      var numCols = Math.floor(Math.random() * 20) + 1;
-      var numRows = Math.floor(Math.random() * 10) + 1;
+    function createRandomBoard(allies, enemies) {
+      var numCols = Math.floor(Math.random() * 24) + 1;
+      var numRows = Math.floor(Math.random() * 12) + 1;
 
       // Make sure they can all fit.
-      while (numCols * numRows < numberOfPlayers * 2) {
+      while (numCols * numRows < (allies.length + enemies.length) * 3) {
         numCols = Math.floor(Math.random() * 20) + 1;
         numRows = Math.floor(Math.random() * 10) + 1;
       }
@@ -214,28 +215,107 @@
         name: generateRandomName(),
         numCols: numCols,
         numRows: numRows,
-        specialCells: generateRandomSpecialCells(numRows, numCols)
+        specialCells: null
       };
 
-      var startingPositions = generateRandomStartingPositions(numberOfPlayers, numRows, numCols);
+      randomBoard.layout = buildBoardLayout(randomBoard);
 
-      // TODO.
+      var playersCanFit = false;
+
+      while (!playersCanFit) {
+        generateRandomSpecialCells(randomBoard);
+        var availableCells = 0;
+        angular.forEach(randomBoard.layout, function (row) {
+          angular.forEach(row, function(cell) {
+            if (!cell.blocked) {
+              availableCells++;
+            }
+          })
+        });
+        if (availableCells >= allies.length + enemies.length * 2) {
+          playersCanFit = true;
+        }
+      }
+
+      var startingPositions = generateRandomStartingPositions(allies, enemies, randomBoard);
+
+
+      return randomBoard;
     }
 
-    function generateRandomSpecialCells(numRows, numCols) {
+    function generateRandomSpecialCells(board) {
+      // TODO. This currently doesn't protect against parts of the board being completely sectioned off.
+      // Won't stop isolated void cells because their neighbors may not be void yet, but made void later.
+      angular.forEach(board.layout, function(row) {
+        angular.forEach(row, function(cell) {
+          var neighboringCells = getNeighboringCells(board, cell);
+
+          var voidCount = 0;
+          var waterCount = 0;
+          var acidCount = 0;
+          var fireCount = 0;
+          angular.forEach(neighboringCells, function(neighboringCell) {
+            switch (neighboringCell.special) {
+              case 'Void':
+                voidCount++;
+                break;
+              case 'Water':
+                waterCount++;
+                break;
+              case 'Acid':
+                acidCount++;
+                break;
+              case 'Fire':
+                fireCount++;
+                break;
+              default:
+                break;
+            }
+          });
+
+          if (Math.random() * (waterCount + 1) > .95) {
+            cell.special = 'Water';
+          }
+          if (Math.random() * (fireCount + 1) > .95) {
+            cell.special = 'Fire';
+          }
+          if (Math.random() * (acidCount + 1) > .95) {
+            cell.special = 'Acid';
+          }
+
+          // This will encourage a relatively round shape to the map.
+          var distanceFromCenter = Math.abs(cell.xCoord - ((board.numCols / 2) - 1)) +
+                                   Math.abs(cell.yCoord - ((board.numRows / 2) - 1));
+
+          if (voidCount === neighboringCells.length || Math.random() > 1 - (.01 * (Math.pow(distanceFromCenter, 2) + 1))) {
+            cell.special = 'Void';
+            cell.blocked = true;
+          }
+        })
+      });
 
     }
 
     function generateRandomName() {
       var adjectives = ['Mossy', 'Icy', 'Frosty', 'Frosted', 'Cold', 'Frozen', 'Ice Cold', 'Cool', 'Warm', 'Hot', 'Scorching', 'Black', 'Blue', 'Red', 'White', 'Green', 'Rocky', 'Demolished'];
 
-      var nouns = ['Alley', 'Warehouse', 'Penthouse', 'Cellar', 'Bar', 'Night Club', 'Beach', 'Shipwreck', 'Cave', 'Apartment', 'Slums'];
+      var nouns = ['Alley', 'Warehouse', 'Penthouse', 'Cellar', 'Bar', 'Night Club', 'Beach', 'Shipwreck', 'Cave', 'Apartment', 'Slums', 'Cliffside', 'Mountain', 'Forest', 'Desert', 'Lake', 'River', 'Pond', 'Stream', ''];
 
-      return adjectives[Math.floor(Math.random() * adjectives.length)] + nouns[Math.floor(Math.random() * nouns.length)]
+      return adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)]
     }
 
-    function generateRandomStartingPositions(numberOfPlayers, numRows, numCols) {
+    function generateRandomStartingPositions(allies, enemies, board) {
+      angular.forEach(allies.concat(enemies), function(character) {
+        var xCoord = Math.floor(Math.random() * board.numCols);
+        var yCoord = Math.floor(Math.random() * board.numRows);
 
+        while (board.layout[yCoord][xCoord].blocked) {
+          xCoord = Math.floor(Math.random() * board.numCols);
+          yCoord = Math.floor(Math.random() * board.numRows);
+        }
+
+        placeCharacter(board.layout[yCoord][xCoord], character, board);
+      })
     }
 
     function createCustomBoard(name, numOfCells, numOfRows, specialCells) {
@@ -288,7 +368,7 @@
         neighboringCells.push(board.layout[cell.yCoord][cell.xCoord - 1])
       }
       for(var i = neighboringCells.length - 1; i > 0; i--) {
-        if (neighboringCells[i].special === 'Empty') {
+        if (neighboringCells[i].special === 'Void') {
           neighboringCells.splice(i, 1);
         }
       }
@@ -308,8 +388,12 @@
         angular.forEach(newCells, function(cell) {
           var neighboringCells = getNeighboringCells(board, cell);
           angular.forEach(neighboringCells, function(neighboringCell) {
-            // If it exists, it's not blocked and it's not already added.
-            if (neighboringCell.special !== 'Empty' && validMoves.indexOf(neighboringCell) === -1 && cellsToAdd.indexOf(neighboringCell) === -1) {
+
+            var notVoid = neighboringCell.special !== 'Void';
+            var notAlreadyAdded = validMoves.indexOf(neighboringCell) === -1;
+            var notGoingToBeAdded = cellsToAdd.indexOf(neighboringCell) === -1;
+
+            if (notVoid && notAlreadyAdded && notGoingToBeAdded) {
               validMoves.push(neighboringCell);
               cellsToAdd.push(neighboringCell);
             }

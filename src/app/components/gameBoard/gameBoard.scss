@@ -13,41 +13,35 @@
       border-radius: 3px;
       margin: 1px;
 
-      &:hover {
-        border-color: gold;
-      }
-
       &.movable {
-        background-color: yellow;
-        opacity: .7;
-
-        &:hover {
-          opacity: 1;
-          border-color: gray;
-        }
+        border-color: yellow;
       }
 
       &.enemy-targetable {
-        background-color: red;
-        opacity: .7;
-
-        &.hover {
-          opacity: 1;
-          border-color: gray;
-        }
+        border-color: red;
       }
 
       &.ally-targetable {
-        background-color: green;
-        opacity: .7;
-
-        &.hover {
-          opacity: 1;
-          border-color: gray;
-        }
+        border-color: green;
       }
 
-      &.empty-cell {
+      &:hover {
+        border-color: white;
+      }
+
+      &.fire-cell {
+        background-color: orangered;
+      }
+
+      &.water-cell {
+        background-color: dodgerblue;
+      }
+
+      &.acid-cell {
+        background-color: greenyellow;
+      }
+
+      &.void-cell {
         opacity: .1;
         pointer-events: none;
       }

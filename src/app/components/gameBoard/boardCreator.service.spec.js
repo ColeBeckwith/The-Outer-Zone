@@ -52,7 +52,7 @@
       });
 
       it('should block any cell thats special is Empty', function() {
-        this.defaultBoard.specialCells = [[1, 5, 'Empty'], [7, 9, 'Empty'], [4, 4, 'Hole']];
+        this.defaultBoard.specialCells = [[1, 5, 'Void'], [7, 9, 'Void'], [4, 4, 'Hole']];
         var layout = bc.buildBoardLayout(this.defaultBoard);
         expect(layout[5][1].blocked).toEqual(true);
         expect(layout[9][7].blocked).toEqual(true);
@@ -209,8 +209,8 @@
         ]);
       });
 
-      it('if a cell is empty, it should not be returned', function() {
-        this.defaultBoard.layout[8][3].special = 'Empty';
+      it('if a cell is Void, it should not be returned', function() {
+        this.defaultBoard.layout[8][3].special = 'Void';
         expect(bc.getNeighboringCells(this.defaultBoard, this.cell)).toEqual([
           Object({ xCoord: 3, yCoord: 6, blocked: false, special: null }),
           Object({ xCoord: 4, yCoord: 7, blocked: false, special: null }),
@@ -270,6 +270,44 @@
       it('should move the enemy to a neighboring cell if its near enough', function() {
         bc.moveCharacterTowardLocation(this.board, this.enemy, this.moveLocation, 25);
         expect(this.enemy.coordinates).toEqual(Object({ x: 6, y: 4, special: null }))
+      })
+    });
+
+    describe('generateRandomStartingPositions', function() {
+      beforeEach(function() {
+        this.board = {
+          numCols : 10,
+          numRows: 8,
+          specialCells: null
+        };
+        this.board.layout = bc.buildBoardLayout(this.board);
+        this.allies = [
+          {
+            name: 'Scarecrow'
+          },
+          {
+            name: 'D. Taylor'
+          }
+        ];
+        this.enemies = [
+          {
+            name: 'Monkey'
+          },
+          {
+            name: 'Witch'
+          },
+          {
+            name: 'Broom'
+          }
+        ]
+      });
+
+      it('should call placeCharacter once for each set', function() {
+        spyOn(bc, 'placeCharacter');
+        bc.generateRandomStartingPositions(this.allies, this.enemies, this.board);
+
+        expect(bc.placeCharacter).toHaveBeenCalled();
+        // expect(bc.placeCharacter.calls.count()).toEqual(this.allies.length + this.enemies.length)
       })
     })
 

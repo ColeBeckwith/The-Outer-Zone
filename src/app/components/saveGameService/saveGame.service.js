@@ -10,22 +10,36 @@
   function saveGame(alliesService, progressTracker, inventoryService, toastr) {
     var svc = this;
 
-    svc.saveFile = {};
+    svc.saveGame = saveGame;
+    svc.loadGame = loadGame;
+    svc.checkForSaveFile = checkForSaveFile;
 
-    svc.saveGame = function() {
-      store.set('saveFile', {'storyProgress' : progressTracker.storyProgress, 'allyProgress' : progressTracker.newAlly, 'allies' : alliesService.allies, 'equipment' : inventoryService.equipment, 'money': inventoryService.money})
+    activate();
+
+    function activate() {
+      svc.saveFile = {};
+    }
+
+    function saveGame() {
+      store.set('saveFile', {
+        'storyProgress' : progressTracker.storyProgress,
+        'allyProgress' : progressTracker.newAlly,
+        'allies' : alliesService.allies,
+        'equipment' : inventoryService.equipment,
+        'money': inventoryService.money
+      });
       toastr.success('Game Saved');
-    };
+    }
 
-    svc.loadGame = function() {
+    function loadGame() {
       svc.saveFile = store.get('saveFile');
       alliesService.setAllies(svc.saveFile.allies);
       progressTracker.loadGame(svc.saveFile.storyProgress, svc.saveFile.allyProgress);
       inventoryService.loadGame(svc.saveFile.equipment, svc.saveFile.money);
-      toastr.info('Loading Game');
-    };
+      toastr.info('Game Loaded');
+    }
 
-    svc.checkForSaveFile = function() {
+    function checkForSaveFile() {
       return (store.get('saveFile') !== undefined)
     }
   }
