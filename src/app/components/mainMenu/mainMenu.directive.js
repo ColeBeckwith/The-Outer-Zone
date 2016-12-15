@@ -21,7 +21,7 @@
     function mainMenuController() {
       var vm = this;
 
-      vm.activeAllies = alliesService.activeAllies;
+      vm.activeAllies = alliesService.getActiveAllies();
 
       vm.goTo = function(state, fightType) {
         if (fightType) {

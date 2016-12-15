@@ -3,15 +3,30 @@
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
 
+$ozPrimary: rgb(72, 161, 103);
+$ozSecondary: gold;
+$ozTertiary: gray;
+
+$ozAcid: greenyellow;
+$ozFire: orangered;
+$ozWater: dodgerblue;
+
+$ozMoveable: yellow;
+$ozEnemyTargetable: red;
+$ozAllyTargetable: green;
+
+
+$nav-tabs-border-color:                     $ozPrimary !important;
+$nav-tabs-active-link-hover-bg:             inherit !important;
+$nav-tabs-active-link-hover-color:          $ozPrimary !important;
+$nav-tabs-active-link-hover-border-color:   $ozPrimary !important;
+
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies
  */
 // bower:scss
 // endbower
-
-$ozPrimary: rgb(72, 161, 103);
-$ozSecondary: gold;
 
 ::-webkit-scrollbar {
   display: none;
@@ -22,12 +37,6 @@ body {
   min-height: 500px;
   min-width: 1000px;
 }
-
-//.vertical-center {
-//  display: inline-block;
-//  vertical-align: middle;
-//  float: none;
-//}
 
 .full-width {
   width: 100%;
@@ -52,20 +61,14 @@ body {
   min-height: 80px;
 }
 
-.fight-bar {
-  text-align: center;
-  width: 100%;
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-
-.allies-fight-bar {
-  bottom: 0;
-}
-
-.enemies-fight-bar {
-  top: 0;
+.card {
+  display: inline-block;
+  border-radius: 10px;
+  border: 3px solid $ozPrimary;
+  text-align: left;
+  outline: none;
+  max-width: 30%;
+  margin: 10px;
 }
 
 .team-card {
@@ -79,37 +82,6 @@ body {
 .team-container {
   max-height: 80vh;
   overflow: scroll;
-}
-
-.middle-fight-bar {
-  position: fixed;
-  top: 22%;
-  left: 0;
-  right: 0;
-}
-
-.fight-queue {
-  border: 3px solid gray;
-  border-radius: 10px;
-  padding: 0 15px;
-}
-
-.fight-log {
-  border: 3px solid gray;
-  border-radius: 10px;
-  padding: 15px;
-  overflow: scroll;
-  height: 212px;
-}
-
-.card {
-  display: inline-block;
-  border-radius: 10px;
-  border: 3px solid $ozPrimary;
-  text-align: left;
-  outline: none;
-  max-width: 30%;
-  margin: 10px;
 }
 
 .target {
@@ -126,15 +98,6 @@ body {
 
 .select-class-icon {
   font-size: 5em;
-}
-
-.fight-card {
-  padding: 5px;
-}
-
-.fight-icon {
-  font-size: 2em !important;
-  //TODO need to do something about this.
 }
 
 .dead-card {
@@ -163,10 +126,6 @@ body {
 
 .disabled {
   pointer-events: none;
-}
-
-.center-me {
-  display: inline-block;
 }
 
 .icon-btn {

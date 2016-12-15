@@ -5,9 +5,9 @@
     .module("outerZone")
     .service('saveGame', saveGame);
 
-  saveGame.$inject = ["alliesService", "progressTracker", "inventoryService", "toastr"];
+  saveGame.$inject = ["alliesService", "progressTracker", "inventoryService", "toastr", "lootService"];
 
-  function saveGame(alliesService, progressTracker, inventoryService, toastr) {
+  function saveGame(alliesService, progressTracker, inventoryService, toastr, lootService) {
     var svc = this;
 
     svc.saveGame = saveGame;
@@ -36,6 +36,9 @@
       alliesService.setAllies(svc.saveFile.allies);
       progressTracker.loadGame(svc.saveFile.storyProgress, svc.saveFile.allyProgress);
       inventoryService.loadGame(svc.saveFile.equipment, svc.saveFile.money);
+      angular.forEach(alliesService.activeAllies, function(ally) {
+        lootService.pullFromVault(ally);
+      });
       toastr.info('Game Loaded');
     }
 

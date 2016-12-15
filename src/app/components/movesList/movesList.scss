@@ -1,0 +1,14 @@
+moves-list {
+  .move-card {
+    border: 1px solid $ozSecondary;
+    border-radius: 10px;
+    padding: .8em;
+    margin: 1.5em 1em;
+    overflow: auto;
+
+    .move-name {
+      font-size: 140%;
+      margin: 0;
+    }
+  }
+}

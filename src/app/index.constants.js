@@ -3,5 +3,6 @@
 
   angular
     .module('outerZone')
+    .constant("_", window._);
 
 })();

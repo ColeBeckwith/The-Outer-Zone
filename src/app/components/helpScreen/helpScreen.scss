@@ -1,0 +1,60 @@
+help-screen {
+  .gameplay-tab {
+    margin: 1.5em 1em;
+
+    .section-title {
+      color: $ozSecondary;
+    }
+
+    .example-fight-queue {
+      margin: 5px auto;
+      border: 3px solid $ozTertiary;
+      border-radius: 10px;
+      padding: 0 15px;
+      width: 160px;
+    }
+
+    .example-fight-card {
+      border: 3px solid $ozPrimary;
+      border-radius: 10px;
+      margin: 6px auto;
+      width: 400px;
+      padding: 0 .7em;
+
+      .level-and-stance {
+        font-size: 80%;
+      }
+
+      .fight-icon {
+        font-size: 2em;
+        padding-top: 10px;
+      }
+    }
+
+    .example-move-btns {
+      margin: 6px;
+    }
+
+    .example-fight-log {
+      border: 3px solid $ozTertiary;
+      border-radius: 10px;
+      padding: 15px;
+      overflow: scroll;
+      height: 212px;
+      width: 400px;
+      margin: 5px auto;
+    }
+
+    .game-board {
+      width: 100%;
+    }
+
+    .game-board-row {
+      width: 100%;
+      // overflow-x: scroll;
+      margin: auto;
+    }
+
+
+  }
+}

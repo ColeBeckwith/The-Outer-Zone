@@ -237,8 +237,7 @@
         }
       }
 
-      var startingPositions = generateRandomStartingPositions(allies, enemies, randomBoard);
-
+      generateRandomStartingPositions(allies, enemies, randomBoard);
 
       return randomBoard;
     }
@@ -273,13 +272,13 @@
             }
           });
 
-          if (Math.random() * (waterCount + 1) > .95) {
+          if (Math.random() > .98 - (waterCount * .05)) {
             cell.special = 'Water';
           }
-          if (Math.random() * (fireCount + 1) > .95) {
+          if (Math.random() > .98 - (fireCount * .05)) {
             cell.special = 'Fire';
           }
-          if (Math.random() * (acidCount + 1) > .95) {
+          if (Math.random() > .98 - (acidCount * .05)) {
             cell.special = 'Acid';
           }
 
@@ -287,7 +286,7 @@
           var distanceFromCenter = Math.abs(cell.xCoord - ((board.numCols / 2) - 1)) +
                                    Math.abs(cell.yCoord - ((board.numRows / 2) - 1));
 
-          if (voidCount === neighboringCells.length || Math.random() > 1 - (.01 * (Math.pow(distanceFromCenter, 2) + 1))) {
+          if (voidCount === neighboringCells.length || Math.random() > .9 - (.01 * (Math.pow(distanceFromCenter, 2))) ) {
             cell.special = 'Void';
             cell.blocked = true;
           }

@@ -6,10 +6,10 @@
     .service('fightQueueService', fightQueueService);
 
   fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker",
-    "movesService", "stateChangeService", "statusEffectsService", "boardCreator", "AIService"];
+    "movesService", "stateChangeService", "statusEffectsService", "boardCreator", "AIService", "userSettings"];
 
   function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService,
-                             stateChangeService, statusEffectsService, boardCreator, AIService) {
+                             stateChangeService, statusEffectsService, boardCreator, AIService, userSettings) {
     var svc = this;
 
     svc.buildQueue = buildQueue;
@@ -18,6 +18,7 @@
     svc.enemyTurn = enemyTurn;
     svc.endTurn = endTurn;
     svc.removeFromPool = removeFromPool;
+    svc.allyCharge = allyCharge;
     svc.takeAwayTurn = takeAwayTurn;
     svc.selectMove = selectMove;
     svc.actionOnAlly = actionOnAlly;
@@ -84,17 +85,25 @@
     function enemyTurn() {
       var moveLocation = AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
 
-      if (moveLocation) {
-        var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
-        boardCreator.moveCharacterTowardLocation(boardCreator.currentBoard, svc.queuePool[0], moveLocation, distance);
-      }
 
-      var target = AIService.getAttackTarget(boardCreator.currentBoard, svc.queuePool[0]);
-      if (target) {
-        movesService.enemyAttackAlly(svc.queuePool[0], target);
-      }
+      $timeout(function() {
+        if (moveLocation) {
+          var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
+          boardCreator.moveCharacterTowardLocation(boardCreator.currentBoard, svc.queuePool[0], moveLocation, distance);
+        }
 
-      svc.endTurn();
+        $timeout(function() {
+          var target = AIService.getAttackTarget(boardCreator.currentBoard, svc.queuePool[0]);
+          if (target) {
+            movesService.enemyAttackAlly(svc.queuePool[0], target);
+          }
+
+          svc.endTurn();
+
+        }, userSettings.getEnemyTurnSpeed() / 2);
+
+      }, userSettings.getEnemyTurnSpeed() / 2);
+
     }
 
     function endTurn() {

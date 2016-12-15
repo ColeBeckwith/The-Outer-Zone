@@ -1,0 +1,32 @@
+<div class="moves-list">
+  <div ng-repeat="move in vm.moves"
+       class="move-card">
+    <p class="move-name">{{ ::move.name }}</p>
+      <span class="col-sm-6">Level Required:</span>
+      <span class="col-sm-6">{{ ::move.levelReq }}</span>
+    <p>
+      <span class="col-sm-6">Energy Cost:</span>
+      <span class="col-sm-6">{{ ::move.energyReq }}</span>
+    </p>
+    <p ng-if="::move.healthReq > 0">
+      <span class="col-sm-6">Health Cost:</span>
+      <span class="col-sm-6">{{ ::move.healthReq }}</span>
+    </p>
+    <p>
+      <span class="col-sm-6">Target Type:</span>
+      <span class="col-sm-6">{{ ::move.targetType }}</span>
+    </p>
+    <p ng-if="::move.numOfTargets">
+      <span class="col-sm-6">Maximum Number of Targets:</span>
+      <span class="col-sm-6">{{ ::move.numOfTargets }}</span>
+    </p>
+    <p ng-if="::move.range">
+      <span class="col-sm-6">Range:</span>
+      <span class="col-sm-6">{{ ::move.range }}</span>
+    </p>
+    <p ng-if="::move.rangeType">
+      <span class="col-sm-6">Range Type:</span>
+      <span class="col-sm-6">{{ ::move.rangeType }}</span>
+    </p>
+  </div>
+</div>

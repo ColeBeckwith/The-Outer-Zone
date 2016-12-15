@@ -9,20 +9,20 @@
       justify-content: center;
       height: 22px;
       width: 22px;
-      border: 2px solid gray;
+      border: 2px solid $ozTertiary;
       border-radius: 3px;
       margin: 1px;
 
       &.movable {
-        border-color: yellow;
+        border-color: $ozMoveable;
       }
 
       &.enemy-targetable {
-        border-color: red;
+        border-color: $ozEnemyTargetable;
       }
 
       &.ally-targetable {
-        border-color: green;
+        border-color: $ozAllyTargetable;
       }
 
       &:hover {
@@ -30,15 +30,15 @@
       }
 
       &.fire-cell {
-        background-color: orangered;
+        background-color: $ozFire;
       }
 
       &.water-cell {
-        background-color: dodgerblue;
+        background-color: $ozWater;
       }
 
       &.acid-cell {
-        background-color: greenyellow;
+        background-color: $ozAcid;
       }
 
       &.void-cell {

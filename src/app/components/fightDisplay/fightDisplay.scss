@@ -1,0 +1,48 @@
+fight-display {
+  .fight-bar {
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .allies-fight-bar {
+    bottom: 0;
+  }
+
+  .enemies-fight-bar {
+    top: 0;
+  }
+
+  .middle-fight-bar {
+    position: fixed;
+    top: 22%;
+    left: 0;
+    right: 0;
+  }
+
+  .fight-queue {
+    border: 3px solid $ozTertiary;
+    border-radius: 10px;
+    padding: 0 15px;
+  }
+
+  .fight-log {
+    border: 3px solid $ozTertiary;
+    border-radius: 10px;
+    padding: 15px;
+    overflow: scroll;
+    height: 212px;
+  }
+
+  .fight-card {
+    padding: 5px;
+    min-width: 15%;
+  }
+
+  .fight-icon {
+    font-size: 2em !important;
+    //TODO need to do something about this.
+  }
+}
