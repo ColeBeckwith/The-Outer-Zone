@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive("gameBoard", gameBoard);
 
-  gameBoard.$inject = ["boardCreator", "fightQueueService"];
+  gameBoard.$inject = ["boardManager", "fightQueueService"];
 
-  function gameBoard(boardCreator, fightQueueService) {
+  function gameBoard(boardManager, fightQueueService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/gameBoard/gameBoard.html',
@@ -28,14 +28,14 @@
       activate();
 
       function activate() {
-        vm.board = boardCreator.currentBoard;
+        vm.board = boardManager.currentBoard;
       }
 
       function selectCell(cell) {
         if (cell.movable) {
           var player = fightQueueService.queuePool[0];
-          boardCreator.placeCharacter(cell, player, vm.board);
-          boardCreator.clearMoveAndTarget();
+          boardManager.placeCharacter(cell, player, vm.board);
+          boardManager.clearMoveAndTarget();
         }
         if (cell.targetable) {
           if (cell.occupant) {

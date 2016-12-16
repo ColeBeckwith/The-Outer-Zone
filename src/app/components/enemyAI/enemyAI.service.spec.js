@@ -4,21 +4,23 @@
   describe('Enemy AI Service', function() {
     var AIService;
     var bc;
+    var bm;
 
     beforeEach(module('outerZone'));
 
-    beforeEach(inject(function(_AIService_, _boardCreator_) {
+    beforeEach(inject(function(_AIService_, _boardCreator_, _boardManager_) {
       AIService = _AIService_;
       bc = _boardCreator_;
+      bm = _boardManager_;
     }));
 
     describe('getOpponentPositions', function() {
       beforeEach(function() {
         this.characterId = 201;
-        this.board = bc.boards[0];
+        this.board = bm.boards[0];
         this.board.layout = bc.buildBoardLayout(this.board);
         this.opponents = [{ name : 'Scarecrow', id : 100 }, { name : 'Dorothy', id : 101}];
-        bc.placeCharacterSet(this.board.layout, [[3, 4], [1, 2]], this.opponents);
+        bm.placeCharacterSet(this.board.layout, [[3, 4], [1, 2]], this.opponents);
       });
 
       it('should return an array with the opponents positions', function() {
@@ -29,7 +31,7 @@
       it('should not return any friendly positions', function() {
         this.cell = this.board.layout[7][8];
         this.friendly = { name : 'Monkey', id : 204};
-        bc.placeCharacter(this.cell, this.friendly, this.board);
+        bm.placeCharacter(this.cell, this.friendly, this.board);
         var positions = AIService.getOpponentPositions(this.board, this.characterId);
         expect(positions).toEqual([{ x : 1, y : 2}, { x : 3, y : 4}])
       });
@@ -68,7 +70,7 @@
             y: 2
           }
         };
-        this.defaultBoard = bc.boards[0];
+        this.defaultBoard = bm.boards[0];
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
         this.defaultBoard.layout[2][3].blocked = true;
         this.destination = { x : 4, y: 4}
@@ -105,7 +107,7 @@
 
     describe('quickFindClosest', function() {
       beforeEach(function() {
-        this.defaultBoard = bc.boards[0];
+        this.defaultBoard = bm.boards[0];
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
         this.character = {
           coordinates: {
@@ -116,7 +118,7 @@
         };
 
         this.opponents = [{ name : 'Scarecrow', id : 100 }, { name : 'Dorothy', id : 101}];
-        bc.placeCharacterSet(this.defaultBoard.layout, [[0, 8], [5, 4]], this.opponents);
+        bm.placeCharacterSet(this.defaultBoard.layout, [[0, 8], [5, 4]], this.opponents);
 
         this.dumbSortedAscLocations = AIService.dumbSortByClosest(AIService.getOpponentPositions(this.defaultBoard, 205), this.character);
 
@@ -137,7 +139,7 @@
 
     describe('slowFindClosest', function() {
       beforeEach(function() {
-        this.defaultBoard = bc.boards[0];
+        this.defaultBoard = bm.boards[0];
         this.defaultBoard.layout = bc.buildBoardLayout(this.defaultBoard);
         this.character = {
           coordinates: {
@@ -148,7 +150,7 @@
         };
 
         this.opponents = [{ name : 'Scarecrow', id : 100 }, { name : 'Dorothy', id : 101}];
-        bc.placeCharacterSet(this.defaultBoard.layout, [[0, 8], [5, 4]], this.opponents);
+        bm.placeCharacterSet(this.defaultBoard.layout, [[0, 8], [5, 4]], this.opponents);
         this.defaultBoard.layout[3][4].blocked = true;
         this.defaultBoard.layout[3][5].blocked = true;
         this.dumbSortedAscLocations = AIService.dumbSortByClosest(AIService.getOpponentPositions(this.defaultBoard, 205), this.character);
@@ -177,7 +179,7 @@
 
     describe('getMoveLocation', function() {
       beforeEach(function() {
-        this.board = bc.boards[0];
+        this.board = bm.boards[0];
         this.board.layout = bc.buildBoardLayout(this.board);
 
         this.character = {
@@ -189,7 +191,7 @@
         };
 
         this.opponents = [{ name : 'Scarecrow', id : 100 }, { name : 'Dorothy', id : 101}];
-        bc.placeCharacterSet(this.board.layout, [[3, 3], [5, 4]], this.opponents);
+        bm.placeCharacterSet(this.board.layout, [[3, 3], [5, 4]], this.opponents);
       });
 
       it('should return null if there is an enemy in an adjacent cell', function() {
@@ -199,7 +201,7 @@
       it('should not return null if an ally is in an adjacent cell', function() {
         this.character.coordinates.x = 2;
         this.character.coordinates.y = 1;
-        bc.placeCharacter(this.board.layout[3][1], { id : 203 }, this.board);
+        bm.placeCharacter(this.board.layout[3][1], { id : 203 }, this.board);
         expect(AIService.getMoveLocation(this.board, this.character)).not.toEqual(null);
       });
 

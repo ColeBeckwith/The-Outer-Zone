@@ -3,15 +3,19 @@
 
   angular
     .module('outerZone')
-    .service('userSettings', userSettings);
+    .service('userSettingsService', userSettingsService);
 
-  function userSettings() {
+  function userSettingsService() {
     var svc = this;
 
-    activate();
-
     svc.getEnemyTurnSpeed = getEnemyTurnSpeed;
+    svc.getAutoTargetAllyPriority = getAutoTargetAllyPriority;
+    svc.getAutoTargetEnemyPriority = getAutoTargetEnemyPriority;
     svc.getAllSettings = getAllSettings;
+    svc.saveSettings = saveSettings;
+    svc.resetToDefault = resetToDefault;
+
+    activate();
 
     function activate() {
       setDefaultSettings();
@@ -19,7 +23,9 @@
 
     function setDefaultSettings() {
       svc.settings = {
-        enemyTurnSpeed: 400
+        enemyTurnSpeed: 2000,
+        autoTargetEnemyPriority: 'Lowest Health',
+        autoTargetAllyPriority: 'Lowest Health'
       }
     }
 
@@ -27,8 +33,24 @@
       return svc.settings.enemyTurnSpeed;
     }
 
+    function getAutoTargetEnemyPriority() {
+      return svc.settings.autoTargetEnemyPriority;
+    }
+
+    function getAutoTargetAllyPriority() {
+      return svc.settings.autoTargetAllyPriority;
+    }
+
     function getAllSettings() {
       return svc.settings;
+    }
+
+    function saveSettings(settings) {
+      svc.settings = settings;
+    }
+
+    function resetToDefault() {
+      setDefaultSettings();
     }
 
   }

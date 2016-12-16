@@ -160,7 +160,7 @@
       }
 
       if (enemies.length === 0) {
-        enemies.push(svc.punchingBag);
+        enemies.push(angular.copy(svc.punchingBag));
       }
 
       var id = 201;

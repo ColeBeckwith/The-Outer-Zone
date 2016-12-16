@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 text-block">
+    <div class="col-sm-6 text-block nine-tenths-screen">
       <h2 class="text-center">Inventory</h2>
       <p ng-if="store.equipment.length === 0">No Inventory to Display.</p>
       <div ng-repeat="item in store.equipment track by $index">
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="col-sm-6 text-block">
+    <div class="col-sm-6 text-block nine-tenths-screen">
       <h2 class="text-center">Store</h2>
       <h4 class="text-center">Money: ${{ store.inventoryService.money }}</h4>
       <h4 ng-if="store.storeInventory.length === 0">No Inventory to Display.</h4>

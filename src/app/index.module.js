@@ -12,6 +12,7 @@
       'ngResource',
       'ui.router',
       'ui.bootstrap',
-      'toastr'])
+      'toastr',
+      'cfp.hotkeys'])
 
 })();

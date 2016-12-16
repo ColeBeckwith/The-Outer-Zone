@@ -6,10 +6,10 @@
     .directive('preFightScreen', preFightScreen);
 
   preFightScreen.$inject = ["stateChangeService", "fightQueueService", "progressTracker", "fightLogService",
-    "alliesService", "enemiesService", "movesService", "storyService", "boardCreator", "enemyGenerator"];
+    "alliesService", "enemiesService", "movesService", "storyService", "boardCreator", "boardManager", "enemyGenerator"];
 
   function preFightScreen(stateChangeService, fightQueueService, progressTracker, fightLogService, alliesService,
-                          enemiesService, movesService, storyService, boardCreator, enemyGenerator) {
+                          enemiesService, movesService, storyService, boardCreator, boardManager, enemyGenerator) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/preFightScreen/preFightScreen.html',
@@ -66,19 +66,18 @@
         var board = null;
         if (vm.fightType === 'story') {
           var storyProgress = progressTracker.getStoryProgress();
-          var allyPositions = boardCreator.initialAllyPositions[storyProgress];
-          var enemyPositions = boardCreator.initialEnemyPositions[storyProgress];
-          board = boardCreator.getBoardNumber(storyProgress);
+          var allyPositions = boardManager.initialAllyPositions[storyProgress];
+          var enemyPositions = boardManager.initialEnemyPositions[storyProgress];
+          board = boardManager.getBoardNumber(storyProgress);
           board.layout = boardCreator.buildBoardLayout(board);
-          boardCreator.placeCharacterSet(board.layout, allyPositions, alliesService.getActiveAllies());
-          boardCreator.placeCharacterSet(board.layout, enemyPositions, vm.enemies);
+          boardManager.placeCharacterSet(board.layout, allyPositions, alliesService.getActiveAllies());
+          boardManager.placeCharacterSet(board.layout, enemyPositions, vm.enemies);
         } else if (vm.fightType === 'arena') {
           board = boardCreator.createRandomBoard(alliesService.getActiveAllies(), vm.enemies);
         }
 
-        boardCreator.setCurrentBoard(board);
-        console.log(board);
-        boardCreator.clearMoveAndTarget();
+        boardManager.setCurrentBoard(board);
+        boardManager.clearMoveAndTarget();
       }
     }
   }

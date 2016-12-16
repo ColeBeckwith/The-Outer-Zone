@@ -824,6 +824,7 @@
         ally.stanceCount = 0;
         ally.stats.health = ally.stats.maxHealth;
         ally.stats.energy = ally.stats.maxEnergy;
+        ally.coordinates = null;
         svc.updatePercentages(ally);
       });
     }

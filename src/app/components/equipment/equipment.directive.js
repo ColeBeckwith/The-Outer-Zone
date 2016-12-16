@@ -4,9 +4,9 @@
     .module('outerZone')
     .directive('equipment', equipment);
 
-  equipment.$inject = ["stateChangeService", "inventoryService", "alliesService"];
+  equipment.$inject = ["stateChangeService", "inventoryService", "alliesService", "saveGame"];
 
-  function equipment(stateChangeService, inventoryService, alliesService) {
+  function equipment(stateChangeService, inventoryService, alliesService, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/equipment/equipment.html',
@@ -31,7 +31,7 @@
       vm.makeActiveSelection = function(ally) {
         vm.activeSelection = ally;
       };
-      
+
       vm.checkIfReqsMet = function(item) {
         return inventoryService.checkIfReqsMet(vm.activeSelection, item);
       };
@@ -43,6 +43,7 @@
 
       vm.backToMain = function() {
         stateChangeService.setPlayerState('mainMenu');
+        saveGame.saveGame();
       }
 
     }

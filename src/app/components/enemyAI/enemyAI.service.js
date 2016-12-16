@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('AIService', AIService);
 
-  AIService.$inject = ['boardCreator'];
+  AIService.$inject = ['boardManager'];
 
-  function AIService(boardCreator) {
+  function AIService(boardManager) {
     var svc = this;
 
     svc.getMoveLocation = getMoveLocation;
@@ -22,7 +22,7 @@
     function getMoveLocation(board, character) {
       // TODO very first check has to be for Man of Stone. If anyone has priority move toward them.
 
-      var neighboringCells = boardCreator.getNeighboringCells(board, { xCoord: character.coordinates.x, yCoord: character.coordinates.y });
+      var neighboringCells = boardManager.getNeighboringCells(board, { xCoord: character.coordinates.x, yCoord: character.coordinates.y });
       for (var i = 0; i < neighboringCells.length; i++) {
         var occupant = neighboringCells[i].occupant;
         if (occupant && (occupant.id.toString()[0] !== character.id.toString()[0]) && occupant.status !== 'dead') {
@@ -50,7 +50,7 @@
     function getAttackTarget(board, character) {
       // TODO for now an enemy will only attack a player that is right next to them.
       var characterCell = { xCoord: character.coordinates.x, yCoord: character.coordinates.y };
-      var neighboringCells = boardCreator.getNeighboringCells(board, characterCell);
+      var neighboringCells = boardManager.getNeighboringCells(board, characterCell);
       for (var i = 0; i < neighboringCells.length; i++) {
         var occupant = neighboringCells[i].occupant;
         if (occupant && (occupant.id.toString()[0] !== character.id.toString()[0])) {
@@ -115,7 +115,7 @@
       var startingCell = board.layout[character.coordinates.y][character.coordinates.x];
 
       var checkedCells = [startingCell];
-      var newCells = boardCreator.getNeighboringCells(board, startingCell);
+      var newCells = boardManager.getNeighboringCells(board, startingCell);
 
       while(!destinationReached && distance < 100) {
         distance++;
@@ -132,7 +132,7 @@
           var neighboringCells = [];
 
           if (!cell.blocked) {
-            neighboringCells = boardCreator.getNeighboringCells(board, cell);
+            neighboringCells = boardManager.getNeighboringCells(board, cell);
           }
 
           angular.forEach(neighboringCells, function(cell) {

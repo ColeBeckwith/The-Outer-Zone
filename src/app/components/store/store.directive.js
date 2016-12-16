@@ -5,9 +5,9 @@
     .module("outerZone")
     .directive('store', store);
 
-  store.$inject = ["stateChangeService", "inventoryService"];
+  store.$inject = ["stateChangeService", "inventoryService", "saveGame"];
 
-  function store(stateChangeService, inventoryService) {
+  function store(stateChangeService, inventoryService, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/store/store.html',
@@ -34,6 +34,7 @@
 
       vm.backToMain = function() {
         stateChangeService.setPlayerState('mainMenu');
+        saveGame.saveGame();
       };
 
     }

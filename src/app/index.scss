@@ -120,6 +120,15 @@ body {
   overflow: scroll;
 }
 
+.four-fifths-screen {
+  height: 80vh;
+}
+
+.nine-tenths-screen {
+  max-height: 90vh;
+  height: 90vh;
+}
+
 .disabled-link {
   pointer-events: none;
 }

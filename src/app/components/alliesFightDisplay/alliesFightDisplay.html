@@ -3,7 +3,7 @@
     <div class="fight-bar allies-fight-bar">
         <div class="card fight-card"
              ng-repeat="ally in alliesFightDisplay.activeAllies"
-             ng-style="{width: enemiesFightDisplay.enemiesService.cardWidth}"
+             ng-style="{width: alliesFightDisplay.cardWidth}"
              ng-if="ally.status !== 'inactive'"
              ng-class="{'border-pulse at-bat' : ally.id === fight.queuePool[0].id,
                         'dead-card' : ally.status !== 'alive',
@@ -11,7 +11,7 @@
              ng-click="alliesFightDisplay.clickAlly(ally)">
 
             <div class="row">
-              <h5 class="col-sm-10">{{ ally.name }}</h5>
+              <h5 class="col-sm-10">{{ ::ally.name }}</h5>
               <div class="col-sm-2 text-center">
                 <span class="fight-icon" ng-class="ally.icon"></span>
               </div>
@@ -19,7 +19,7 @@
 
             <div class="text-center">
               <span class="level-and-stance">
-                Lv. {{ ally.level }} {{ ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance}}
+                Lv. {{ ::ally.level }} {{ ::ally.class }} &nbsp; | &nbsp; Stance: {{ ally.stance}}
               </span>
             </div>
 

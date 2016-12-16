@@ -1,4 +1,28 @@
 <div class="user-settings">
-  <p>Enemy Turn Speed:</p>
-  <input type="range" ng-model="vm.settings.turnSpeed" min="1" max="4000"/>
+
+  <form>
+    <h4>Enemy Turn Speed:</h4>
+    <input type="range" ng-model="vm.settings.enemyTurnSpeed" min="1" max="4000"/>
+    <p ng-if="vm.settings.enemyTurnSpeed" class="text-center">{{ (vm.settings.enemyTurnSpeed / 1000).toFixed(1) }} seconds</p>
+
+    <h4>Auto Target Enemy Priority (Space Bar):</h4>
+
+    <p ng-repeat="option in vm.autoTargetPriorityOptions">
+      <input type="radio" ng-model="vm.settings.autoTargetEnemyPriority" ng-value="option"/>
+      {{ option }}
+    </p>
+
+    <h4>Auto Target Ally Priority (Space Bar):</h4>
+
+    <p ng-repeat="option in vm.autoTargetPriorityOptions">
+      <input type="radio" ng-model="vm.settings.autoTargetAllyPriority" ng-value="option"/>
+      {{ option }}
+    </p>
+
+    <div class="text-center">
+      <button class="btn btn-success" ng-click="vm.saveSettings()">Save Settings</button>
+      <button class="btn btn-default" ng-click="vm.resetToDefault()">Reset To Default</button>
+    </div>
+  </form>
+
 </div>

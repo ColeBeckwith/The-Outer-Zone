@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('enemiesService', enemiesService);
 
-  enemiesService.$inject = ["progressTracker", "boardCreator"];
+  enemiesService.$inject = ["progressTracker", "boardManager"];
 
-  function enemiesService(progressTracker, boardCreator) {
+  function enemiesService(progressTracker, boardManager) {
     var svc = this;
 
     svc.getEnemiesForStory = getEnemiesForStory;
@@ -26,6 +26,8 @@
     activate();
 
     function activate() {
+      // TODO these use a copy for now to prevent the original data from being changed, but they should eventually
+      // have baseStats as well.
       svc.enemies = [
         [
           {
@@ -414,7 +416,7 @@
       angular.forEach (svc.enemies[progressTracker.storyProgress], function(enemy) {
         svc.updateHealthBarType(enemy);
       });
-      return svc.enemies[progressTracker.storyProgress]
+      return angular.copy(svc.enemies[progressTracker.storyProgress]);
     }
 
     function setCurrentEnemies(set) {
@@ -466,7 +468,7 @@
         enemy.stats.health = 0;
         enemy.active = false;
         svc.getCardWidth();
-        boardCreator.vacateCell(enemy.coordinates.x, enemy.coordinates.y);
+        boardManager.vacateCell(enemy.coordinates.x, enemy.coordinates.y);
         return true;
       }
       return false;
@@ -492,7 +494,7 @@
           livingEnemies++;
         }
       }
-      svc.cardWidth = 90/livingEnemies + '%';
+      svc.cardWidth = 90 / livingEnemies + '%';
     }
 
     function deliverRegularDamage(enemy, power) {

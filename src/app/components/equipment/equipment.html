@@ -1,7 +1,7 @@
 <h1 class="text-center">Equipment</h1>
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 text-block">
+    <div class="col-sm-6 text-block four-fifths-screen">
       <h2 class="text-center">Inventory</h2>
       <p ng-if="equipment.equipment.length === 0">No Inventory to Display.</p>
       <div ng-repeat="loot in equipment.equipment track by $index">
@@ -21,26 +21,22 @@
           <i>{{ loot.description }}</i>
           <p>
             Type: {{ loot.type }}
-            <span ng-if="loot.stats.health !== 0">&nbsp;| Health: {{ loot.stats.health }}</span>
-            <span ng-if="loot.stats.energy !== 0">&nbsp;| Energy: {{ loot.stats.energy }}</span>
-            <span ng-if="loot.stats.strength !== 0">&nbsp;| STR: {{ loot.stats.strength }}</span>
-            <span ng-if="loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
-            <span ng-if="loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
-            <span ng-if="loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
+            <span ng-if="::loot.stats.health !== 0">&nbsp;| Health: {{ loot.stats.health }}</span>
+            <span ng-if="::loot.stats.energy !== 0">&nbsp;| Energy: {{ loot.stats.energy }}</span>
+            <span ng-if="::loot.stats.strength !== 0">&nbsp;| STR: {{ loot.stats.strength }}</span>
+            <span ng-if="::loot.stats.defense !== 0">&nbsp;| DEF: {{ loot.stats.defense }}</span>
+            <span ng-if="::loot.stats.speed !== 0">&nbsp;| SPD: {{ loot.stats.speed }}</span>
+            <span ng-if="::loot.stats.intellect !== 0">&nbsp;| INT: {{ loot.stats.intellect }}</span>
           </p>
           <p>Level: {{ loot.lvlReq }}
-            <span ng-if="loot.characterReq !== 'None'">
+            <span ng-if="::loot.characterReq !== 'None'">
               | Character: {{ equipment.activeAllies[loot.characterReq - 101].name }} </span>
-            <span ng-if="loot.classReq !== 'None'"> | Class: {{ loot.classReq }}</span></p>
-          <hr ng-if="equipment.equipment.length > 1">
-
-
+            <span ng-if="::loot.classReq !== 'None'"> | Class: {{ loot.classReq }}</span></p>
+        <hr ng-if="equipment.equipment.length > 1">
       </div>
     </div>
 
-
-
-    <div class="col-sm-6 text-block">
+    <div class="col-sm-6 text-block four-fifths-screen">
       <div class="text-center">
         <div class="btn-group">
           <button ng-repeat="ally in equipment.activeAllies"

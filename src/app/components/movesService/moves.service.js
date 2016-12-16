@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('movesService', movesService);
 
-  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "statusEffectsService", "boardCreator"];
+  movesService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "statusEffectsService", "boardManager"];
 
-  function movesService(alliesService, enemiesService, fightLogService, $timeout, statusEffectsService, boardCreator) {
+  function movesService(alliesService, enemiesService, fightLogService, $timeout, statusEffectsService, boardManager) {
     var svc = this;
 
     svc.selectedMove = null;
@@ -95,7 +95,7 @@
     function selectMove(move, atBat) {
       svc.setSelectedMove(move);
       if (checkResources(atBat, move)) {
-        boardCreator.clearMoveAndTarget();
+        boardManager.clearMoveAndTarget();
 
         if (svc.selectedMove.numOfTargets) {
           if (svc.selectedMove.targetType === "Enemy") {
@@ -110,8 +110,8 @@
         if (svc.selectedMove.range) {
           if (svc.selectedMove.rangeType === 'Single Cell') {
             var origin = [atBat.coordinates.x, atBat.coordinates.y];
-            var targetableCells = boardCreator.getValidTargets(origin, svc.selectedMove.range);
-            boardCreator.makeCellsTargetable(targetableCells, svc.selectedMove.targetType);
+            var targetableCells = boardManager.getValidTargets(origin, svc.selectedMove.range);
+            boardManager.makeCellsTargetable(targetableCells, svc.selectedMove.targetType);
           }
         }
 

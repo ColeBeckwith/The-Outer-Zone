@@ -1,18 +1,18 @@
 (function () {
   'use strict';
 
-  describe('enemiesService.', function () {
+  describe('Enemies Service', function () {
     var enemiesService;
     var bc;
+    var bm;
 
     beforeEach(module('outerZone'));
 
-    beforeEach(inject(function (_enemiesService_, _boardCreator_) {
+    beforeEach(inject(function (_enemiesService_, _boardCreator_, _boardManager_) {
       enemiesService = _enemiesService_;
       bc = _boardCreator_;
+      bm = _boardManager_;
       this.defaultEnemy = enemiesService.enemies[0][0];
-
-
     }));
 
     describe('checkForDead', function () {
@@ -23,8 +23,9 @@
           y: 6
         };
         this.defaultEnemy.active = true;
-        bc.currentBoard = bc.boards[0];
-        bc.currentBoard.layout = bc.buildBoardLayout(bc.currentBoard);
+        enemiesService.setCurrentEnemies([this.defaultEnemy]);
+        bm.currentBoard = bm.boards[0];
+        bm.currentBoard.layout = bc.buildBoardLayout(bm.currentBoard);
       });
 
       it('should return true if enemy health is 0', function () {
@@ -44,16 +45,16 @@
 
       it('should make a call to vacate the cell, if the enemy is dead', function() {
         this.defaultEnemy.stats.health = -5;
-        spyOn(bc, 'vacateCell');
+        spyOn(bm, 'vacateCell');
         enemiesService.checkForDead(this.defaultEnemy);
-        expect(bc.vacateCell).toHaveBeenCalled();
+        expect(bm.vacateCell).toHaveBeenCalled();
       });
 
       it('should not make a call to vacate the cell, if the enemy is not dead', function() {
         this.defaultEnemy.stats.health = 50;
-        spyOn(bc, 'vacateCell');
+        spyOn(bm, 'vacateCell');
         enemiesService.checkForDead(this.defaultEnemy);
-        expect(bc.vacateCell).not.toHaveBeenCalled();
+        expect(bm.vacateCell).not.toHaveBeenCalled();
       });
 
       it('should set the enemies status to "dead"', function() {

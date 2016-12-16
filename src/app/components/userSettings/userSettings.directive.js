@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('userSettingsDirective', userSettingsDirective);
 
-  userSettingsDirective.$inject = ['userSettings'];
+  userSettingsDirective.$inject = ['userSettingsService', 'saveGame'];
 
-  function userSettingsDirective(userSettings) {
+  function userSettingsDirective(userSettingsService, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/userSettings/userSettings.html',
@@ -21,11 +21,30 @@
     function userSettingsCtrl() {
       var vm = this;
 
-      vm.settings = userSettings.getAllSettings();
+      vm.settings = userSettingsService.getAllSettings();
 
-      // TODO might need a save function to write it back to the service.
+      vm.saveSettings = saveSettings;
+      vm.resetToDefault = resetToDefault;
 
-      // TODO also need to send it to the save game service and load it, but that's for the service.
+      activate();
+
+      function activate() {
+        vm.autoTargetPriorityOptions = [
+          'Lowest Health',
+          'Lowest Percentage Health',
+          'Highest Health',
+          'Highest Percentage Health'
+        ]
+      }
+
+      function saveSettings() {
+        userSettingsService.saveSettings(vm.settings);
+        saveGame.saveGame();
+      }
+
+      function resetToDefault() {
+        userSettingsService.resetToDefault();
+      }
 
     }
   }

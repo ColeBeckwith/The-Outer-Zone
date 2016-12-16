@@ -5,9 +5,9 @@
     .module('outerZone')
     .directive('enemiesFightDisplay', enemiesFightDisplay);
 
-  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "boardCreator", "fightLogService"];
+  enemiesFightDisplay.$inject = ["enemiesService", "fightQueueService", "boardManager", "fightLogService"];
 
-  function enemiesFightDisplay(enemiesService, fightQueueService, boardCreator, fightLogService) {
+  function enemiesFightDisplay(enemiesService, fightQueueService, boardManager, fightLogService) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/enemiesFightDisplay/enemiesFightDisplay.html',
@@ -27,7 +27,7 @@
 
       vm.clickEnemy = function(enemy) {
         if (enemiesService.targetSelectMode > 0) {
-          if (boardCreator.checkPositionTargetable(enemy.coordinates.x, enemy.coordinates.y)) {
+          if (boardManager.checkPositionTargetable(enemy.coordinates.x, enemy.coordinates.y)) {
             fightQueueService.actionOnEnemy(enemy);
           } else {
             fightLogService.pushToFightLog(enemy.name + ' is out of range.');

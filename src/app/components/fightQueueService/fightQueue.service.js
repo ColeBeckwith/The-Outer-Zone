@@ -6,10 +6,10 @@
     .service('fightQueueService', fightQueueService);
 
   fightQueueService.$inject = ["alliesService", "enemiesService", "fightLogService", "$timeout", "progressTracker",
-    "movesService", "stateChangeService", "statusEffectsService", "boardCreator", "AIService", "userSettings"];
+    "movesService", "stateChangeService", "statusEffectsService", "boardManager", "AIService", "userSettingsService"];
 
   function fightQueueService(alliesService, enemiesService, fightLogService, $timeout, progressTracker, movesService,
-                             stateChangeService, statusEffectsService, boardCreator, AIService, userSettings) {
+                             stateChangeService, statusEffectsService, boardManager, AIService, userSettingsService) {
     var svc = this;
 
     svc.buildQueue = buildQueue;
@@ -75,39 +75,39 @@
         } else {
           var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
           var currentLocation = [svc.queuePool[0].coordinates.x, svc.queuePool[0].coordinates.y];
-          var validMoves = boardCreator.getValidMovements(boardCreator.currentBoard, currentLocation, distance);
-          boardCreator.makeCellsMovable(validMoves);
+          var validMoves = boardManager.getValidMovements(boardManager.currentBoard, currentLocation, distance);
+          boardManager.makeCellsMovable(validMoves);
           fightLogService.pushToFightLog('Select Move or Action.');
         }
       }
     }
 
     function enemyTurn() {
-      var moveLocation = AIService.getMoveLocation(boardCreator.currentBoard, svc.queuePool[0]);
+      var moveLocation = AIService.getMoveLocation(boardManager.currentBoard, svc.queuePool[0]);
 
 
       $timeout(function() {
         if (moveLocation) {
           var distance = 1 + Math.floor(svc.queuePool[0].stats.speed / 10);
-          boardCreator.moveCharacterTowardLocation(boardCreator.currentBoard, svc.queuePool[0], moveLocation, distance);
+          boardManager.moveCharacterTowardLocation(boardManager.currentBoard, svc.queuePool[0], moveLocation, distance);
         }
 
         $timeout(function() {
-          var target = AIService.getAttackTarget(boardCreator.currentBoard, svc.queuePool[0]);
+          var target = AIService.getAttackTarget(boardManager.currentBoard, svc.queuePool[0]);
           if (target) {
             movesService.enemyAttackAlly(svc.queuePool[0], target);
           }
 
           svc.endTurn();
 
-        }, userSettings.getEnemyTurnSpeed() / 2);
+        }, userSettingsService.getEnemyTurnSpeed() / 2);
 
-      }, userSettings.getEnemyTurnSpeed() / 2);
+      }, userSettingsService.getEnemyTurnSpeed() / 2);
 
     }
 
     function endTurn() {
-      boardCreator.clearMoveAndTarget();
+      boardManager.clearMoveAndTarget();
       statusEffectsService.runEndTurnStatusEffects(svc.queuePool[0]);
       movesService.setSelectedMove(null);
       svc.cycleQueue();

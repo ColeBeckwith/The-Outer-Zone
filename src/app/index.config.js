@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig) {
+  function config($logProvider, toastrConfig, hotkeysProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -16,6 +16,8 @@
     toastrConfig.positionClass = 'toast-bottom-right';
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = false;
+
+    hotkeysProvider.includeCheatSheet = false;
   }
 
 })();

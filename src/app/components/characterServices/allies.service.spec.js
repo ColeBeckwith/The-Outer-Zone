@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('alliesService.', function() {
+  describe('Allies Service', function() {
     var alliesService;
 
     beforeEach(module('outerZone'));

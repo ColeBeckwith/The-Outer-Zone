@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('movesService', function() {
+  describe('Moves Service', function() {
     var ms;
 
     beforeEach(module('outerZone'));

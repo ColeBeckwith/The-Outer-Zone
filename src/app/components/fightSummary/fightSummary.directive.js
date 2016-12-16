@@ -6,10 +6,10 @@
     .directive('fightSummary', fightSummary);
 
   fightSummary.$inject = ["stateChangeService", "progressTracker", "enemiesService", "alliesService", "$timeout",
-    "lootService", "inventoryService", "boardCreator", "saveGame"];
+    "lootService", "inventoryService", "saveGame"];
 
   function fightSummary(stateChangeService, progressTracker, enemiesService, alliesService, $timeout, lootService,
-                        inventoryService, boardCreator, saveGame) {
+                        inventoryService, saveGame) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/fightSummary/fightSummary.html',
@@ -23,54 +23,56 @@
     function fightSummaryController() {
       var vm = this;
 
-      vm.loot = [];
+      vm.checkIfReqsMet = checkIfReqsMet;
+      vm.sellItem = sellItem;
+      vm.equipToAlly = equipToAlly;
+      vm.continueFn = continueFn;
+      vm.tryAgain = tryAgain;
 
-      vm.moneyAwarded = 0;
+      activate();
 
-      vm.activeAllies = alliesService.activeAllies;
+      function activate() {
+        vm.loot = [];
+        vm.moneyAwarded = 0;
+        vm.activeAllies = alliesService.activeAllies;
+        vm.allies = alliesService.allies;
 
-      vm.allies = alliesService.allies;
+        alliesService.restoreAll();
 
-      alliesService.restoreAll();
+        angular.forEach(vm.activeAllies, function(ally) {
+          ally.leveledUp = false;
+        });
 
-      angular.forEach(vm.activeAllies, function(ally) {
-        ally.leveledUp = false;
-      });
+        vm.battleWon = progressTracker.getBattleWon();
 
-      vm.battleWon = progressTracker.getBattleWon();
+        if (vm.battleWon) {
+          vm.experienceAwarded = 0;
+          vm.moneyAwarded += enemiesService.getMoney();
+          vm.loot = lootService.gimmeTheLoot();
+          vm.experienceAwarded += enemiesService.getExperience();
+          vm.experienceToEach = Math.round(vm.experienceAwarded / alliesService.activeAllies.length);
 
-      if (vm.battleWon) {
-        vm.experienceAwarded = 0;
-
-        vm.moneyAwarded += enemiesService.getMoney();
-
-        vm.loot = lootService.gimmeTheLoot();
-
-        vm.experienceAwarded += enemiesService.getExperience();
-
-        vm.experienceToEach = vm.experienceAwarded / alliesService.activeAllies.length;
-
-        $timeout(function() {
-          alliesService.distributeExperience(vm.experienceAwarded);
-        }, 1000);
+          $timeout(function() {
+            alliesService.distributeExperience(vm.experienceAwarded);
+          }, 1000);
+        }
       }
 
-      vm.checkIfReqsMet = function(ally, item) {
+      function checkIfReqsMet(ally, item) {
         return inventoryService.checkIfReqsMet(ally, item);
-      };
+      }
 
-      vm.sellItem = function(item, index) {
+      function sellItem(item, index) {
         vm.loot.splice(index, 1);
         vm.moneyAwarded += item.worth;
-      };
+      }
 
-      vm.equipToAlly = function(ally, indexOfItem, item) {
+      function equipToAlly(ally, indexOfItem, item) {
         vm.loot.splice(indexOfItem, 1);
         alliesService.equipToAlly(ally, item);
-      };
+      }
 
-      vm.continue = function() {
-        boardCreator.clearAllyLocations(vm.allies);
+      function continueFn() {
         inventoryService.addToInventory(vm.loot);
         inventoryService.money += vm.moneyAwarded;
         if (progressTracker.fightType === 'story') {
@@ -80,11 +82,11 @@
           saveGame.saveGame();
           stateChangeService.setPlayerState('mainMenu');
         }
-      };
+      }
 
-      vm.tryAgain = function() {
+      function tryAgain() {
         stateChangeService.setPlayerState('mainMenu');
-      };
+      }
     }
   }
 })();
