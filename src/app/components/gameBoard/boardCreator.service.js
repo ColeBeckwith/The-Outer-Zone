@@ -198,7 +198,7 @@
           yCoord = Math.floor(Math.random() * board.numRows);
         }
 
-        placeCharacter(board.layout[yCoord][xCoord], character, board);
+        boardManager.placeCharacter(board.layout[yCoord][xCoord], character, board);
       })
     }
 

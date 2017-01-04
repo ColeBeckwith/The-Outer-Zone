@@ -31,13 +31,13 @@
 
       svc.boards = [
         {
-          name: null,
+          name: 'Clive Fight',
           numCols: 10,
           numRows: 10,
           specialCells: null
         },
         {
-          name: null,
+          name: 'Wolf Pit',
           numCols: 9,
           numRows: 9,
           specialCells: [
@@ -91,84 +91,295 @@
           ]
         },
         {
-          name: null,
-          numCols: 20,
+          name: 'D\'s Apartment',
+          numCols: 8,
           numRows: 10,
-          specialCells: null
+          specialCells: [
+            [2, 0, 'Void'],
+            [3, 0, 'Void'],
+            [4, 0, 'Void'],
+            [5, 0, 'Void'],
+            [6, 0, 'Void'],
+            [7, 0, 'Void'],
+
+            [2, 1, 'Void'],
+            [3, 1, 'Void'],
+            [4, 1, 'Void'],
+            [5, 1, 'Void'],
+            [6, 1, 'Void'],
+            [7, 1, 'Void'],
+
+            [5, 2, 'Void'],
+            [6, 2, 'Void'],
+            [7, 2, 'Void'],
+
+            [5, 3, 'Void'],
+            [6, 3, 'Void'],
+            [7, 3, 'Void'],
+
+            [2, 4, 'Void'],
+            [3, 4, 'Void'],
+            [4, 4, 'Void'],
+            [5, 4, 'Void'],
+            [6, 4, 'Void'],
+            [7, 4, 'Void'],
+
+
+            // Wall between living room and bedroom.
+            [4, 5, 'Void'],
+            [4, 6, 'Void'],
+            [4, 7, 'Void'],
+            [4, 9, 'Void'],
+
+            // Couch
+            [1, 6, 'Void'],
+            [1, 7, 'Void'],
+            [1, 8, 'Void']
+
+          ]
         },
         {
-          name: null,
-          numCols: 20,
-          numRows: 10,
-          specialCells: null
+          name: 'Nightclub Parking Lot',
+          numCols: 19,
+          numRows: 7,
+          specialCells: [
+            // Car
+            [2, 0, 'Void'],
+            [3, 0, 'Void'],
+            [2, 1, 'Void'],
+            [3, 1, 'Void'],
+
+            // Truck
+            [2, 4, 'Void'],
+            [2, 5, 'Void'],
+            [2, 6, 'Void'],
+            [3, 4, 'Void'],
+            [3, 5, 'Void'],
+            [3, 6, 'Void'],
+
+            // Car
+            [5, 0, 'Void'],
+            [6, 0, 'Void'],
+            [5, 1, 'Void'],
+            [6, 1, 'Void'],
+
+            // Truck
+            [5, 4, 'Void'],
+            [5, 5, 'Void'],
+            [5, 6, 'Void'],
+            [6, 4, 'Void'],
+            [6, 5, 'Void'],
+            [6, 6, 'Void'],
+
+            // Truck
+            [5, 4, 'Void'],
+            [5, 5, 'Void'],
+            [5, 6, 'Void'],
+            [6, 4, 'Void'],
+            [6, 5, 'Void'],
+            [6, 6, 'Void'],
+
+            // Car
+            [8, 6, 'Void'],
+            [9, 6, 'Void'],
+            [8, 5, 'Void'],
+            [9, 5, 'Void'],
+
+            // Truck
+            [8, 0, 'Void'],
+            [8, 1, 'Void'],
+            [8, 2, 'Void'],
+            [9, 0, 'Void'],
+            [9, 1, 'Void'],
+            [9, 2, 'Void'],
+
+            // Truck
+            [11, 4, 'Void'],
+            [11, 5, 'Void'],
+            [11, 6, 'Void'],
+            [12, 4, 'Void'],
+            [12, 5, 'Void'],
+            [12, 6, 'Void'],
+
+            // Car
+            [11, 0, 'Void'],
+            [12, 0, 'Void'],
+            [11, 1, 'Void'],
+            [12, 1, 'Void'],
+
+            // Wright's Truck
+            [18, 2, 'Void'],
+            [18, 3, 'Void'],
+            [17, 2, 'Void'],
+            [17, 3, 'Void'],
+            [16, 2, 'Void'],
+            [16, 3, 'Void'],
+            [15, 2, 'Void'],
+            [15, 3, 'Void']
+
+          ]
         },
         {
-          name: null,
-          numCols: 20,
-          numRows: 10,
-          specialCells: null
+          name: 'Warehouse',
+          numCols: 9,
+          numRows: 9,
+          specialCells: [
+            // Boxes
+            [1, 1, 'Void'],
+            [1, 2, 'Void'],
+            [2, 2, 'Void'],
+
+            [4, 2, 'Void'],
+
+            [7, 2, 'Void'],
+
+            [5, 5, 'Void'],
+
+            [6, 6, 'Void'],
+
+            [7, 7, 'Void'],
+            [7, 8, 'Void'],
+
+            [2, 5, 'Void'],
+            [2, 6, 'Void'],
+            [3, 5, 'Void'],
+            [3, 6, 'Void'],
+
+            [3, 3, 'Void'],
+            [3, 4, 'Void']
+
+          ]
         },
         {
-          name: null,
-          numCols: 20,
-          numRows: 10,
-          specialCells: null
+          name: 'Locker Room',
+          numCols: 13,
+          numRows: 7,
+          specialCells: [
+            // Lockers
+            [1, 0, 'Void'],
+            [2, 0, 'Void'],
+            [3, 0, 'Void'],
+            [4, 0, 'Void'],
+            [5, 0, 'Void'],
+            [6, 0, 'Void'],
+            [7, 0, 'Void'],
+            [8, 0, 'Void'],
+            [9, 0, 'Void'],
+            [10, 0, 'Void'],
+            [11, 0, 'Void'],
+
+            [1, 6, 'Void'],
+            [2, 6, 'Void'],
+            [3, 6, 'Void'],
+            [4, 6, 'Void'],
+            [5, 6, 'Void'],
+            [6, 6, 'Void'],
+            [7, 6, 'Void'],
+            [8, 6, 'Void'],
+            [9, 6, 'Void'],
+            [10, 6, 'Void'],
+            [11, 6, 'Void'],
+
+            // Benches
+            [1, 2, 'Void'],
+            [2, 2, 'Void'],
+            [3, 2, 'Void'],
+
+            [5, 2, 'Void'],
+            [6, 2, 'Void'],
+            [7, 2, 'Void'],
+
+            [9, 2, 'Void'],
+            [10, 2, 'Void'],
+            [11, 2, 'Void'],
+
+            [1, 4, 'Void'],
+            [2, 4, 'Void'],
+            [3, 4, 'Void'],
+
+            [5, 4, 'Void'],
+            [6, 4, 'Void'],
+            [7, 4, 'Void'],
+
+            [9, 4, 'Void'],
+            [10, 4, 'Void'],
+            [11, 4, 'Void']
+
+          ]
         }
       ];
 
       svc.initialAllyPositions = [
         [
+          // Clive Fight
           [3, 3]
         ],
         [
+          // Wolf Fight
           [4, 4]
         ],
         [
-          [3, 3],
-          [3, 5],
-          [3, 7]
+          // Apartment Fight
+          [2, 7],
+          [6, 6]
         ],
         [
-          [3, 3],
-          [3, 5],
-          [3, 7]
+          // Parking Lot Fight
+          [0, 3],
+          [10, 3]
         ],
         [
-          [3, 3],
-          [3, 5],
-          [3, 7]
+          // Tank, Brawler, Berserker Fight
+          [0, 3],
+          [0, 4]
+        ],
+        [
+          // Damien, Nix Fight
+          [2, 5],
+          [2, 1]
         ]
       ];
 
       svc.initialEnemyPositions = [
         [
+          // Clive
           [6, 6]
         ],
         [
+          // Wolves
           [4, 1],
           [1, 4],
           [7, 4],
           [4, 7]
         ],
         [
-          [7, 7],
-          [6, 9]
+          // Thugs
+          [1, 0],
+          [0, 1]
         ],
         [
-          [15, 2],
-          [12, 4],
-          [20, 5],
-          [12, 6],
-          [15, 8]
+          // Bodyguards
+          [18, 1],
+          [16, 1],
+          // Alex Wright
+          [17, 5],
+          // Bodyguards
+          [14, 3],
+          [13, 4]
         ],
         [
-          [10, 4],
-          [10, 5],
-          [10, 6]
+          // Tank
+          [8, 3],
+          // Brawler
+          [8, 4],
+          // Berserker
+          [8, 5]
         ],
         [
-          [10, 4],
-          [10, 5]
+          // Nix
+          [8, 3],
+          // Damien
+          [12, 3]
         ]
       ];
     }

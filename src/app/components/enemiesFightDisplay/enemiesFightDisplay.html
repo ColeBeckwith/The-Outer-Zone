@@ -9,12 +9,12 @@
                       'target' : enemiesFightDisplay.enemiesService.targetSelectMode > 0,
                       'hovered-on-board' : enemy.hovered}"
            ng-click="enemiesFightDisplay.clickEnemy(enemy)">
-        <h5>{{ enemy.name }}</h5>
+        <h5 class="text-center">{{ enemy.name }}</h5>
         <uib-progressbar max="enemy.stats.maxHealth"
                          value="enemy.stats.health"
                          type="{{ enemy.healthBarType }}">{{enemy.stats.health}} / {{ enemy.stats.maxHealth }}</uib-progressbar>
-        <h6 class="text-center">STR : {{ enemy.stats.strength }} &nbsp; | &nbsp; SPD : {{ enemy.stats.speed }}
-          &nbsp; | &nbsp; DEF : {{ enemy.stats.defense }} &nbsp; | &nbsp; INT: {{ enemy.stats.intellect }}</h6>
+        <p class="enemy-stats text-center">STR : {{ enemy.stats.strength }} &nbsp; | &nbsp; SPD : {{ enemy.stats.speed }}
+          &nbsp; | &nbsp; DEF : {{ enemy.stats.defense }} &nbsp; | &nbsp; INT: {{ enemy.stats.intellect }}</p>
       </div>
     </div>
   </div>

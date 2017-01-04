@@ -223,7 +223,7 @@
           "Even if I was going to die in this warehouse, it felt good to finally be going against his wishes.",
           "Then some of them started backing away. Some were even pulling guys off of D and I.",
           "Eventually it was just me, Damien and Nix. Nix was the only guy at Damien's that I'd never beaten in the" +
-          " pit. He could be any kind of fighter he wanted. If his opponent came out strong, he played it cool, if" +
+          " pit. He could be any kind of fighter he wanted. If his opponent came out strong, he let them tire out, if" +
           " they played defense he would pummel them until they broke.",
           "He was Damien's favorite. He only fought when he wanted and he never fought anyone he didn't want to." +
           " Each time we'd gone into the pit it had been days after my previous fight and a month since his. Not" +

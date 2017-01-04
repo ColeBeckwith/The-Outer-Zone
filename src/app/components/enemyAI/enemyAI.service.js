@@ -19,6 +19,10 @@
     svc.getTrueDistance = getTrueDistance;
     svc.checkIfPlayerCanReach = checkIfPlayerCanReach;
 
+    // TODO each enemy should have an AIProfile property. Values could be 'Passive' 'Aggressive' 'Evasive' etc.
+    // These should affect action taken. Enemies are not limited to single profile, so the property should be
+    // expressed as an array.
+
     function getMoveLocation(board, character) {
       // TODO very first check has to be for Man of Stone. If anyone has priority move toward them.
 
