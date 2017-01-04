@@ -16,6 +16,8 @@
       bindToController: true
     };
 
+    alliesFightDisplayController.$inject = ['$scope'];
+
     return directive;
 
     function alliesFightDisplayController($scope) {

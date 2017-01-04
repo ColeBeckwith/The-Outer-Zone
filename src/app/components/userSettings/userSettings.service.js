@@ -23,7 +23,7 @@
 
     function setDefaultSettings() {
       svc.settings = {
-        enemyTurnSpeed: 2000,
+        enemyTurnSpeed: 1000,
         autoTargetEnemyPriority: 'Lowest Health',
         autoTargetAllyPriority: 'Lowest Health'
       }

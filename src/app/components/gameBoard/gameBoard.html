@@ -14,7 +14,9 @@
          ng-mouseleave="gameBoard.mouseLeave(cell)">
       <div class="game-board-contents">
         <div ng-if="cell.occupant">
-          <span ng-if="cell.occupant.icon" ng-class="cell.occupant.icon"></span>
+          <span ng-if="cell.occupant.icon"
+                class="{{cell.occupant.icon}}"
+                ng-class="{'dead-occupant' : cell.occupant.status === 'dead'}"></span>
           <span ng-if="!cell.occupant.icon">{{ cell.occupant.name.substring(0, 1) }}</span>
         </div>
       </div>
