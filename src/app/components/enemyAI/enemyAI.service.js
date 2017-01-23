@@ -53,6 +53,7 @@
 
     function getAttackTarget(board, character) {
       // TODO for now an enemy will only attack a player that is right next to them.
+      // TODO enemy will continue to attack a dead ally.
       var characterCell = { xCoord: character.coordinates.x, yCoord: character.coordinates.y };
       var neighboringCells = boardManager.getNeighboringCells(board, characterCell);
       for (var i = 0; i < neighboringCells.length; i++) {
