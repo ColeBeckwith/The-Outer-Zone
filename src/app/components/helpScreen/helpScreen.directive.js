@@ -1,32 +1,32 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('outerZone')
-    .directive('helpScreen', helpScreen);
+    angular
+        .module('outerZone')
+        .directive('helpScreen', helpScreen);
 
-  helpScreen.$inject = ["stateChangeService"];
+    helpScreen.$inject = ["stateChangeService"];
 
-  function helpScreen(stateChangeService) {
-    var directive = {
-      restrict: 'E',
-      templateUrl: 'app/components/helpScreen/helpScreen.html',
-      controller: helpScreenController,
-      controllerAs: 'vm',
-      bindToController: true
-    };
+    function helpScreen(stateChangeService) {
+        var directive = {
+            restrict: 'E',
+            templateUrl: 'app/components/helpScreen/helpScreen.html',
+            controller: helpScreenController,
+            controllerAs: 'vm',
+            bindToController: true
+        };
 
-    return directive;
+        return directive;
 
-    function helpScreenController() {
-      var vm = this;
+        function helpScreenController() {
+            var vm = this;
 
-      vm.goBack = goBack;
+            vm.goBack = goBack;
 
-      function goBack() {
-        stateChangeService.setPlayerState('mainMenu');
-      }
+            function goBack() {
+                stateChangeService.setPlayerState('mainMenu');
+            }
+        }
     }
-  }
 
 })();

@@ -1,20 +1,25 @@
 <h1 class="text-center">Help</h1>
 
 <div class="text-block">
-  <uib-tabset>
-    <uib-tab heading="Gameplay">
-      <div ng-include="'app/components/helpScreen/gameplay.html'"></div>
-    </uib-tab>
-    <uib-tab heading="Moves">
-      <moves-list></moves-list>
-    </uib-tab>
-    <uib-tab heading="Settings">
-      <user-settings-directive></user-settings-directive>
-    </uib-tab>
-  </uib-tabset>
+    <uib-tabset>
+        <button class="btn btn-info">What The?</button>
+        <uib-tab heading="Gameplay">
+            <div ng-include="'app/components/helpScreen/gameplay.html'"></div>
+        </uib-tab>
+        <uib-tab heading="Moves">
+            <moves-list></moves-list>
+
+        </uib-tab>
+        <uib-tab heading="Settings">
+            <user-settings-directive></user-settings-directive>
+        </uib-tab>
+    </uib-tabset>
+
 </div>
 
 <div class="text-center">
-  <button class="btn btn-primary"
-          ng-click="vm.goBack()">Back</button>
+    <button class="btn btn-primary"
+            ng-click="vm.goBack()">Back
+    </button>
+
 </div>

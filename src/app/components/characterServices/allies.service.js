@@ -5,9 +5,9 @@
     .module('outerZone')
     .service('alliesService', alliesService);
 
-  alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout', 'inventoryService'];
+  alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout', 'inventoryService', 'achievementsService'];
 
-  function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService) {
+  function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService, achievementsService) {
     var svc = this;
 
     svc.activateAlly = activateAlly;
@@ -778,6 +778,14 @@
       }
       if (ally.level % ally.levelingSchedule.intellect[0] === 0) {
         ally.baseStats.intellect += ally.levelingSchedule.intellect[1];
+      }
+
+      achievementsService.allyLeveledUp(ally);
+
+      if (ally.exp >= ally.expNeeded) {
+          $timeout(function() {
+              svc.levelUp(ally);
+          }, 1200);
       }
     }
 

@@ -1,631 +1,658 @@
 <div class="gameplay-tab">
 
-  <h3 class="text-center section-title">Turns</h3>
-  <p>Each encounter consists of a single cycle repeating itself until one team no longer has any living members. The number of actions each character can take in any given cycle is determined by their speed. 'Slow' character may only be able to act once in the time that a very fast character is able to act three or four times.</p>
-  <p>The display on the left side of the screen shows you who is currently up and who the next several actors will be. It might look like this:</p>
-  <div class="example-fight-queue">
-    <h5>Up Next</h5>
-    <ol>
-      <li class="text-pulse">Ally</li>
-      <li class="text-danger">Enemy</li>
-      <li class="text-danger">Enemy</li>
-      <li class="text-danger">Enemy</li>
-      <li class="text-success">Ally</li>
-      <li class="text-success">Ally</li>
-      <li class="text-danger">Enemy</li>
-    </ol>
-  </div>
-  <p>Enemies will act automatically, but when the queue reaches an ally, it will defer to you for input. On each turn you are permitted one movement and one attack. Neither are required and you can choose to rest instead of attack which will restore a small portion of that allies health and energy.</p>
-  <p>Certain moves allow characters to manipulate the fight queue by pushing turns closer to the top, pushing them closer to the bottom, eliminating or adding them. See the moves tab to get an idea of which moves have these properties.</p>
+    <h3 class="text-center section-title">Turns</h3>
+    <p>Each encounter consists of a single cycle repeating itself until one team no longer has any living members. The
+        number of actions each character can take in any given cycle is determined by their speed. 'Slow' character may
+        only be able to act once in the time that a very fast character is able to act three or four times.</p>
+    <p>The display on the left side of the screen shows you who is currently up and who the next several actors will be.
+        It might look like this:</p>
+    <div class="example-fight-queue">
+        <h5>Up Next</h5>
+        <ol>
+            <li class="text-pulse">Ally</li>
+            <li class="text-danger">Enemy</li>
+            <li class="text-danger">Enemy</li>
+            <li class="text-danger">Enemy</li>
+            <li class="text-success">Ally</li>
+            <li class="text-success">Ally</li>
+            <li class="text-danger">Enemy</li>
+        </ol>
+    </div>
+    <p>Enemies will act automatically, but when the queue reaches an ally, it will defer to you for input. On each turn
+        you are permitted one movement and one attack. Neither are required and you can choose to rest instead of attack
+        which will restore a small portion of that allies health and energy.</p>
+    <p>Certain moves allow characters to manipulate the fight queue by pushing turns closer to the top, pushing them
+        closer to the bottom, eliminating or adding them. See the moves tab to get an idea of which moves have these
+        properties.</p>
 
-  <h3 class="text-center section-title">Ally Fight Cards</h3>
-  <p>Each ally on your team will be represented by a card along the bottom of the screen. It might look something like this:</p>
+    <h3 class="text-center section-title">Ally Fight Cards</h3>
+    <p>Each ally on your team will be represented by a card along the bottom of the screen. It might look something like
+        this:</p>
 
     <div class="example-fight-card">
-      <div class="row">
-        <h5 class="col-sm-10">Scarecrow</h5>
-        <div class="col-sm-2 text-center">
-          <span class="fight-icon fa fa-tint"></span>
+        <div class="row">
+            <h5 class="col-sm-10">Scarecrow</h5>
+            <div class="col-sm-2 text-center">
+                <span class="fight-icon fa fa-tint"></span>
+            </div>
         </div>
-      </div>
 
-      <div class="text-center">
+        <div class="text-center">
         <span class="level-and-stance">
           Lv. 24 Bloodsport &nbsp; | &nbsp; Stance: Rage
         </span>
-      </div>
-
-      <div class="progress">
-        <div class="progress-bar progress-bar-warning"
-             role="progressbar"
-             style="width: 43%">
-          <span>430/1000</span>
         </div>
-      </div>
 
-      <uib-progressbar max="100" value="20" type="info">300 / 1500</uib-progressbar>
+        <div class="progress">
+            <div class="progress-bar progress-bar-warning"
+                 role="progressbar"
+                 style="width: 43%">
+                <span>430/1000</span>
+            </div>
+        </div>
 
-      <h6 class="text-center">STR : 132 &nbsp; | &nbsp; SPD : 187 &nbsp; | &nbsp; DEF : 98 &nbsp; | &nbsp; INT: 67</h6>
+        <uib-progressbar max="100" value="20" type="info">300 / 1500</uib-progressbar>
+
+        <h6 class="text-center">STR : 132 &nbsp; | &nbsp; SPD : 187 &nbsp; | &nbsp; DEF : 98 &nbsp; | &nbsp; INT:
+            67</h6>
     </div>
 
-  <p>These values correspond to:</p>
+    <p>These values correspond to:</p>
 
     <div class="example-fight-card">
-      <div class="row">
-        <h5 class="col-sm-10">Character Name</h5>
-        <div class="col-sm-2 text-center">
-          <span>Icon</span>
+        <div class="row">
+            <h5 class="col-sm-10">Character Name</h5>
+            <div class="col-sm-2 text-center">
+                <span>Icon</span>
+            </div>
         </div>
-      </div>
 
-      <div class="text-center">
+        <div class="text-center">
           <span class="level-and-stance">
             Level Class &nbsp; | &nbsp; Stance: Stance
           </span>
-      </div>
-
-      <div class="progress">
-        <div class="progress-bar progress-bar-success"
-             role="progressbar"
-             style="width: 100%">
-          <span>Current Health / Max Health</span>
         </div>
-      </div>
 
-      <uib-progressbar max="100" value="100" type="info">Current Energy / Max Energy</uib-progressbar>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success"
+                 role="progressbar"
+                 style="width: 100%">
+                <span>Current Health / Max Health</span>
+            </div>
+        </div>
 
-      <h6 class="text-center">STR : Strength &nbsp; | &nbsp; SPD : Speed &nbsp; | &nbsp; DEF : Defense &nbsp; | &nbsp; INT: Intellect</h6>
+        <uib-progressbar max="100" value="100" type="info">Current Energy / Max Energy</uib-progressbar>
+
+        <h6 class="text-center">STR : Strength &nbsp; | &nbsp; SPD : Speed &nbsp; | &nbsp; DEF : Defense &nbsp; | &nbsp;
+            INT: Intellect</h6>
     </div>
 
-  <p>When that ally is next to act, a row of buttons will appear with the available moves. You can select one by clicking it or using the number keys. 1 will select the first move, 2 will select the second move etc. The buttons might look like this:</p>
+    <p>When that ally is next to act, a row of buttons will appear with the available moves. You can select one by
+        clicking it or using the number keys. 1 will select the first move, 2 will select the second move etc. The
+        buttons might look like this:</p>
 
-  <div class="text-center">
-    <div class="btn-group text-center example-move-btns">
-      <button class="btn btn-default">Attack</button>
-      <button class="btn btn-default">Rest</button>
-      <button class="btn btn-default">Pass</button>
+    <div class="text-center">
+        <div class="btn-group text-center example-move-btns">
+            <button class="btn btn-default">Attack</button>
+            <button class="btn btn-default">Rest</button>
+            <button class="btn btn-default">Pass</button>
+        </div>
     </div>
-  </div>
 
-  <h3 class="text-center section-title">Enemy Fight Cards</h3>
-  <p>Enemy fight cards are very similar to the ally fight cards. They will appear at the top of the screen. They might look like this:</p>
+    <h3 class="text-center section-title">Enemy Fight Cards</h3>
+    <p>Enemy fight cards are very similar to the ally fight cards. They will appear at the top of the screen. They might
+        look like this:</p>
 
     <div class="example-fight-card border-pulse">
-      <h5>Witch</h5>
-      <uib-progressbar max="100" value="16" type="danger">16 / 100</uib-progressbar>
-      <h6 class="text-center">STR : 6 &nbsp; | &nbsp; SPD : 9 &nbsp; | &nbsp; DEF : 15 &nbsp; | &nbsp; INT: 23</h6>
+        <h5>Witch</h5>
+        <uib-progressbar max="100" value="16" type="danger">16 / 100</uib-progressbar>
+        <h6 class="text-center">STR : 6 &nbsp; | &nbsp; SPD : 9 &nbsp; | &nbsp; DEF : 15 &nbsp; | &nbsp; INT: 23</h6>
     </div>
 
-  <p>One thing to note here is the pulsating border. This is used to indicate that this character is the next to act. The effect will appear on ally cards as well.</p>
+    <p>One thing to note here is the pulsating border. This is used to indicate that this character is the next to act.
+        The effect will appear on ally cards as well.</p>
 
-  <h3 class="text-center section-title">The Fight Log</h3>
+    <h3 class="text-center section-title">The Fight Log</h3>
 
-  <p>During a fight, you may notice a log on the right side of the screen. It is not necessary to interact with the log in any way, but it can be useful for tracking what is going on in the fight. It will tell you who is attacking who and for how much damage. Depending on how fast you have the enemy turn speed set it can be easy to lose track when several enemies act in a row. It will also occasionally give instruction or provide further explanation. It might look like this:</p>
+    <p>During a fight, you may notice a log on the right side of the screen. It is not necessary to interact with the
+        log in any way, but it can be useful for tracking what is going on in the fight. It will tell you who is
+        attacking who and for how much damage. Depending on how fast you have the enemy turn speed set it can be easy to
+        lose track when several enemies act in a row. It will also occasionally give instruction or provide further
+        explanation. It might look like this:</p>
 
-  <div class="example-fight-log">
-    <p>Enemy 1 Attacked Ally 2 For 23 Damage.</p>
-    <p>Ally 2 Attacked Enemy 1 for 13 Damage.</p>
-    <p>Select a move.</p>
-    <p class="text-muted">It's Ally 2's turn.</p>
-    <p class="text-muted">Ally 1 has been defeated.</p>
-    <p class="text-muted">Enemy 1 attacked Ally 1.</p>
-    <p class="text-muted">Ally 2 is resting.</p>
-    <p class="text-muted">This is the beginning of the fight.</p>
-  </div>
+    <div class="example-fight-log">
+        <p>Enemy 1 Attacked Ally 2 For 23 Damage.</p>
+        <p>Ally 2 Attacked Enemy 1 for 13 Damage.</p>
+        <p>Select a move.</p>
+        <p class="text-muted">It's Ally 2's turn.</p>
+        <p class="text-muted">Ally 1 has been defeated.</p>
+        <p class="text-muted">Enemy 1 attacked Ally 1.</p>
+        <p class="text-muted">Ally 2 is resting.</p>
+        <p class="text-muted">This is the beginning of the fight.</p>
+    </div>
 
-  <p>Note that the log reads in reverse chronological order, so the top-most messages are the most recent.</p>
+    <p>Note that the log reads in reverse chronological order, so the top-most messages are the most recent.</p>
 
-  <h3 class="text-center section-title">The Board</h3>
+    <h3 class="text-center section-title">The Board</h3>
 
-  <p>The Board is the core of the fight and tries to pack a lot of information into a very small visual space. If you've played RPG's before, you're probably familiar with most of the concepts, but if you're new to the genre, some of the conventions might not be familiar. Let's just drink from the firehose for a second and then dissect it piece by piece. Here's what the board might look like in an actual game:</p>
+    <p>The Board is the core of the fight and tries to pack a lot of information into a very small visual space. If
+        you've played RPG's before, you're probably familiar with most of the concepts, but if you're new to the genre,
+        some of the conventions might not be familiar. Let's just drink from the firehose for a second and then dissect
+        it piece by piece. Here's what the board might look like in an actual game:</p>
 
     <div class="game-board text-center">
         <div class="game-board-row">
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
-              <span class="fa fa-tint"></span>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span class="fa fa-tint"></span>
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
-              <span>W</span>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span>W</span>
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell fire-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell fire-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell fire-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell fire-cell">
+                <div class="game-board-contents">
 
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell fire-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell fire-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell void-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
-              <span>T</span>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span>T</span>
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell fire-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell fire-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell fire-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell fire-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable acid-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable acid-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell acid-cell">
-            <div class="game-board-contents">
-              <span class="fa fa-flag"></span>
+            <div class="game-board-cell acid-cell">
+                <div class="game-board-contents">
+                    <span class="fa fa-flag"></span>
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
         <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
-      <div class="game-board-row">
-          <div class="game-board-cell">
-            <div class="game-board-contents">
-              <span>F</span>
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span>F</span>
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell movable">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell movable">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
-          <div class="game-board-cell water-cell">
-            <div class="game-board-contents">
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
             </div>
-          </div>
         </div>
     </div>
 
-  <p>Hopefully it doesn't actually get that complicated, but in the interest of covering all the basics, they're included here. Now that we have the big picture, let's start with the smallest unit. The cell. You may have noticed that there are five cell types in total. They look like this:</p>
+    <p>Hopefully it doesn't actually get that complicated, but in the interest of covering all the basics, they're
+        included here. Now that we have the big picture, let's start with the smallest unit. The cell. You may have
+        noticed that there are five cell types in total. They look like this:</p>
 
-  <div class="game-board text-center">
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+    <div class="game-board text-center">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell void-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell acid-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell water-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell fire-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell void-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell acid-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell water-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell fire-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
     </div>
-  </div>
 
-  <p>In order from left to right:</p>
+    <p>In order from left to right:</p>
 
-  <ul>
-    <li>Normal Cell</li>
-    <p>There's nothing special about this cell.</p>
-    <li>Void Cell</li>
-    <p>Although this looks like a cell. It's really the absense of a cell. These cells cannot be traveled through or targeting through.</p>
-    <li>Acid Cell</li>
-    <p>This cell causes rapid damage to any who land on it, but causes no lasting damage.</p>
-    <li>Water Cell</li>
-    <p>This cell will slow down any user who enters it and relieves a 'Burning' status effect.</p>
-    <li>Fire Cell</li>
-    <p>Any character who lands on this cell will gain a 'Burning' status effect which lasts for three turns or until they land on a water cell.</p>
-  </ul>
+    <ul>
+        <li>Normal Cell</li>
+        <p>There's nothing special about this cell.</p>
+        <li>Void Cell</li>
+        <p>Although this looks like a cell. It's really the absense of a cell. These cells cannot be traveled through or
+            targeting through.</p>
+        <li>Acid Cell</li>
+        <p>This cell causes rapid damage to any who land on it, but causes no lasting damage.</p>
+        <li>Water Cell</li>
+        <p>This cell will slow down any user who enters it and relieves a 'Burning' status effect.</p>
+        <li>Fire Cell</li>
+        <p>Any character who lands on this cell will gain a 'Burning' status effect which lasts for three turns or until
+            they land on a water cell.</p>
+    </ul>
 
-  <p>Certain characters are immune to certain damage types or react abnormally to them, so make sure you read up on their passive abilities.</p>
+    <p>Certain characters are immune to certain damage types or react abnormally to them, so make sure you read up on
+        their passive abilities.</p>
 
-  <p>An occupied cell will have the icon of the ally or the first letter of the enemy. If enemies happen to have the same first letter, you can hover over the cell and their fight card will be marked with an outline.</p>
+    <p>An occupied cell will have the icon of the ally or the first letter of the enemy. If enemies happen to have the
+        same first letter, you can hover over the cell and their fight card will be marked with an outline.</p>
 
-  <p>At the beginning of an ally turn, cells that can be moved to will be marked with a yellow outline. It will look like this:</p>
+    <p>At the beginning of an ally turn, cells that can be moved to will be marked with a yellow outline. It will look
+        like this:</p>
 
-  <div class="game-board text-center">
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+    <div class="game-board text-center">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell movable">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span class="fa fa-tint"></span>
+                </div>
+            </div>
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell movable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="game-board-row">
-      <div class="game-board-cell movable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-          <span class="fa fa-tint"></span>
-        </div>
-      </div>
-      <div class="game-board-cell movable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell movable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <p>If you click any of these cells, the ally will be moved to that space.</p>
+    <p>If you click any of these cells, the ally will be moved to that space.</p>
 
-  <p>If you select an attack that requires an enemy target, cells that can be targeted will be marked with a red outline. Select any of them that contain an enemy to attack that enemy.</p>
+    <p>If you select an attack that requires an enemy target, cells that can be targeted will be marked with a red
+        outline. Select any of them that contain an enemy to attack that enemy.</p>
 
-  <div class="game-board text-center">
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+    <div class="game-board text-center">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell enemy-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell enemy-targetable">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell enemy-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                    <span class="fa fa-tint"></span>
+                </div>
+            </div>
+            <div class="game-board-cell enemy-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell enemy-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="game-board-row">
-      <div class="game-board-cell enemy-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-          <span class="fa fa-tint"></span>
-        </div>
-      </div>
-      <div class="game-board-cell enemy-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell enemy-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <p>If you select a move that requires an ally target the cells will be marked with a green outline.</p>
+    <p>If you select a move that requires an ally target the cells will be marked with a green outline.</p>
 
-  <div class="game-board text-center">
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+    <div class="game-board text-center">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell ally-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell ally-targetable">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell ally-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents ally-targetable">
+                    <span class="fa fa-tint"></span>
+                </div>
+            </div>
+            <div class="game-board-cell ally-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
+        <div class="game-board-row">
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell ally-targetable">
+                <div class="game-board-contents">
+                </div>
+            </div>
+            <div class="game-board-cell">
+                <div class="game-board-contents">
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="game-board-row">
-      <div class="game-board-cell ally-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents ally-targetable">
-          <span class="fa fa-tint"></span>
-        </div>
-      </div>
-      <div class="game-board-cell ally-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-    <div class="game-board-row">
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell ally-targetable">
-        <div class="game-board-contents">
-        </div>
-      </div>
-      <div class="game-board-cell">
-        <div class="game-board-contents">
-        </div>
-      </div>
-    </div>
-  </div>
-
-
 
 </div>
