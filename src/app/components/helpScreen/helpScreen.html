@@ -2,9 +2,9 @@
 
 <div class="text-block">
     <uib-tabset>
-        <button class="btn btn-info">What The?</button>
         <uib-tab heading="Gameplay">
             <div ng-include="'app/components/helpScreen/gameplay.html'"></div>
+            <button class="btn btn-primary" ng-click="$parent.$parent.vm.readTutorial()">What The?</button>
         </uib-tab>
         <uib-tab heading="Moves">
             <moves-list></moves-list>

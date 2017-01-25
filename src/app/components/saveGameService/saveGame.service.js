@@ -5,9 +5,9 @@
         .module("outerZone")
         .service('saveGame', saveGame);
 
-    saveGame.$inject = ["alliesService", "progressTracker", "inventoryService", "toastr", "lootService", "userSettingsService", "achievementsService"];
+    saveGame.$inject = ["alliesService", "progressTracker", "inventoryService", "toastr", "lootService", "userSettingsService", "achievementsService", "gameStatsService"];
 
-    function saveGame(alliesService, progressTracker, inventoryService, toastr, lootService, userSettingsService, achievementsService) {
+    function saveGame(alliesService, progressTracker, inventoryService, toastr, lootService, userSettingsService, achievementsService, gameStatsService) {
         var svc = this;
 
         svc.saveGame = saveGame;
@@ -21,7 +21,6 @@
         }
 
         function saveGame() {
-
             // Will probably need to save the store.
             store.set('saveFile', {
                 'storyProgress': progressTracker.storyProgress,
@@ -30,7 +29,8 @@
                 'equipment': inventoryService.equipment,
                 'money': inventoryService.money,
                 'userSettings': userSettingsService.getAllSettings(),
-                'achievements' : achievementsService.achievements
+                'achievements': achievementsService.achievements,
+                'gameStats' : gameStatsService.gameStats
             });
             toastr.success('Game Saved');
         }
@@ -42,6 +42,7 @@
             achievementsService.setAchievements(svc.saveFile.achievements);
             progressTracker.loadGame(svc.saveFile.storyProgress, svc.saveFile.allyProgress);
             inventoryService.loadGame(svc.saveFile.equipment, svc.saveFile.money);
+            gameStatsService.setGameStats(svc.saveFile.gameStats);
             angular.forEach(alliesService.activeAllies, function (ally) {
                 lootService.pullFromVault(ally);
             });

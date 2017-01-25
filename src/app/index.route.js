@@ -15,13 +15,6 @@
         controllerAs: 'main'
       });
 
-      /*.state('fight', {
-        url: '/fight',
-        templateUrl: 'app/fight/fight.html',
-        controller: 'fightController',
-        controllerAs: 'fight'
-      });*/
-
     $urlRouterProvider.otherwise('/');
   }
 

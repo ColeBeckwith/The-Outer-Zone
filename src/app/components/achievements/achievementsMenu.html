@@ -1,20 +1,50 @@
-<h1 class="text-center">Achievements</h1>
+<div class="achievement-menu">
+    <h1 class="text-center">Achievements</h1>
 
-<span counter value="vm.counterValue" from="0" to="vm.percentageComplete" duration="2000" effect="'easeOutCubic'"></span>
-<p class="text-center">Percent Complete: {{ vm.counterValue | number : 0}}%</p>
+    <span counter value="vm.counterValue" from="0" to="vm.percentageComplete" duration="2000"
+          effect="'easeOutCubic'"></span>
+    <p class="text-center">Percent Complete: {{ vm.counterValue | number : 0}}%</p>
 
-<div class="text-block">
-    <div ng-repeat="achievement in vm.achievements"
-         class="achievement-block"
-         ng-class="::{'locked-achievement' : !achievement.unlocked}">
-        <span class="achievement-title">{{ achievement.displayName}}</span>
-        <p ng-if="::!achievement.unlocked">{{ achievement.lockedDescription }}</p>
-        <p ng-if="::achievement.unlocked">{{ achievement.unlockedDescription }}</p>
-        <span class="achievement-unlock-date" ng-if="::achievement.unlocked">Unlocked On: {{ achievement.unlockedDate }}</span>
+    <div class="text-block">
+        <div ng-repeat="achievement in vm.achievements"
+             class="achievement-block"
+             ng-class="::{'locked-achievement' : !achievement.unlocked}">
+
+            <div ng-if="achievement.unlocked">
+                <span class="achievement-title">{{ ::achievement.displayName }}</span>
+                <p>{{ ::achievement.unlockedDescription }}</p>
+                <span class="achievement-unlock-date">Unlocked On: {{ achievement.unlockedDate }}</span>
+            </div>
+
+            <div ng-if="!achievement.unlocked">
+
+                <div ng-if="!achievement.secret">
+                    <span class="achievement-title">{{ achievement.displayName}}</span>
+                    <p>{{ ::achievement.lockedDescription }}</p>
+                    <div ng-if="achievement.requirements.needed">
+                        <uib-progressbar value="achievement.requirements.current"
+                                         max="achievement.requirements.needed">
+                            {{ achievement.requirements.current }} / {{ achievement.requirements.needed }}
+                        </uib-progressbar>
+                    </div>
+                </div>
+
+                <div ng-if="achievement.secret">
+                    <span class="achievement-title">Secret Achievement</span>
+                    <p>{{ achievement.secretDescription }}</p>
+                </div>
+
+                <span class="achievement-unlock-date">Locked</span>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary"
+                ng-click="vm.goBack()">Back
+        </button>
     </div>
 </div>
 
-<div class="text-center">
-    <button class="btn btn-primary"
-            ng-click="vm.goBack()">Back</button>
-</div>

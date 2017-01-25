@@ -28,7 +28,7 @@
             activate();
 
             function activate() {
-                achievementsService.characterUnlockAchievement(vm.newAlly);
+                achievementsService.allyUnlockAchievement(vm.newAlly);
             }
 
             vm.makeActiveSelection = function (build) {

@@ -1,0 +1,69 @@
+<h1 class="text-center">Statistics</h1>
+
+
+<div class="text-block">
+    <h3 class="text-center">Battle Stats</h3>
+    <div class="statistics-section">
+        <p>Battles Won: {{ ::vm.stats.totalBattlesWon }}</p>
+        <p>Battles Lost: {{ ::vm.stats.totalBattlesLost }}</p>
+
+        <p>Story Battles Won: {{ ::vm.stats.storyBattlesWon }}</p>
+        <p>Story Battles Lost: {{ ::vm.stats.storyBattlesLost }}</p>
+
+        <p>Arena Battles Won: {{ ::vm.stats.arenaBattlesWon }}</p>
+        <p>Arena Battles Lost: {{ ::vm.stats.arenaBattlesLost }}</p>
+
+        <p>Longest Battle: {{ ::vm.stats.longestBattle}} Turns</p>
+        <p>Fastest Win: {{ ::vm.stats.fewestMovesToWin}} Ally Turns</p>
+
+    </div>
+
+    <h3 class="text-center">Damage Stats</h3>
+    <div class="statistics-section">
+        <p>Total Damage Dealt: {{ ::vm.stats.totalDamageDealtToEnemy }}</p>
+
+        <p ng-if="::vm.stats.totalDamageDealtByAllyOne > 0">
+            Total Damage Dealt By {{ ::vm.allyOneName }}: {{ ::vm.stats.totalDamageDealtByAllyOne}}
+        </p>
+        <p ng-if="::vm.stats.totalDamageDealtByAllyTwo > 0">
+            Total Damage Dealt By {{ ::vm.allyTwoName }}: {{ ::vm.stats.totalDamageDealtByAllyTwo}}
+        </p>
+        <p ng-if="::vm.stats.totalDamageDealtByAllyThree > 0">
+            Total Damage Dealt By {{ ::vm.allyThreeName }}: {{ ::vm.stats.totalDamageDealtByAllyThree}}
+        </p>
+        <p ng-if="::vm.stats.totalDamageDealtByAllyFour > 0">
+            Total Damage Dealt By {{ ::vm.allyFourName }}: {{ ::vm.stats.totalDamageDealtByAllyFour}}
+        </p>
+        <p ng-if="::vm.stats.totalDamageDealtByAllyFive > 0">
+            Total Damage Dealt By {{ ::vm.allyFiveName }}: {{ ::vm.stats.totalDamageDealtByAllyFive}}
+        </p>
+
+        <p>Highest Damage Dealt: {{ ::vm.stats.highestDamageDealt}}</p>
+        <p>Highest Damage Dealt By: {{ ::vm.stats.highestDamageDealtBy }}</p>
+
+        <p>Total Damage Received: {{ ::vm.stats.totalDamageReceivedFromEnemy }}</p>
+
+        <p ng-if="::vm.stats.totalDamageReceivedByAllyOne > 0">
+            Total Damage Received By {{ ::vm.allyOneName }}: {{ ::vm.stats.totalDamageReceivedByAllyOne }}
+        </p>
+        <p ng-if="::vm.stats.totalDamageReceivedByAllyTwo > 0">
+            Total Damage Received By {{ ::vm.allyTwoName }}: {{ ::vm.stats.totalDamageReceivedByAllyTwo }}
+        </p>
+        <p ng-if="::vm.stats.totalDamageReceivedByAllyThree > 0">
+            Total Damage Received By {{ ::vm.allyThreeName }}: {{ ::vm.stats.totalDamageReceivedByAllyThree }}
+        </p>
+        <p ng-if="::vm.stats.totalDamageReceivedByAllyFour > 0">
+            Total Damage Received By {{ ::vm.allyFourName }}: {{ ::vm.stats.totalDamageReceivedByAllyFour }}
+        </p>
+        <p ng-if="::vm.stats.totalDamageReceivedByAllyFive > 0">
+            Total Damage Received By {{ ::vm.allyFiveName }}: {{ ::vm.stats.totalDamageReceivedByAllyFive }}
+        </p>
+
+
+    </div>
+
+</div>
+
+<div class="text-center">
+    <button class="btn btn-primary" ng-click="vm.back()">Back</button>
+</div>

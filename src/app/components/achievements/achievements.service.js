@@ -215,7 +215,7 @@
                 unlockedDescription: 'Took 2000 cumulative damage from the enemy.',
                 lockedDescription: 'Take 2000 cumulative damage from the enemy.',
                 unlocked: false,
-                requirements : {
+                requirements: {
                     damageMet: false,
                     current: 0,
                     needed: 2000
@@ -230,10 +230,50 @@
                 unlockedDescription: 'Took 20,000 cumulative damage from the enemy.',
                 lockedDescription: 'Take 20,000 cumulative damage from the enemy.',
                 unlocked: false,
-                requirements : {
+                requirements: {
                     damageMet: false,
                     current: 0,
                     needed: 20000
+                },
+                unlockedDate: null,
+                secret: false
+            },
+            {
+                displayName: 'King of the Ring',
+                alias: 'Win 100 Arena Matches',
+                displayOrder: 8,
+                unlockedDescription: 'Won 100 Arena Matches.',
+                lockedDescription: 'Win 100 Arena Matches.',
+                requirements: {
+                    wonMatches: false,
+                    current: 0,
+                    needed: 100
+                },
+                unlockedDate: null,
+                secret: false
+            },
+            {
+                displayName: 'Blink and You\'ll Miss It',
+                alias: 'Win in 3 Turns',
+                displayOrder: 7,
+                unlockedDescription: 'Won a match in three turns.',
+                lockedDescription: 'Win a match in three turns.',
+                unlocked: false,
+                requirements: {
+                    wonInThree: false
+                },
+                unlockedDate: null,
+                secret: false
+            },
+            {
+                displayName: 'Runaround Sue',
+                alias: '200 Turns Lasted',
+                displayOrder: 7,
+                unlockedDescription: 'Ran around for 200 turns.',
+                lockedDescription: 'Drag a match out for 200 turns.',
+                unlocked: false,
+                requirements: {
+                    twoHundredTurns: false
                 },
                 unlockedDate: null,
                 secret: false
@@ -324,7 +364,7 @@
                 alias: 'Beat New Game+',
                 displayOrder: 15,
                 unlockedDescription: 'Seriously? This game is not that good.',
-                secretDescription: 'You\'ll Never Get This',
+                secretDescription: 'You\'ll Never Get This.',
                 unlocked: false,
                 requirements: {
                     beatNewGamePlus: false
@@ -338,17 +378,21 @@
         svc.allyUnlockAchievement = allyUnlockAchievement;
         svc.allyLeveledUp = allyLeveledUp;
         svc.runEndBattleAchievementCheck = runEndBattleAchievementCheck;
+        svc.runEndTurnAchievementCheck = runEndTurnAchievementCheck;
         svc.getAchievementByAlias = getAchievementByAlias;
         svc.setAchievements = setAchievements;
+        svc.readTutorial = readTutorial;
 
         updatePercentageComplete();
 
         function unlockAchievement(achievement) {
-            toastr.success('Achievement Unlocked: ' + achievement.displayName);
-            var date = new Date();
-            achievement.unlockedDate = (date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
-            achievement.unlocked = true;
-            updatePercentageComplete();
+            if (!achievement.unlocked) {
+                toastr.success('Achievement Unlocked: ' + achievement.displayName);
+                var date = new Date();
+                achievement.unlockedDate = (date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
+                achievement.unlocked = true;
+                updatePercentageComplete();
+            }
         }
 
         function allyUnlockAchievement(character) {
@@ -390,7 +434,7 @@
                 getAchievementByAlias('Level 100 Character')
             ];
 
-            levelBasedAchievements.forEach(function(achievement) {
+            levelBasedAchievements.forEach(function (achievement) {
                 if (!achievement.unlocked && character.level > achievement.requirements.current) {
                     achievement.requirements.current = character.level;
                     if (achievement.requirements.current >= achievement.requirements.needed) {
@@ -402,9 +446,18 @@
 
         }
 
-        function runEndBattleAchievementCheck(battleStats, gameStats) {
+        function runEndBattleAchievementCheck(battleStats, gameStats, playerWon) {
             totalDamageAchievementCheck(gameStats);
 
+            if (battleStats.allyTurns <= 3 && playerWon) {
+                unlockAchievement(getAchievementByAlias('Win in 3 Turns'));
+            }
+        }
+
+        function runEndTurnAchievementCheck(battleStats) {
+            if (battleStats.totalTurns >= 200) {
+                unlockAchievement(getAchievementByAlias('200 Turns Lasted'));
+            }
         }
 
         function totalDamageAchievementCheck(gameStats) {
@@ -414,7 +467,7 @@
                 getAchievementByAlias('20000 Total Damage Delivered')
             ];
 
-            damageDeliveredAchievements.forEach(function(achievement) {
+            damageDeliveredAchievements.forEach(function (achievement) {
                 if (!achievement.unlocked) {
                     achievement.requirements.current = gameStats.totalDamageDealtToEnemy;
                     if (achievement.requirements.current >= achievement.requirements.needed) {
@@ -430,12 +483,13 @@
                 getAchievementByAlias('20000 Total Damage Taken')
             ];
 
-            damageReceivedAchievements.forEach(function(achievement) {
+            damageReceivedAchievements.forEach(function (achievement) {
                 if (!achievement.unlocked) {
                     achievement.requirements.current = gameStats.totalDamageReceivedFromEnemy;
                     if (achievement.requirements.current >= achievement.requirements.needed) {
                         achievement.requirements.damageMet = true;
                         achievement.requirements.current = achievement.requirements.needed;
+                        console.log(achievement);
                         unlockAchievement(achievement);
                     }
                 }
@@ -465,6 +519,9 @@
             updatePercentageComplete();
         }
 
+        function readTutorial() {
+            unlockAchievement(getAchievementByAlias('Read Tutorial'));
+        }
 
     }
 
