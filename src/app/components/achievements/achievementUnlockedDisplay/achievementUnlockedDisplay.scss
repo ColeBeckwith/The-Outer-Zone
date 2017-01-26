@@ -1,0 +1,48 @@
+.achievement-unlocked-display {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+
+    .achievement-block {
+        display: flex;
+        align-items: center;
+        margin: 0 15px;
+        padding: 5px;
+        width: 700px;
+        height: 80px;
+        border: 2px solid $ozPrimary;
+        border-bottom-width: 0;
+        background-color: $gray-darker;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+
+    .achievement-description {
+        color: $ozSecondary;
+    }
+
+    .unlock-icon {
+        margin-top: 10px;
+    }
+}
+
+.achievement-unlocked-display.ng-enter {
+    transition: all .7s ease-out;
+    bottom: -80px;
+}
+
+.achievement-unlocked-display.ng-enter.ng-enter-active {
+    bottom: 0;
+}
+
+.achievement-unlocked-display.ng-leave {
+    transition: all .7s ease-in;
+    bottom: 0;
+}
+
+.achievement-unlocked-display.ng-leave.ng-leave-active {
+    bottom: -80px;
+}
+

@@ -5,9 +5,9 @@
         .module('outerZone')
         .service('alliesService', alliesService);
 
-    alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout', 'inventoryService', 'achievementsService'];
+    alliesService.$inject = ["stateChangeService", "progressTracker", "fightLogService", '$timeout', 'inventoryService', 'achievementsService', 'gameStatsService'];
 
-    function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService, achievementsService) {
+    function alliesService(stateChangeService, progressTracker, fightLogService, $timeout, inventoryService, achievementsService, gameStatsService) {
         var svc = this;
 
         svc.activateAlly = activateAlly;
@@ -155,6 +155,8 @@
                         'moves': [
                             {
                                 name: 'Fury',
+                                description: 'Enter a fury, allowing you attack three consecutive times at the cost' +
+                                ' of your own health.',
                                 levelReq: 1,
                                 energyReq: 40,
                                 healthReq: 70,
@@ -165,6 +167,8 @@
                             },
                             {
                                 name: 'Unchained',
+                                description: 'Sacrifice your defense and intellect for a massive boost to your speed' +
+                                ' and strength.',
                                 levelReq: 5,
                                 energyReq: 0,
                                 healthReq: 0,
@@ -173,6 +177,7 @@
                             },
                             {
                                 name: 'Bloodbath',
+                                description: 'While active, receive a massive stat boost each time an enemy is killed.',
                                 levelReq: 10,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -205,6 +210,7 @@
                         'moves': [
                             {
                                 name: 'Parry',
+                                description: 'Blocks the next two incoming attacks.',
                                 levelReq: 1,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -213,6 +219,7 @@
                             },
                             {
                                 name: 'Knockout',
+                                description: 'Strike the enemy and cause them to mix their next turn.',
                                 levelReq: 5,
                                 energyReq: 20,
                                 healthReq: 0,
@@ -223,6 +230,8 @@
                             },
                             {
                                 name: 'Death Punch',
+                                description: 'Deliver a blow with the potential for massive damage. Relies on' +
+                                ' characters Intellect stat to connect.',
                                 levelReq: 10,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -257,6 +266,7 @@
                         'moves': [
                             {
                                 name: 'Fortify',
+                                description: 'Increase defense by 15%.',
                                 levelReq: 1,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -265,6 +275,7 @@
                             },
                             {
                                 name: 'Absorb',
+                                description: 'The next attack will heal the ally.',
                                 levelReq: 5,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -273,6 +284,8 @@
                             },
                             {
                                 name: 'Man of Stone',
+                                description: 'Sacrifices ability to act, but gains a massive boost to defense, and' +
+                                ' draws all enemies to attack.',
                                 levelReq: 10,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -307,6 +320,7 @@
                         'moves': [
                             {
                                 name: 'Heal',
+                                description: 'Heals an ally.',
                                 levelReq: 1,
                                 energyReq: 30,
                                 healthReq: 0,
@@ -317,6 +331,7 @@
                             },
                             {
                                 name: 'Energize',
+                                description: 'Gives energy to an ally',
                                 levelReq: 5,
                                 energyReq: 5,
                                 healthReq: 0,
@@ -327,6 +342,7 @@
                             },
                             {
                                 name: 'Restore',
+                                description: 'Provides health and energy to entire team',
                                 levelReq: 10,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -359,6 +375,7 @@
                         'moves': [
                             {
                                 name: 'Charge',
+                                description: 'Each Ally will immediately get another turn.',
                                 levelReq: 1,
                                 energyReq: 40,
                                 healthReq: 0,
@@ -368,6 +385,7 @@
                             },
                             {
                                 name: 'Inspire',
+                                description: 'Each allies next move will cost half the amount of resources.',
                                 levelReq: 5,
                                 energyReq: 60,
                                 healthReq: 0,
@@ -378,6 +396,8 @@
                             },
                             {
                                 name: 'Vanquish',
+                                description: 'The parties collective strength will be used to inflict massive damage' +
+                                ' on a single enemy.',
                                 levelReq: 10,
                                 energyReq: 100,
                                 healthReq: 0,
@@ -412,6 +432,7 @@
                         'moves': [
                             {
                                 name: 'Upgrade',
+                                description: 'Provide equipment to each character, boosting their top stat.',
                                 levelReq: 1,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -422,6 +443,7 @@
                             },
                             {
                                 name: 'Hijack Weapons',
+                                description: 'Hijacks enemy weapons giving them a chance to backfire.',
                                 levelReq: 5,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -431,6 +453,7 @@
                             },
                             {
                                 name: 'Build Turret',
+                                description: 'Builds a turret which massively increases strength and defense.',
                                 levelReq: 10,
                                 energyReq: 10,
                                 healthReq: 0,
@@ -793,6 +816,8 @@
             if (ally.stats.health <= 0) {
                 ally.stats.health = 0;
                 ally.status = 'dead';
+                ally.stance = 'Normal';
+                ally.stanceCount = 0;
                 svc.checkForDefeat();
             }
         }

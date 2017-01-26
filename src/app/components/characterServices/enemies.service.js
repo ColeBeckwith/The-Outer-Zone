@@ -19,6 +19,7 @@
         svc.restoreAll = restoreAll;
         svc.checkForDead = checkForDead;
         svc.checkForVictory = checkForVictory;
+        svc.deliverRawDamage = deliverRawDamage;
         svc.selectNumberOfTargets = selectNumberOfTargets;
         svc.getCardWidth = getCardWidth;
         svc.deliverRegularDamage = deliverRegularDamage;
@@ -481,6 +482,11 @@
                 }
             }
             return true;
+        }
+
+        function deliverRawDamage(enemy, damage, attacker) {
+            enemy.stats.health -= damage;
+            gameStatsService.allyDeliveredDamage(damage, attacker);
         }
 
         function selectNumberOfTargets(number) {

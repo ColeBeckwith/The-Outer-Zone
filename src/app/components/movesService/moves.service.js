@@ -63,7 +63,7 @@
             // }
 
             if (target.stance === "Parrying") {
-                enemy.stats.health -= Math.round(target.stats.defense / 3);
+                enemiesService.deliverRawDamage(enemy, Math.round(target.stats.defense/ 3), target);
                 fightLogService.pushToFightLog(target.name + " deflected the attack.");
                 alliesService.reduceStanceCount(target);
                 return;
@@ -150,7 +150,11 @@
 
                 if (svc.selectedMove.name === "Bloodbath") {
                     if (!statusEffectsService.checkForStatusEffect(atBat, 'Bloodbath')) {
-                        atBat.statusEffects.push(['Bloodbath', 9999]);
+                        atBat.statusEffects.push({
+                            name: 'Bloodbath',
+                            duration: 99999,
+                            infinite: true
+                        });
                     }
                     fightLogService.pushToFightLog('Let the carnage begin.');
                     return true;
@@ -162,7 +166,11 @@
                         atBat.stats.defense += boost;
                         fightLogService.pushToFightLog(atBat.name + "'s defense has been raised by " + boost + " for the duration" +
                             " of the fight. This effect does NOT stack.");
-                        atBat.statusEffects.push(['Fortified', 9999]);
+                        atBat.statusEffects.push({
+                            name: 'Fortified',
+                            duration: 99999,
+                            infinite: true
+                        });
                         return true;
                     } else {
                         fightLogService.pushToFightLog(atBat.name + " has already been fortified.");
@@ -173,7 +181,7 @@
                 if (svc.selectedMove.name === "Absorb") {
                     atBat.stance = 'Absorbing';
                     atBat.stanceCount = 1;
-                    fightLogService.pushToFightLog(atBat.name + ' will absorb the next incoming attack.')
+                    fightLogService.pushToFightLog(atBat.name + ' will absorb the next incoming attack.');
                     return true
                 }
 
@@ -224,7 +232,10 @@
                 if (svc.selectedMove.name === "Inspire") {
                     angular.forEach(svc.activeAllies, function (ally) {
                         if (ally.id !== atBat.id) {
-                            ally.statusEffects.push(['Inspired', 1])
+                            ally.statusEffects.push({
+                                name: 'Inspired',
+                                duration: 1
+                            })
                         }
                     });
                     return true;
@@ -260,7 +271,11 @@
                                 ally.stats.strength += upgrade;
                             }
 
-                            ally.statusEffects.push(['Upgraded', 9999]);
+                            ally.statusEffects.push({
+                                name: 'Upgraded',
+                                duration: 9999,
+                                infinite: true
+                            });
                         } else {
                             fightLogService.pushToFightLog(ally.name + ' has already been upgraded.')
                         }
@@ -271,7 +286,11 @@
                 if (svc.selectedMove.name === "Hijack Weapons") {
                     angular.forEach(enemiesService.getCurrentEnemies(), function (enemy) {
                         if (atBat.stats.intellect > enemy.stats.intellect) {
-                            enemy.statusEffects.push(["Hijacked", 5, atBat.stats.intellect]);
+                            enemy.statusEffects.push({
+                                    name: "Hijacked",
+                                    duration: 5,
+                                    effectStrength: atBat.stats.intellect
+                                });
                             fightLogService.pushToFightLog(enemy.name + '\'s weapons have been hijacked.')
                         } else {
                             fightLogService.pushToFightLog(enemy.name + ' stopped the Hijacking attempt.')
@@ -281,7 +300,10 @@
                 }
 
                 if (svc.selectedMove.name === "Build Turret") {
-                    atBat.statusEffects.push(['Building Turret', 5]);
+                    atBat.statusEffects.push({
+                        name: 'Building Turret',
+                        duration: 5
+                    });
                     return true;
                 }
 
@@ -290,7 +312,11 @@
                 }
 
                 if (svc.selectedMove.name === "Poison Tips") {
-                    atBat.statusEffects.push(['Poison Weapons', 4, atBat.stats.intellect]);
+                    atBat.statusEffects.push({
+                        name: 'Poison Weapons',
+                        duration: 4,
+                        effectStrength: atBat.stats.intellect
+                    });
                     return true;
                 }
 
@@ -299,6 +325,7 @@
                 }
 
                 if (svc.selectedMove.name === "Headshot") {
+                    fightLogService.pushToFightLog('Select target to Attack.');
                 }
 
                 if (svc.selectedMove.name === "Perch") {
@@ -342,11 +369,11 @@
 
         function deathPunch(enemy, ally) {
             if (ally.stats.intellect + (Math.random() * 20) > 40) {
-                enemy.stats.health -= 100 + (ally.stats.strength * 3);
+                enemiesService.deliverRawDamage(enemy, 100 + (ally.stats.strength * 3), ally);
                 fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ' in the temple.');
             } else {
                 fightLogService.pushToFightLog(ally.name + ' struck ' + enemy.name + ', but missed the strike zone.');
-                svc.regularAttackEnemy(enemy, ally)
+                svc.regularAttackEnemy(enemy, ally);
             }
         }
 
@@ -367,20 +394,26 @@
             }
         }
 
-        function finishingTouch(enemy) {
+        function finishingTouch(enemy, attacker) {
             if (enemy.stats.health / enemy.stats.maxHealth < .3) {
-                enemy.stats.health = 0;
+                enemiesService.deliverRawDamage(enemy, enemy.stats.health, attacker);
             }
         }
 
         function regularAttackEnemy(enemy, ally) {
             if ((Math.random() * 6 * ally.stats.speed) > (Math.random() * enemy.stats.speed)) {
-                if (statusEffectsService.checkForStatusEffect(ally, "Poison Weapons")) {
-                    var poison = statusEffectsService.getStatus(ally, "Poison Weapons");
-                    enemy.statusEffects.push(["Poisoned", 3, poison[2]])
-                }
                 enemiesService.deliverRegularDamage(enemy, ally.stats.strength, ally);
                 fightLogService.pushToFightLog(ally.name + " attacked " + enemy.name + '.');
+
+                if (statusEffectsService.checkForStatusEffect(ally, "Poison Weapons")) {
+                    var poison = statusEffectsService.getStatus(ally, "Poison Weapons");
+                    enemy.statusEffects.push({
+                        name: "Poisoned",
+                        duration: 3,
+                        effectStrength: poison.effectStrength
+                    });
+                    fightLogService.pushToFightLog(ally.name + " has poisoned " + enemy.name + '.');
+                }
                 return true;
             } else {
                 fightLogService.pushToFightLog(enemy.name + " dodged the attack.");

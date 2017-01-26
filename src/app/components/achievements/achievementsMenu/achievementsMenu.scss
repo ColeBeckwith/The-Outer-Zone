@@ -1,0 +1,31 @@
+.achievement-menu {
+    .achievement-block {
+        width: 100%;
+        padding: 2px 6px;
+        border: 2px solid $ozSecondary;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .achievement-title {
+        font-size: 110%;
+        color: $ozPrimary;
+    }
+
+    .locked-achievement {
+        opacity: .4;
+        border-color: gray;
+    }
+
+    .achievement-unlock-date {
+        font-size: 80%;
+        color: gray;
+    }
+
+    .achievement-menu {
+        .progress {
+            margin: 0;
+        }
+    }
+}
+

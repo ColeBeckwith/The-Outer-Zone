@@ -10,7 +10,22 @@
     function achievementsService(toastr) {
         var svc = this;
 
+        svc.recentlyUnlockedAchievements = [];
+
         svc.achievements = [
+            {
+                displayName: 'Off To See The Wizard',
+                alias: 'Start the Game',
+                displayOrder: 1,
+                unlockedDescription: 'Started the Game.',
+                lockedDescription: 'Start the Game. Wait... how are you even seeing this?',
+                unlocked: false,
+                requirements: {
+                    startedTheGame: false
+                },
+                unlockedDate: null,
+                secret: false
+            },
             {
                 displayName: 'Street Fighting Man',
                 alias: 'Unlock First Character',
@@ -387,10 +402,10 @@
 
         function unlockAchievement(achievement) {
             if (!achievement.unlocked) {
-                toastr.success('Achievement Unlocked: ' + achievement.displayName);
                 var date = new Date();
                 achievement.unlockedDate = (date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
                 achievement.unlocked = true;
+                svc.recentlyUnlockedAchievements.push(achievement);
                 updatePercentageComplete();
             }
         }
@@ -401,6 +416,8 @@
             switch (character.id) {
                 case 101:
                     alias = 'Unlock First Character';
+                    // This is a hack just to show off how the game handles multiple achievement unlocks.
+                    unlockAchievement(getAchievementByAlias('Start the Game'));
                     break;
                 case 102:
                     alias = 'Unlock Second Character';
@@ -489,7 +506,6 @@
                     if (achievement.requirements.current >= achievement.requirements.needed) {
                         achievement.requirements.damageMet = true;
                         achievement.requirements.current = achievement.requirements.needed;
-                        console.log(achievement);
                         unlockAchievement(achievement);
                     }
                 }

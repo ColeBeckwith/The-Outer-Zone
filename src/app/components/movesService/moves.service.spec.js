@@ -72,7 +72,10 @@
       });
 
       it('if the player is Inspired, energy should be reduced by half of the requirement', function() {
-        this.mockPlayer.statusEffects = [['Inspired', 5, 5]];
+        this.mockPlayer.statusEffects = [{
+            name: 'Inspired',
+            duration: 5
+        }];
         this.mockPlayer.stats.energy = 30;
         this.mockMove.energyReq = 10;
         ms.checkResources(this.mockPlayer, this.mockMove);
@@ -80,7 +83,10 @@
       });
 
       it('if Inspired, energyReq should be rounded up when trailing is .5 or greater', function() {
-        this.mockPlayer.statusEffects = [['Inspired', 5, 5]];
+        this.mockPlayer.statusEffects = [{
+            name: 'Inspired',
+            duration: 5
+        }];
         this.mockPlayer.stats.energy = 30;
         this.mockMove.energyReq = 15;
         ms.checkResources(this.mockPlayer, this.mockMove);
@@ -88,7 +94,10 @@
       });
 
       it('if Inspired, energyReq should round down when trailing is less than .5', function() {
-        this.mockPlayer.statusEffects = [['Inspired', 5, 5]];
+        this.mockPlayer.statusEffects = [{
+            name: 'Inspired',
+            duration: 5
+        }];
         this.mockPlayer.stats.energy = 30;
         this.mockMove.energyReq = 16.5;
         ms.checkResources(this.mockPlayer, this.mockMove);

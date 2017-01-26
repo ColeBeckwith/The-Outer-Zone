@@ -10,7 +10,7 @@
     function achievementsMenu(achievementsService, stateChangeService) {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/components/achievements/achievementsMenu.html',
+            templateUrl: 'app/components/achievements/achievementsMenu/achievementsMenu.html',
             controller: achievementsMenuCtrl,
             controllerAs: 'vm',
             bindToController: true

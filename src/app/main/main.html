@@ -14,3 +14,5 @@
 <help-screen ng-if="main.stateChangeService.playerState === 'help'"></help-screen>
 <achievements-menu ng-if="main.stateChangeService.playerState === 'achievements'"></achievements-menu>
 <statistics-display ng-if="main.stateChangeService.playerState === 'stats'"></statistics-display>
+
+<achievement-unlocked-display ng-if="main.achievementsService.recentlyUnlockedAchievements.length > 0"></achievement-unlocked-display>

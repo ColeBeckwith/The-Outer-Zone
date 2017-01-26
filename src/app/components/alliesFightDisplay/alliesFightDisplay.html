@@ -25,7 +25,8 @@
 
             <div class="progress">
                 <div class="progress-bar progress-bar-success"
-                     ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5, 'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
+                     ng-class="{'progress-bar-warning' : ally.stats.health/ally.stats.maxHealth <= .5,
+                                'progress-bar-danger' : ally.stats.health/ally.stats.maxHealth <= .25}"
                      role="progressbar"
                      style="width: {{ ally.percentageHealth }}">
                     {{ ally.stats.health }}/{{ ally.stats.maxHealth }}

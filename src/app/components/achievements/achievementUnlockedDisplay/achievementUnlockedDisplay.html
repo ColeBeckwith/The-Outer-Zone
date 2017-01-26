@@ -1,0 +1,15 @@
+<div class="achievement-unlocked-display" ng-if="vm.achievementDisplayed">
+    <div class="achievement-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-2 text-center">
+                    <span class="fa fa-5x fa-unlock-alt unlock-icon"></span>
+                </div>
+                <div class="col-xs-10">
+                    <h4><span class="achievement-name">{{ vm.achievementsToDisplay[0].displayName }}</span></h4>
+                    <p class="achievement-description">{{ vm.achievementsToDisplay[0].unlockedDescription }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

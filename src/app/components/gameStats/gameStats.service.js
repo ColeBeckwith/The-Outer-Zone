@@ -71,9 +71,6 @@
             svc.gameStats.totalDamageReceivedByAllyFour += stats.totalDamageReceivedByAllyFour;
             svc.gameStats.totalDamageReceivedByAllyFive += stats.totalDamageReceivedByAllyFive;
 
-            console.log(stats);
-            console.log(svc.gameStats.totalDamageReceivedByAllyOne);
-
             svc.gameStats.enemiesDefeated += stats.enemiesDefeated;
             svc.gameStats.alliesFallen += stats.alliesFallen;
 
@@ -128,7 +125,6 @@
                 }
 
                 if (damage > svc.battleStats.highestDamageDealt) {
-                    console.log('highest damage dealt');
                     svc.battleStats.highestDamageDealt = damage;
                     svc.battleStats.highestDamageDealtBy = ally.name;
                 }
